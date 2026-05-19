@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="dashboard">
+    <aside class="sidebar">
+        <ul class="sidebar-menu">
+            <li><a href="{{ url_for('student.dashboard') }}">Dashboard</a></li>
+            <li><a href="{{ url_for('student.profile') }}">Profile</a></li>
+            <li><a href="{{ url_for('student.tests') }}">Skill Tests</a></li>
+            <li><a href="{{ url_for('student.readiness') }}">Readiness Meter</a></li>
+            <li><a href="{{ url_for('student.applications') }}" class="active">Job Applications</a></li>
+            <li><a href="{{ url_for('student.mock_interview') }}">Mock Interview</a></li>
+            <li><a href="{{ url_for('student.roadmap') }}">Learning Roadmap</a></li>
+            <li><a href="{{ url_for('student.certificates') }}">Certificates</a></li>
+            <li><a href="{{ url_for('student.discussions') }}">Discussions</a></li>
+            <li><a href="{{ url_for('student.support') }}">Support</a></li>
+        </ul>
+    </aside>
+
+    <main class="main-content">
+        <div class="page-header" style="display: flex; justify-content: space-between; gap: 1rem; align-items: flex-start; flex-wrap: wrap;">
+            <div>
+                <h1 class="portal-heading">{{ item.job.title }}</h1>
+                <p class="portal-subheading">{{ item.job.company }} • {{ item.job.location or 'Location not specified' }}</p>
+            </div>
+            <div style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
+                <span class="match-indicator">{{ item.match_score }}% Match</span>
+                <a href="{{ url_for('student.applications') }}" class="btn btn-outline btn-sm">← Back to Job Applications</a>
+            </div>
+        </div>
+
+        <div class="card">
+            <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 1rem;">
+                <span class="skill-tag">{{ item.job.job_type or 'Full-time' }}</span>
+                <span class="skill-tag">
+                    {% if item.job.work_mode == 'remote' %}Remote{% elif item.job.work_mode == 'hybrid' %}Hybrid{% else %}On-site{% endif %}
+                </span>
+                {% if item.job.stipend and item.job.stipend > 0 %}
+                    <span class="skill-tag">₹{{ item.job.stipend }}/month stipend</span>
+                {% else %}
+                    <span class="skill-tag">
+                        ₹{{ (item.job.salary_min/100000)|round(1) if item.job.salary_min else '0' }} - {{ (item.job.salary_max/100000)|round(1) if item.job.salary_max else '0' }} LPA
+                    </span>
+                {% endif %}
+                <span class="skill-tag">Posted {{ item.job.posted_at.strftime('%b %d, %Y') }}</span>
+                {% if item.job.deadline %}
+                    <span class="skill-tag">Deadline {{ item.job.deadline.strftime('%b %d, %Y') }}</span>
+                {% endif %}
+            </div>
+
+            <div style="margin-bottom: 1.25rem;">
+                <h3 style="margin-bottom: 0.75rem;">Full Job Description</h3>
+                <div style="line-height: 1.75; color: var(--text); white-space: pre-line;">
+                    {{ item.job.description or 'No description available.' }}
+                </div>
+            </div>
+
+            <div style="margin-bottom: 1.25rem;">
+                <h3 style="margin-bottom: 0.75rem;">Requirements</h3>
+                <div style="line-height: 1.75; color: var(--text); white-space: pre-line;">
+                    {{ item.job.requirements or 'No requirements specified.' }}
+                </div>
+            </div>
+
+            <div style="margin-bottom: 1.25rem;">
+                <h3 style="margin-bottom: 0.75rem;">Required Skills</h3>
+                {% if item.job.required_skills %}
+                    {% for skill in item.job.required_skills.split(',') %}
+                        <span class="skill-tag {% if profile and profile.skills and skill.strip() in profile.skills %}matching{% endif %}">
+                            {{ skill.strip() }}
+                        </span>
+                    {% endfor %}
+                {% else %}
+                    <p style="color: var(--gray);">No specific skills listed.</p>
+                {% endif %}
+            </div>
+
+            <div style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
+                {% if item.is_applied %}
+                    <button class="btn btn-outline" disabled>Already Applied</button>
+                {% else %}
+                    <button onclick="applyJob({{ item.job.id }})" class="btn btn-primary">Apply Now</button>
+                {% endif %}
+                <a href="{{ url_for('student.applications') }}" class="btn btn-outline">Back to Portal</a>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script>
+async function applyJob(jobId) {
+    try {
+        const response = await fetch(`/student/apply/${jobId}`, {
+            method: 'POST'
+        });
+        const data = await response.json();
+
+        if (data.success) {
+            alert('Application submitted successfully!');
+            location.reload();
+        } else {
+            alert(data.message || 'Failed to apply');
+        }
+    } catch (error) {
+        alert('Error applying to job');
+    }
+}
+</script>
+{% endblock %}

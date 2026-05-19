@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="dashboard">
+    <aside class="sidebar">
+        <ul class="sidebar-menu">
+            <li><a href="{{ url_for('admin.dashboard') }}">Dashboard</a></li>
+            <li><a href="{{ url_for('admin.code_spirit_monitoring') }}">Skill Up</a></li>
+            <li><a href="{{ url_for('admin.manage_users') }}"> Manage Users</a></li>
+            <li><a href="{{ url_for('admin.manage_jobs') }}">Manage Jobs</a></li>
+            <li><a href="{{ url_for('admin.manage_tickets') }}">Support Tickets</a></li>
+            <li><a href="{{ url_for('admin.analytics') }}" class="active">Analytics</a></li>
+        </ul>
+    </aside>
+    
+    <main class="main-content">
+        <div class="page-header">
+            <h1 style="color: white !important;">Platform Analytics</h1>
+        </div>
+        
+        <div class="card">
+            <h3 style="margin-bottom: 1.5rem;">Placement Statistics</h3>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; text-align: center;">
+                <div>
+                    <div style="font-size: 3rem; font-weight: 700; color: var(--primary);">{{ analytics_data.placement_rate }}%</div>
+                    <p style="color: var(--gray);">Placement Rate</p>
+                </div>
+                <div>
+                    <div style="font-size: 3rem; font-weight: 700; color: var(--secondary);">{{ analytics_data.students_placed }}</div>
+                    <p style="color: var(--gray);">Students Placed</p>
+                </div>
+                <div>
+                    <div style="font-size: 3rem; font-weight: 700; color: var(--info);">{{ analytics_data.avg_package_lpa }} LPA</div>
+                    <p style="color: var(--gray);">Average Package</p>
+                </div>
+            </div>
+        </div>
+        
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin-top: 1.5rem;">
+            <div class="card">
+                <h3 style="margin-bottom: 1rem;">Test Performance</h3>
+                <div class="skill-meter" style="margin-bottom: 1rem;">
+                    <div class="skill-meter-header">
+                        <span>DSA Tests</span>
+                        <span>{{ analytics_data.tests.dsa }}%</span>
+                    </div>
+                    <div class="skill-meter-bar">
+                        <div class="skill-meter-fill" style="width: {{ analytics_data.tests.dsa }}%;"></div>
+                    </div>
+                </div>
+                <div class="skill-meter" style="margin-bottom: 1rem;">
+                    <div class="skill-meter-header">
+                        <span>Aptitude Tests</span>
+                        <span>{{ analytics_data.tests.aptitude }}%</span>
+                    </div>
+                    <div class="skill-meter-bar">
+                        <div class="skill-meter-fill" style="width: {{ analytics_data.tests.aptitude }}%; background: var(--secondary);"></div>
+                    </div>
+                </div>
+                <div class="skill-meter" style="margin-bottom: 1rem;">
+                    <div class="skill-meter-header">
+                        <span>Coding Tests</span>
+                        <span>{{ analytics_data.tests.coding }}%</span>
+                    </div>
+                    <div class="skill-meter-bar">
+                        <div class="skill-meter-fill" style="width: {{ analytics_data.tests.coding }}%; background: var(--warning);"></div>
+                    </div>
+                </div>
+                <div class="skill-meter">
+                    <div class="skill-meter-header">
+                        <span>Core Subjects</span>
+                        <span>{{ analytics_data.tests.core }}%</span>
+                    </div>
+                    <div class="skill-meter-bar">
+                        <div class="skill-meter-fill" style="width: {{ analytics_data.tests.core }}%; background: var(--info);"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3 style="margin-bottom: 1rem;">Application Pipeline</h3>
+                <div class="skill-meter" style="margin-bottom: 1rem;">
+                    <div class="skill-meter-header">
+                        <span>Applied</span>
+                        <span>{{ analytics_data.pipeline.applied }}%</span>
+                    </div>
+                    <div class="skill-meter-bar">
+                        <div class="skill-meter-fill" style="width: {{ analytics_data.pipeline.applied }}%; background: var(--info);"></div>
+                    </div>
+                </div>
+                <div class="skill-meter" style="margin-bottom: 1rem;">
+                    <div class="skill-meter-header">
+                        <span>Shortlisted</span>
+                        <span>{{ analytics_data.pipeline.shortlisted }}%</span>
+                    </div>
+                    <div class="skill-meter-bar">
+                        <div class="skill-meter-fill" style="width: {{ analytics_data.pipeline.shortlisted }}%; background: var(--primary);"></div>
+                    </div>
+                </div>
+                <div class="skill-meter" style="margin-bottom: 1rem;">
+                    <div class="skill-meter-header">
+                        <span>Interview</span>
+                        <span>{{ analytics_data.pipeline.interview }}%</span>
+                    </div>
+                    <div class="skill-meter-bar">
+                        <div class="skill-meter-fill" style="width: {{ analytics_data.pipeline.interview }}%; background: var(--secondary);"></div>
+                    </div>
+                </div>
+                <div class="skill-meter">
+                    <div class="skill-meter-header">
+                        <span>Offered</span>
+                        <span>{{ analytics_data.pipeline.offered }}%</span>
+                    </div>
+                    <div class="skill-meter-bar">
+                        <div class="skill-meter-fill" style="width: {{ analytics_data.pipeline.offered }}%; background: var(--warning);"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+{% endblock %}

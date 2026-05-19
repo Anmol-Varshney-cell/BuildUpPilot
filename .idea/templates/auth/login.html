@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- Removed duplicate navbar from auth page -->
+
+<div class="container" style="padding-top: 3rem;">
+    <div style="max-width: 400px; margin: 0 auto;">
+        <div class="card fade-in">
+            <h2 style="text-align: center; margin-bottom: 2rem;">Welcome Back</h2>
+            
+            {# Flash messages are displayed in base.html #}
+
+            <form method="POST">
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" name="email" class="form-control" required placeholder="you@example.com">
+                </div>
+                
+                <div class="form-group">
+                    <label>Password</label>
+                    <div class="password-field-wrap">
+                        <input type="password" name="password" id="loginPassword" class="form-control" required placeholder="Enter your password">
+                        <button type="button" class="toggle-password password-toggle-btn" data-target="loginPassword" aria-label="Show password" title="Show password">&#128065;</button>
+                    </div>
+                    <div style="text-align: right; margin-top: 0.35rem;">
+                        <a href="{{ url_for('auth.forgot_password') }}" style="color: var(--primary); font-size: 0.875rem;">Forgot Password?</a>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Login</button>
+            </form>
+            
+            <p style="text-align: center; margin-top: 1.5rem; color: var(--gray);">
+                Don't have an account? <a href="{{ url_for('auth.signup') }}" style="color: var(--primary);">Register Now</a>
+            </p>
+            <div style="text-align: center; margin-top: 1rem;">
+                <a href="{{ url_for('auth.signup') }}" class="btn btn-primary" style="width: 100%;">Register Now</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

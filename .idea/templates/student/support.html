@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="dashboard">
+    <aside class="sidebar">
+        <ul class="sidebar-menu">
+            <li><a href="{{ url_for('student.dashboard') }}">Dashboard</a></li>
+            <li><a href="{{ url_for('student.profile') }}">Profile</a></li>
+            <li><a href="{{ url_for('student.tests') }}">Skill Tests</a></li>
+            <li><a href="{{ url_for('student.readiness') }}">Readiness Meter</a></li>
+            <li><a href="{{ url_for('student.applications') }}">Job Applications</a></li>
+            <li><a href="{{ url_for('student.mock_interview') }}">Mock Interview</a></li>
+            <li><a href="{{ url_for('student.roadmap') }}">Learning Roadmap</a></li>
+            <li><a href="{{ url_for('student.certificates') }}">Certificates</a></li>
+            <li><a href="{{ url_for('student.discussions') }}">Discussions</a></li>
+            <li><a href="{{ url_for('student.support') }}" class="active">Support</a></li>
+        </ul>
+    </aside>
+    
+    <main class="main-content">
+        <div class="page-header">
+            <h1 class="portal-heading">Support Center</h1>
+            <p class="portal-subheading">We're here to help</p>
+        </div>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+            <div>
+                <div class="card">
+                    <h3 style="margin-bottom: 1.5rem;">Submit a Ticket</h3>
+                    <form method="POST">
+                        <div class="form-group">
+                            <label>Subject</label>
+                            <input type="text" name="subject" class="form-control" required placeholder="Brief description of your issue">
+                        </div>
+                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;">
+                            <div class="form-group">
+                                <label>Category</label>
+                                <select name="category" class="form-control" required>
+                                    <option value="">Select...</option>
+                                    <option value="technical">Technical Issue</option>
+                                    <option value="account">Account Related</option>
+                                    <option value="feature">Feature Request</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Priority</label>
+                                <select name="priority" class="form-control">
+                                    <option value="low">Low</option>
+                                    <option value="medium" selected>Medium</option>
+                                    <option value="high">High</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Description</label>
+                            <textarea name="description" class="form-control" required placeholder="Provide details about your issue..."></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit Ticket</button>
+                    </form>
+                </div>
+            </div>
+            
+            <div>
+                <div class="card">
+                    <h3 style="margin-bottom: 1.5rem;">Your Tickets</h3>
+                    {% if tickets %}
+                        {% for ticket in tickets %}
+                            <div style="padding: 1rem; background: var(--light); border-radius: 8px; margin-bottom: 1rem; border-left: 4px solid {% if ticket.status == 'closed' %}var(--success){% elif ticket.status == 'open' %}var(--warning){% else %}var(--gray){% endif %};">
+                                <div style="display: flex; justify-content: space-between; align-items: start;">
+                                    <div style="flex: 1;">
+                                        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                                            <strong>{{ ticket.subject }}</strong>
+                                            {% if ticket.status == 'closed' %}
+                                            <span style="background: var(--success); color: white; padding: 0.25rem 0.5rem; border-radius: 0.25rem; font-size: 0.75rem; font-weight: 600;">Approved</span>
+                                            {% endif %}
+                                        </div>
+                                        <p style="color: var(--gray); font-size: 0.875rem; margin-bottom: 0.25rem;">
+                                            {{ ticket.category|title }} - {{ ticket.priority|title }} priority
+                                        </p>
+                                        <p style="color: var(--gray); font-size: 0.75rem; margin-bottom: 0.25rem;">
+                                            Created: {{ ticket.created_at.strftime('%b %d, %Y %H:%M') }}
+                                        </p>
+                                        {% if ticket.status == 'closed' and ticket.resolved_at %}
+                                        <p style="color: var(--success); font-size: 0.75rem; font-weight: 600;">
+                                            <i class="fas fa-check-circle"></i> Solved on {{ ticket.resolved_at.strftime('%b %d, %Y %H:%M') }}
+                                        </p>
+                                        {% endif %}
+                                    </div>
+                                    <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 0.5rem;">
+                                        <span class="badge badge-{{ ticket.status }}">{{ ticket.status|title }}</span>
+                                        {% if ticket.status == 'closed' %}
+                                        <span style="color: var(--success); font-size: 0.875rem; font-weight: 600;">
+                                            <i class="fas fa-check"></i> Approved
+                                        </span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p style="color: var(--gray); text-align: center;">No tickets submitted</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        <div class="card" style="margin-top: 2rem;">
+            <h3 style="margin-bottom: 1rem;">FAQ</h3>
+            <div style="display: grid; gap: 1rem;">
+                <details style="padding: 1rem; background: var(--light); border-radius: 8px;">
+                    <summary style="cursor: pointer; font-weight: 600;">How do I reset my password?</summary>
+                    <p style="margin-top: 0.5rem; color: var(--gray);">Contact support or use the forgot password link on the login page.</p>
+                </details>
+                <details style="padding: 1rem; background: var(--light); border-radius: 8px;">
+                    <summary style="cursor: pointer; font-weight: 600;">How are skill test scores calculated?</summary>
+                    <p style="margin-top: 0.5rem; color: var(--gray);">Scores are based on correct answers out of total questions, displayed as a percentage.</p>
+                </details>
+            </div>
+        </div>
+    </main>
+</div>
+{% endblock %}

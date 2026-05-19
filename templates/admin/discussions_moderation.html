@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="dashboard">
+    <aside class="sidebar">
+        <ul class="sidebar-menu">
+<li><a href="{{ url_for('admin.dashboard') }}">Dashboard</a></li>
+            <li><a href="{{ url_for('admin.code_spirit_monitoring') }}">Skill Up</a></li>
+            <li><a href="{{ url_for('admin.manage_users') }}">Manage Users</a></li>
+            <li><a href="{{ url_for('admin.recruiter_verification') }}">Recruiter Requests</a></li>
+            <li><a href="{{ url_for('admin.manage_jobs') }}">Manage Jobs</a></li>
+            <li><a href="{{ url_for('admin.manage_tickets') }}">Support Tickets</a></li>
+            <li><a href="{{ url_for('admin.analytics') }}">Analytics</a></li>
+            <li><a href="{{ url_for('admin.discussions_moderation') }}" class="active">Discussion Moderation</a></li>
+        </ul>
+    </aside>
+
+    <main class="main-content">
+        <div class="page-header">
+            <h1 style="color: white !important;">Student Discussions</h1>
+            <p class="portal-subheading">View all student discussions and comments in realtime (from database)</p>
+        </div>
+
+        {% if discussions %}
+            <div class="card" style="padding: 1rem;">
+{% for discussion in discussions %}
+                    <div style="padding: 1rem 0; border-bottom: 1px solid var(--border);">
+                        <div style="display:flex; justify-content:space-between; gap:1rem;">
+                            <div>
+                                <div style="font-weight:700;">{{ discussion.title }}</div>
+                                <div style="color: var(--gray); font-size: 0.85rem;">
+                                    <span class="badge badge-{{ discussion.category }}">{{ discussion.category|title }}</span>
+                                    <span style="margin-left:0.5rem;">Posted {{ discussion.created_at.strftime('%b %d, %Y %I:%M %p') }}</span>
+                                </div>
+                                <div style="margin-top:0.5rem; color: var(--text);">{{ discussion.content[:250] }}{% if discussion.content|length > 250 %}...{% endif %}</div>
+                            </div>
+                            <div style="text-align:right; color: var(--gray); font-size:0.85rem;">
+                                <div>{{ discussion.comments|length }} comments</div>
+                            </div>
+                        </div>
+
+                        <div style="margin-top:1rem; display:grid; gap:0.75rem;">
+                            {% for comment in discussion.comments|sort(attribute='created_at', reverse=true) %}
+                                <div style="padding:0.9rem 1rem; border-radius:0.9rem; background: var(--light);">
+                                    <div style="display:flex; justify-content:space-between; gap:1rem;">
+                                        <strong>Student #{{ comment.user_id }}</strong>
+                                        <small>{{ comment.created_at.strftime('%b %d, %Y %I:%M %p') }}</small>
+                                    </div>
+                                    <p style="margin:0.4rem 0 0 0; white-space:pre-wrap;">{{ comment.content }}</p>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="card" style="text-align:center; padding:3rem;">
+                <p style="color: var(--gray); margin:0;">No discussions found.</p>
+            </div>
+        {% endif %}
+    </main>
+</div>
+{% endblock %}
+

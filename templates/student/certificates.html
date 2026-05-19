@@ -1,0 +1,147 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="dashboard">
+    <aside class="sidebar">
+        <ul class="sidebar-menu">
+            <li><a href="{{ url_for('student.dashboard') }}">Dashboard</a></li>
+            <li><a href="{{ url_for('student.profile') }}">Profile</a></li>
+            <li><a href="{{ url_for('student.tests') }}">Skill Tests</a></li>
+            <li><a href="{{ url_for('student.readiness') }}">Readiness Meter</a></li>
+            <li><a href="{{ url_for('student.applications') }}">Job Applications</a></li>
+            <li><a href="{{ url_for('student.mock_interview') }}">Mock Interview</a></li>
+            <li><a href="{{ url_for('student.roadmap') }}">Learning Roadmap</a></li>
+            <li><a href="{{ url_for('student.certificates') }}" class="active">Certificates</a></li>
+            <li><a href="{{ url_for('student.discussions') }}">Discussions</a></li>
+            <li><a href="{{ url_for('student.support') }}">Support</a></li>
+        </ul>
+    </aside>
+    
+    <main class="main-content">
+        <div class="page-header">
+            <h1 class="portal-heading">My Certificates</h1>
+            <p class="portal-subheading">Your earned certifications and achievements</p>
+        </div>
+        
+        {% if certificates %}
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 2rem;">
+                {% for cert in certificates %}
+                {% set is_excellent = cert.score and cert.score >= 80 %}
+                {% set score_val = cert.score or 0 %}
+                    <div class="certificate-card" style="background: {{ 'linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #60a5fa 100%)' if is_excellent else 'linear-gradient(135deg, #92400e 0%, #d97706 50%, #f59e0b 100%)' }}; padding: 0; overflow: hidden; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.3);">
+                        <div style="background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); padding: 2rem; text-align: center; border-bottom: 3px solid rgba(255,255,255,0.3);">
+                            <div style="font-size: 3.5rem; margin-bottom: 0.5rem;">{{ '🏆' if is_excellent else '📜' }}</div>
+                            <h2 style="color: white; margin: 0 0 0.3rem 0; font-size: 1.4rem; font-weight: 700;">{{ cert.name }}</h2>
+                            <div style="display: inline-block; background: {{ 'rgba(22,163,74,0.9)' if is_excellent else 'rgba(217,119,6,0.9)' }}; color: white; padding: 0.25rem 1rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600;">
+                                {{ 'CERTIFICATE OF EXCELLENCE' if is_excellent else 'CERTIFICATE OF ACHIEVEMENT' }}
+                            </div>
+                        </div>
+                        <div style="padding: 1.2rem; background: rgba(255,255,255,0.95); color: #1e293b;">
+                            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 0.75rem;">
+                                <div style="width: 60px; height: 60px; border-radius: 50%; background: {{ 'linear-gradient(135deg, #16a34a, #22c55e)' if is_excellent else 'linear-gradient(135deg, #d97706, #f59e0b)' }}; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                    <span style="color: white; font-size: 1.3rem; font-weight: 700;">{{ score_val }}%</span>
+                                </div>
+                                <div style="flex: 1; min-width: 0;">
+                                    <div style="font-weight: 600; font-size: 0.9rem;">{{ cert.test_category.title() if cert.test_category else 'General' }}</div>
+                                    <div style="font-size: 0.75rem; color: var(--gray); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ cert.certificate_id or 'N/A' }}</div>
+                                </div>
+                            </div>
+                            <div style="font-size: 0.78rem; color: var(--gray); margin-bottom: 0.5rem; line-height: 1.4;">
+                                {{ cert.description }}
+                            </div>
+                            <div style="display: flex; justify-content: space-between; font-size: 0.7rem; color: var(--gray); padding-top: 0.5rem; border-top: 1px solid var(--border);">
+                                <span>Issued: {{ cert.earned_at.strftime('%b %d, %Y') if cert.earned_at else 'N/A' }}</span>
+                                {% if cert.validity_date %}
+                                <span>Valid: {{ cert.validity_date.strftime('%b %d, %Y') }}</span>
+                                {% endif %}
+                            </div>
+                            <div style="margin-top: 0.75rem; display: flex; gap: 0.4rem;">
+                                <a href="{{ url_for('student.view_certificate', cert_id=cert.id) }}" class="btn btn-sm btn-primary" style="flex: 1;">View</a>
+                                <button onclick="downloadCert('{{ cert.id }}')" class="btn btn-sm btn-outline" style="flex: 1;">Download</button>
+                                <button onclick="shareCert('{{ cert.id }}', '{{ cert.certificate_id }}')" class="btn btn-sm btn-outline" style="flex: 1;">Share</button>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="card" style="text-align: center; padding: 3rem;">
+                <div style="font-size: 4rem; margin-bottom: 1rem;">🎓</div>
+                <h3>No certificates yet</h3>
+                <p style="color: var(--gray);">Score 50%+ in skill tests to earn a Certificate of Achievement, or 80%+ for a Certificate of Excellence!</p>
+                <div style="margin-top: 1.5rem;">
+                    <a href="{{ url_for('student.tests') }}" class="btn btn-primary">Take Tests</a>
+                    <a href="{{ url_for('student.mock_interview') }}" class="btn btn-outline">Start Mock Interview</a>
+                </div>
+            </div>
+            
+            <div class="card" style="margin-top: 1.5rem;">
+                <h3 style="margin-bottom: 1rem;">How to Earn Certificates</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+                    <div style="padding: 1.5rem; background: var(--light); border-radius: 12px;">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">📝</div>
+                        <h4>Skill Tests (50%+)</h4>
+                        <p style="color: var(--gray); font-size: 0.875rem;">Score 50% or higher in any skill test to earn a Certificate of Achievement. Score 80%+ for a Certificate of Excellence!</p>
+                    </div>
+                    <div style="padding: 1.5rem; background: var(--light); border-radius: 12px;">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">🎤</div>
+                        <h4>Mock Interviews</h4>
+                        <p style="color: var(--gray); font-size: 0.875rem;">Score 70% or higher in mock interviews, demonstrating genuine human responses.</p>
+                    </div>
+                    <div style="padding: 1.5rem; background: var(--light); border-radius: 12px;">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">⚠️</div>
+                        <h4>AI Detection</h4>
+                        <p style="color: var(--gray); font-size: 0.875rem;">Certificates are only awarded when answers show human effort, not AI-generated content.</p>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </main>
+</div>
+
+<script>
+function downloadCert(certId) {
+    try {
+        if (certId && certId !== 'N/A') {
+            window.location.href = `/download-certificate/${certId}`;
+        } else {
+            alert('Certificate ID not available');
+        }
+    } catch (error) {
+        console.error('Download error:', error);
+        alert('Download not available');
+    }
+}
+
+function shareCert(certId, certificateId) {
+    try {
+        if (certId && certId !== 'N/A') {
+            const shareText = 'Check out my certificate from BUILD UP PILOT! Certificate ID: ' + (certificateId || certId);
+            const shareUrl = window.location.origin + `/view-certificate/${certId}`;
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: 'My Certificate',
+                    text: shareText,
+                    url: shareUrl
+                });
+            } else {
+                // Fallback for browsers without Web Share API
+                const textArea = document.createElement('textarea');
+                textArea.value = shareText + ' - ' + shareUrl;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                alert('Certificate details copied to clipboard!');
+            }
+        } else {
+            alert('Certificate ID not available');
+        }
+    } catch (error) {
+        console.error('Share error:', error);
+        alert('Share not available');
+    }
+}
+</script>
+{% endblock %}

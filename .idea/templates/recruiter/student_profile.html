@@ -1,0 +1,169 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="dashboard">
+    <aside class="sidebar">
+        <ul class="sidebar-menu">
+            <li><a href="{{ url_for('recruiter.dashboard') }}">Dashboard</a></li>
+            <li><a href="{{ url_for('recruiter.manage_jobs') }}">Manage Jobs</a></li>
+            <li><a href="{{ url_for('recruiter.post_job') }}">Post Job</a></li>
+            <li><a href="{{ url_for('recruiter.view_applications') }}">Applications</a></li>
+            <li><a href="{{ url_for('recruiter.matched_candidates') }}">Matched Candidates</a></li>
+            <li><a href="{{ url_for('recruiter.recruiter_support') }}">Support</a></li>
+        </ul>
+    </aside>
+    
+    <main class="main-content">
+        <div class="page-header">
+            <h1 style="color: white !important;">Student Profile</h1>
+        </div>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">Basic Information</span>
+                </div>
+                <div style="display: grid; gap: 1rem;">
+                    <div>
+                        <label style="color: var(--gray); font-size: 0.875rem;">Full Name</label>
+                        <p style="font-weight: 600; font-size: 1.1rem;">{{ profile.first_name or '' }} {{ profile.last_name or '' }}</p>
+                    </div>
+                    <div>
+                        <label style="color: var(--gray); font-size: 0.875rem;">Email</label>
+                        <p style="font-weight: 500;">{{ student.email }}</p>
+                    </div>
+                    <div>
+                        <label style="color: var(--gray); font-size: 0.875rem;">Student ID</label>
+                        <p style="font-weight: 500;">{{ student.student_id or 'N/A' }}</p>
+                    </div>
+                    <div>
+                        <label style="color: var(--gray); font-size: 0.875rem;">Phone</label>
+                        <p style="font-weight: 500;">{{ profile.phone or 'Not provided' }}</p>
+                    </div>
+                    <div>
+                        <label style="color: var(--gray); font-size: 0.875rem;">College</label>
+                        <p style="font-weight: 500;">{{ profile.college or 'Not provided' }}</p>
+                    </div>
+                    <div>
+                        <label style="color: var(--gray); font-size: 0.875rem;">Branch</label>
+                        <p style="font-weight: 500;">{{ profile.branch or 'Not provided' }}</p>
+                    </div>
+                    <div>
+                        <label style="color: var(--gray); font-size: 0.875rem;">Graduation Year</label>
+                        <p style="font-weight: 500;">{{ profile.graduation_year or 'Not provided' }}</p>
+                    </div>
+                    <div>
+                        <label style="color: var(--gray); font-size: 0.875rem;">Location</label>
+                        <p style="font-weight: 500;">{{ profile.location or 'Not provided' }}</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">Skills & Resume</span>
+                </div>
+                <div style="margin-bottom: 1.5rem;">
+                    <label style="color: var(--gray); font-size: 0.875rem;">Skills</label>
+                    <div style="margin-top: 0.5rem;">
+                        {% if profile.skills %}
+                            {% for skill in profile.skills.split(',') %}
+                                <span class="skill-tag">{{ skill.strip() }}</span>
+                            {% endfor %}
+                        {% else %}
+                            <p style="color: var(--gray);">No skills listed</p>
+                        {% endif %}
+                    </div>
+                </div>
+                <div style="margin-bottom: 1.5rem;">
+                    <label style="color: var(--gray); font-size: 0.875rem;">Resume Score</label>
+                    <p style="font-weight: 600; font-size: 1.25rem; color: var(--primary);">{{ profile.resume_score or 0 }}/100</p>
+                </div>
+                <div>
+                    <label style="color: var(--gray); font-size: 0.875rem;">Bio</label>
+                    <p style="margin-top: 0.5rem;">{{ profile.bio or 'No bio provided' }}</p>
+                </div>
+                {% if profile.linkedin %}
+                <div style="margin-top: 1rem;">
+                    <a href="{{ profile.linkedin }}" target="_blank" class="btn btn-sm btn-outline">LinkedIn</a>
+                </div>
+                {% endif %}
+                {% if profile.github %}
+                <div style="margin-top: 0.5rem;">
+                    <a href="{{ profile.github }}" target="_blank" class="btn btn-sm btn-outline">GitHub</a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        
+        {% if readiness %}
+        <div class="card">
+            <div class="card-header">
+                <span class="card-title">Interview Readiness</span>
+            </div>
+            <div class="readiness-meter">
+                <div class="skill-meter">
+                    <div class="skill-meter-header">
+                        <span>Communication</span>
+                        <span>{{ readiness.communication_score or 0 }}%</span>
+                    </div>
+                    <div class="skill-meter-bar">
+                        <div class="skill-meter-fill" style="width: {{ readiness.communication_score or 0 }}%; background: var(--primary);"></div>
+                    </div>
+                </div>
+                <div class="skill-meter">
+                    <div class="skill-meter-header">
+                        <span>DSA</span>
+                        <span>{{ readiness.dsa_score or 0 }}%</span>
+                    </div>
+                    <div class="skill-meter-bar">
+                        <div class="skill-meter-fill" style="width: {{ readiness.dsa_score or 0 }}%; background: var(--primary);"></div>
+                    </div>
+                </div>
+                <div class="skill-meter">
+                    <div class="skill-meter-header">
+                        <span>Aptitude</span>
+                        <span>{{ readiness.aptitude_score or 0 }}%</span>
+                    </div>
+                    <div class="skill-meter-bar">
+                        <div class="skill-meter-fill" style="width: {{ readiness.aptitude_score or 0 }}%; background: var(--primary);"></div>
+                    </div>
+                </div>
+                <div class="skill-meter">
+                    <div class="skill-meter-header">
+                        <span>Projects / Coding</span>
+                        <span>{{ readiness.projects_score or 0 }}%</span>
+                    </div>
+                    <div class="skill-meter-bar">
+                        <div class="skill-meter-fill" style="width: {{ readiness.projects_score or 0 }}%; background: var(--primary);"></div>
+                    </div>
+                </div>
+                <div class="skill-meter">
+                    <div class="skill-meter-header">
+                        <span>Core Subjects</span>
+                        <span>{{ readiness.core_subjects_score or 0 }}%</span>
+                    </div>
+                    <div class="skill-meter-bar">
+                        <div class="skill-meter-fill" style="width: {{ readiness.core_subjects_score or 0 }}%; background: var(--primary);"></div>
+                    </div>
+                </div>
+                <div class="skill-meter" style="background: rgba(99,102,241,0.08); border-radius: 12px; padding: 1rem;">
+                    <div class="skill-meter-header">
+                        <span style="font-weight: 700;">Overall Score</span>
+                        <span style="font-weight: 700; color: var(--primary);">{{ readiness.overall_score or 0 }}%</span>
+                    </div>
+                    <div class="skill-meter-bar">
+                        <div class="skill-meter-fill" style="width: {{ readiness.overall_score or 0 }}%; background: linear-gradient(135deg, var(--primary), var(--secondary));"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        
+        <div style="margin-top: 1.5rem;">
+            <a href="{{ request.referrer or url_for('recruiter.view_applications') }}" class="btn btn-outline">← Back</a>
+        </div>
+    </main>
+</div>
+{% endblock %}
+

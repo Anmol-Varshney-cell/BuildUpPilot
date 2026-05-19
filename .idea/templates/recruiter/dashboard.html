@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="dashboard">
+    <aside class="sidebar">
+        <ul class="sidebar-menu">
+            <li><a href="{{ url_for('recruiter.dashboard') }}" class="active">Dashboard</a></li>
+            <li><a href="{{ url_for('recruiter.manage_jobs') }}">Manage Jobs</a></li>
+            <li><a href="{{ url_for('recruiter.post_job') }}">Post Job</a></li>
+            <li><a href="{{ url_for('recruiter.view_applications') }}">Applications</a></li>
+            <li><a href="{{ url_for('recruiter.matched_candidates') }}">Matched Candidates</a></li>
+            <li><a href="{{ url_for('recruiter.recruiter_support') }}">Support</a></li>
+        </ul>
+    </aside>
+    
+    <main class="main-content">
+        <div class="page-header">
+            <h1 class="portal-heading">Recruiter Dashboard</h1>
+        </div>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value">{{ stats.posted_jobs }}</div>
+                <div class="stat-label">Posted Jobs</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">{{ stats.total_applications }}</div>
+                <div class="stat-label">Total Applications</div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <span class="card-title">Quick Actions</span>
+            </div>
+            <div style="display: flex; gap: 1rem;">
+                <a href="{{ url_for('recruiter.post_job') }}" class="btn btn-primary">Post New Job</a>
+                <a href="{{ url_for('recruiter.matched_candidates') }}" class="btn btn-outline">View Matched Candidates</a>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
+                <span class="card-title">Posted Jobs ({{ jobs|length }})</span>
+                <a href="{{ url_for('recruiter.manage_jobs') }}" class="btn btn-sm btn-outline">View All in Manage Jobs</a>
+            </div>
+            {% if jobs %}
+            <div style="overflow-x: auto;">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Company</th>
+                            <th>Location</th>
+                            <th>Type</th>
+                            <th>Applications</th>
+                            <th>Status</th>
+                            <th>Posted</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for job in jobs %}
+                        <tr>
+                            <td><strong>{{ job.title }}</strong></td>
+                            <td>{{ job.company }}</td>
+                            <td>{{ job.location or '-' }}</td>
+                            <td>{{ job.job_type or '-' }}</td>
+                            <td>{{ job.applications|length }}</td>
+                            <td>
+                                {% if job.is_active %}
+                                    <span class="badge badge-success">Active</span>
+                                {% else %}
+                                    <span class="badge badge-danger">Inactive</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ job.posted_at.strftime('%b %d, %Y') if job.posted_at else '-' }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div style="text-align: center; padding: 2rem;">
+                <p style="color: var(--gray);">No jobs posted yet.</p>
+                <a href="{{ url_for('recruiter.post_job') }}" class="btn btn-primary">Post Your First Job</a>
+            </div>
+            {% endif %}
+        </div>
+    </main>
+</div>
+{% endblock %}

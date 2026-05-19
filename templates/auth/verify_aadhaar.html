@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aadhaar Verification - BUILD UP PILOT</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        .auth-container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .verification-method {
+            display: none;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        
+        .verification-method.active {
+            display: block;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        
+        .btn {
+            background: #007bff;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+        
+        .btn:hover {
+            background: #0056b3;
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+        }
+        
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+        
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .alert-danger {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .tab-btn {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin-right: 5px;
+        }
+        
+        .tab-btn.active {
+            background: #007bff;
+            color: white;
+        }
+        
+        .status-message {
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+        }
+        
+        .status-message.warning {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+        
+        .status-message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .status-message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .text-center {
+            text-align: center;
+        }
+        
+        .mb-3 {
+            margin-bottom: 15px;
+        }
+        
+        .mt-3 {
+            margin-top: 15px;
+        }
+        
+        @media (max-width: 768px) {
+            .auth-container {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-header">
+            <h2>Aadhaar Verification</h2>
+            <p>Please verify your identity using one of the methods below</p>
+        </div>
+        
+        <!-- Verification Method Tabs -->
+        <div class="mb-3">
+            <button class="tab-btn active" data-method="otp">OTP Verification</button>
+            <button class="tab-btn" data-method="qr">QR Code/XML</button>
+        </div>
+        
+        <!-- OTP Verification Method -->
+        <div id="otpMethod" class="verification-method active">
+            <h3>OTP Verification</h3>
+            <p>Enter your 12-digit Aadhaar number to receive an OTP</p>
+            
+            <form id="otpForm">
+                <div class="form-group">
+                    <label for="aadhaarNumber">Aadhaar Number</label>
+                    <input type="text" id="aadhaarNumber" name="aadhaar_number" 
+                           placeholder="Enter 12-digit Aadhaar number" 
+                           maxlength="12" pattern="[0-9]{12}" required>
+                </div>
+                
+                <div class="form-group">
+                    <button type="submit" class="btn">Send OTP</button>
+                </div>
+            </form>
+            
+            <!-- OTP Input Section -->
+            <div id="otpSection" class="hidden">
+                <h4>Enter OTP</h4>
+                <p>Enter the 6-digit OTP sent to your registered mobile number</p>
+                
+                <form id="verifyForm">
+                    <div class="form-group">
+                        <label for="otp">OTP</label>
+                        <input type="text" id="otp" name="otp" 
+                               placeholder="Enter 6-digit OTP" 
+                               maxlength="6" pattern="[0-9]{6}" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <button type="submit" class="btn">Verify OTP</button>
+                        <button type="button" class="btn btn-secondary" onclick="resetOTP()">Resend OTP</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- QR Code/XML Method -->
+        <div id="qrMethod" class="verification-method">
+            <h3>QR Code/XML Verification</h3>
+            <p>Upload your Aadhaar QR code or XML file for verification</p>
+            
+            <form id="qrForm">
+                <div class="form-group">
+                    <label for="xmlData">XML Data</label>
+                    <textarea id="xmlData" name="xml_data" 
+                              placeholder="Paste your Aadhaar XML data here..." 
+                              rows="6" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <button type="submit" class="btn">Verify XML</button>
+                </div>
+            </form>
+        </div>
+        
+        <!-- Status Messages -->
+        <div id="statusMessage" class="hidden"></div>
+        
+        <!-- Loading Indicator -->
+        <div id="loadingIndicator" class="hidden text-center">
+            <p>Processing verification...</p>
+        </div>
+        
+        <!-- Success Message -->
+        <div id="successMessage" class="hidden">
+            <div class="alert alert-success">
+                <h4>Verification Successful!</h4>
+                <p>Your Aadhaar has been successfully verified.</p>
+                <p><a href="{{ url_for('auth.login') }}" class="btn">Continue to Login</a></p>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        var currentUserId = {{ current_user.id if current_user else 0 }};
+        var currentRequestId = null;
+        
+        // Verification method tabs
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                
+                const method = this.dataset.method;
+                document.querySelectorAll('.verification-method').forEach(m => m.style.display = 'none');
+                document.getElementById(method + 'Method').style.display = 'block';
+            });
+        });
+        
+        // OTP Form submission
+        document.getElementById('otpForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const aadhaarNumber = document.getElementById('aadhaarNumber').value;
+            
+            if (!aadhaarNumber || aadhaarNumber.length !== 12) {
+                showStatus('error', 'Please enter a valid 12-digit Aadhaar number');
+                return;
+            }
+            
+            sendOTP(aadhaarNumber);
+        });
+        
+        // OTP Verification form submission
+        document.getElementById('verifyForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const otp = document.getElementById('otp').value;
+            
+            if (!otp || otp.length !== 6) {
+                showStatus('error', 'Please enter a valid 6-digit OTP');
+                return;
+            }
+            
+            verifyOTP(aadhaarNumber, otp);
+        });
+        
+        // QR/XML Form submission
+        document.getElementById('qrForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const xmlData = document.getElementById('xmlData').value;
+            
+            if (!xmlData || xmlData.trim().length === 0) {
+                showStatus('error', 'Please enter valid XML data');
+                return;
+            }
+            
+            verifyXML(xmlData);
+        });
+        
+        // Send OTP function
+        function sendOTP(aadhaarNumber) {
+            showLoading(true);
+            
+            fetch('/auth/send_aadhaar_otp', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    aadhaar_number: aadhaarNumber,
+                    user_id: currentUserId
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                showLoading(false);
+                
+                if (data.success) {
+                    currentRequestId = data.request_id;
+                    showStatus('success', 'OTP sent successfully! Please check your mobile.');
+                    document.getElementById('otpSection').classList.remove('hidden');
+                    document.getElementById('otp').focus();
+                } else {
+                    showStatus('error', data.error || 'Failed to send OTP');
+                }
+            })
+            .catch(error => {
+                showLoading(false);
+                showStatus('error', 'Network error. Please try again.');
+            });
+        }
+        
+        // Verify OTP function
+        function verifyOTP(aadhaarNumber, otp) {
+            showLoading(true);
+            
+            fetch('/auth/verify_aadhaar_otp', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    aadhaar_number: aadhaarNumber,
+                    otp: otp,
+                    request_id: currentRequestId,
+                    user_id: currentUserId
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                showLoading(false);
+                
+                if (data.success) {
+                    showSuccess();
+                } else {
+                    showStatus('error', data.error || 'OTP verification failed');
+                }
+            })
+            .catch(error => {
+                showLoading(false);
+                showStatus('error', 'Network error. Please try again.');
+            });
+        }
+        
+        // Verify XML function
+        function verifyXML(xmlData) {
+            showLoading(true);
+            
+            fetch('/auth/verify_aadhaar_xml', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    xml_data: xmlData,
+                    user_id: currentUserId
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                showLoading(false);
+                
+                if (data.success) {
+                    showSuccess();
+                } else {
+                    showStatus('error', data.error || 'XML verification failed');
+                }
+            })
+            .catch(error => {
+                showLoading(false);
+                showStatus('error', 'Network error. Please try again.');
+            });
+        }
+        
+        // Reset OTP function
+        function resetOTP() {
+            const aadhaarNumber = document.getElementById('aadhaarNumber').value;
+            if (aadhaarNumber) {
+                sendOTP(aadhaarNumber);
+            }
+        }
+        
+        // Show status message
+        function showStatus(type, message) {
+            const statusDiv = document.getElementById('statusMessage');
+            statusDiv.className = 'status-message ' + type;
+            statusDiv.textContent = message;
+            statusDiv.classList.remove('hidden');
+        }
+        
+        // Show loading indicator
+        function showLoading(show) {
+            const loadingDiv = document.getElementById('loadingIndicator');
+            if (show) {
+                loadingDiv.classList.remove('hidden');
+            } else {
+                loadingDiv.classList.add('hidden');
+            }
+        }
+        
+        // Show success message
+        function showSuccess() {
+            const successDiv = document.getElementById('successMessage');
+            successDiv.classList.remove('hidden');
+            
+            // Hide verification forms
+            document.getElementById('otpMethod').classList.add('hidden');
+            document.getElementById('qrMethod').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="dashboard">
+    <aside class="sidebar">
+        <ul class="sidebar-menu">
+            <li><a href="{{ url_for('student.dashboard') }}">Dashboard</a></li>
+            <li><a href="{{ url_for('student.profile') }}">Profile</a></li>
+            <li><a href="{{ url_for('student.tests') }}">Skill Tests</a></li>
+            <li><a href="{{ url_for('student.readiness') }}">Readiness Meter</a></li>
+            <li><a href="{{ url_for('student.applications') }}">Job Applications</a></li>
+            <li><a href="{{ url_for('student.mock_interview') }}">Mock Interview</a></li>
+            <li><a href="{{ url_for('student.roadmap') }}">Learning Roadmap</a></li>
+            <li><a href="{{ url_for('student.certificates') }}">Certificates</a></li>
+            <li><a href="{{ url_for('student.discussions') }}" class="active">Discussions</a></li>
+            <li><a href="{{ url_for('student.support') }}">Support</a></li>
+        </ul>
+    </aside>
+    
+    <main class="main-content">
+        <div class="page-header">
+            <h1 class="portal-heading">Peer Discussions</h1>
+            <p class="portal-subheading">Share experiences and learn from others</p>
+        </div>
+        
+        <div class="card" style="margin-bottom: 1.5rem;">
+            <h3 style="margin-bottom: 1rem;">Start a Discussion</h3>
+            <form method="POST" action="{{ url_for('student.create_discussion') }}">
+                <div class="form-group">
+                    <input type="text" name="title" class="form-control" required placeholder="Discussion title">
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;">
+                    <div class="form-group">
+                        <select name="category" class="form-control" required>
+                            <option value="">Select category...</option>
+                            <option value="interview">Interview Experience</option>
+                            <option value="placement">Placement Stories</option>
+                            <option value="technical">Technical Discussion</option>
+                            <option value="general">General</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <textarea name="content" class="form-control" required placeholder="Share your thoughts..."></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Post Discussion</button>
+            </form>
+        </div>
+        
+        <h3 style="margin-bottom: 1rem;">Recent Discussions</h3>
+        {% if discussions %}
+            {% for discussion in discussions %}
+                <div class="discussion-card">
+                    <div class="discussion-title">{{ discussion.title }}</div>
+                    <p style="color: var(--gray); font-size: 0.875rem;">{{ discussion.content[:200] }}...</p>
+                    <div class="discussion-meta">
+                        <span class="badge badge-{{ discussion.category }}">{{ discussion.category|title }}</span>
+                        <span>Posted {{ discussion.created_at.strftime('%b %d, %Y') }}</span>
+                        <span>• {{ discussion.comments|length }} comments</span>
+                    </div>
+                    <div style="margin-top: 1rem; display: grid; gap: 0.75rem;">
+                        {% if discussion.comments %}
+                            {% for comment in discussion.comments %}
+                            <div style="padding: 0.9rem 1rem; border-radius: 0.9rem; background: var(--light);">
+<strong>Student {{ comment.user_id }}</strong>
+                                <p style="margin: 0.35rem 0 0 0;">{{ comment.content }}</p>
+                                <small>{{ comment.created_at.strftime('%b %d, %Y %I:%M %p') }}</small>
+                            </div>
+                            {% endfor %}
+                        {% endif %}
+                        <form method="POST" action="{{ url_for('student.add_discussion_comment', discussion_id=discussion.id) }}">
+                            <div class="form-group" style="margin-bottom: 0.75rem;">
+                                <textarea name="content" class="form-control" rows="2" placeholder="Add a comment or reply..." required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-sm btn-outline">Comment</button>
+                        </form>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="card" style="text-align: center; padding: 3rem;">
+                <p style="color: var(--gray);">No discussions yet. Be the first to start one!</p>
+            </div>
+        {% endif %}
+    </main>
+</div>
+{% endblock %}

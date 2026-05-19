@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="dashboard">
+    <aside class="sidebar">
+        <ul class="sidebar-menu">
+            <li><a href="{{ url_for('student.dashboard') }}">Dashboard</a></li>
+            <li><a href="{{ url_for('student.profile') }}">Profile</a></li>
+            <li><a href="{{ url_for('student.tests') }}" class="active">Skill Tests</a></li>
+            <li><a href="{{ url_for('student.readiness') }}">Readiness Meter</a></li>
+            <li><a href="{{ url_for('student.applications') }}">Job Applications</a></li>
+            <li><a href="{{ url_for('student.mock_interview') }}">Mock Interview</a></li>
+            <li><a href="{{ url_for('student.roadmap') }}">Learning Roadmap</a></li>
+            <li><a href="{{ url_for('student.certificates') }}">Certificates</a></li>
+            <li><a href="{{ url_for('student.discussions') }}">Discussions</a></li>
+            <li><a href="{{ url_for('student.support') }}">Support</a></li>
+        </ul>
+    </aside>
+    
+    <main class="main-content">
+        <div class="page-header">
+            <h1 class="portal-heading">Test Results</h1>
+            <p style="color: var(--gray);">{{ test.test_type|title }} Test - {{ test.attempted_at.strftime('%B %d, %Y') }}</p>
+        </div>
+        
+        <div class="card" style="text-align: center; margin-bottom: 1.5rem;">
+            <div style="font-size: 4rem; margin-bottom: 0.5rem;">
+                {% if test.score >= 80 %}🎉{% elif test.score >= 50 %}👍{% else %}📚{% endif %}
+            </div>
+            <div style="font-size: 3rem; font-weight: 700; color: {% if test.score >= 80 %}var(--secondary){% elif test.score >= 50 %}var(--primary){% else %}var(--warning){% endif %};">
+                {{ test.score }}%
+            </div>
+            <p style="color: var(--gray);">
+                {{ test.correct_answers or test.score }} correct out of {{ test.total_questions }} questions
+            </p>
+            
+            {% if test.ai_detected %}
+            <div style="background: #fee2e2; color: var(--danger); padding: 0.75rem; border-radius: 8px; margin-top: 1rem;">
+                ⚠️ Suspicious activity detected: Answers completed too quickly
+            </div>
+            {% endif %}
+            
+            {% if test.tab_switches and test.tab_switches > 0 %}
+            <div style="background: #fef3c7; color: var(--warning); padding: 0.75rem; border-radius: 8px; margin-top: 0.5rem;">
+                Tab switches detected: {{ test.tab_switches }}
+            </div>
+            {% endif %}
+        </div>
+        
+        <div class="card">
+            <h3 style="margin-bottom: 1rem;">Question Review</h3>
+            
+            {% for question in questions %}
+            <div class="question-card" style="border-left: 4px solid {% if question.is_correct %}var(--secondary){% else %}var(--danger){% endif %}; margin-bottom: 1rem;">
+                <div style="display: flex; justify-content: space-between; align-items: start;">
+                    <div>
+                        <span class="badge badge-{{ 'offered' if question.is_correct else 'rejected' }}">
+                            {{ 'Correct' if question.is_correct else 'Wrong' }}
+                        </span>
+                        <span class="skill-tag" style="margin-left: 0.5rem;">{{ question.topic or 'General' }}</span>
+                    </div>
+                    <span style="color: var(--gray); font-size: 0.875rem;">Q{{ loop.index }}</span>
+                </div>
+                <div class="question-text" style="margin-top: 0.5rem;">{{ question.question }}</div>
+                
+                <div style="margin-top: 1rem; font-size: 0.875rem;">
+                    <div style="margin-bottom: 0.25rem;">
+                        <strong>Your Answer:</strong>
+                        <span style="color: {% if question.is_correct %}var(--secondary){% else %}var(--danger){% endif %};">
+                            {{ question.user_answer or 'Not answered' }}
+                        </span>
+                    </div>
+                    {% if not question.is_correct %}
+                    <div>
+                        <strong>Correct Answer:</strong>
+                        <span style="color: var(--secondary);">{{ question.correct_answer }}</span>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        {% if test.weak_topics %}
+        <div class="card weak-area-card" style="margin-top: 1.5rem;">
+            <h3 style="color: var(--warning); margin-bottom: 1rem;">Areas to Focus</h3>
+            <p style="margin-bottom: 1rem;">Based on your wrong answers, focus on these topics:</p>
+            <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                {% for topic in test.weak_topics %}
+                <span class="skill-tag" style="background: white; font-size: 0.875rem; padding: 0.5rem 1rem;">{{ topic }}</span>
+                {% endfor %}
+            </div>
+            <a href="{{ url_for('student.roadmap') }}" class="btn btn-primary" style="margin-top: 1rem;">Generate Learning Roadmap</a>
+        </div>
+        {% endif %}
+        
+        <div style="margin-top: 1.5rem;">
+            <a href="{{ url_for('student.tests') }}" class="btn btn-outline">Back to Tests</a>
+            <a href="{{ url_for('student.take_test', test_type=test.test_type) }}" class="btn btn-primary">Retake Test</a>
+        </div>
+    </main>
+</div>
+{% endblock %}

@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="dashboard">
+    <aside class="sidebar">
+        <ul class="sidebar-menu">
+            <li><a href="{{ url_for('student.dashboard') }}">Dashboard</a></li>
+            <li><a href="{{ url_for('student.profile') }}">Profile</a></li>
+            <li><a href="{{ url_for('student.tests') }}">Skill Tests</a></li>
+            <li><a href="{{ url_for('student.readiness') }}">Readiness Meter</a></li>
+            <li><a href="{{ url_for('student.applications') }}">Job Applications</a></li>
+            <li><a href="{{ url_for('student.mock_interview') }}">Mock Interview</a></li>
+            <li><a href="{{ url_for('student.roadmap') }}">Learning Roadmap</a></li>
+            <li><a href="{{ url_for('student.certificates') }}" class="active">Certificates</a></li>
+            <li><a href="{{ url_for('student.discussions') }}">Discussions</a></li>
+            <li><a href="{{ url_for('student.support') }}">Support</a></li>
+        </ul>
+    </aside>
+    
+    <main class="main-content">
+        <div class="page-header">
+            <h1 class="portal-heading">My Certificates</h1>
+            <p class="portal-subheading">Your earned certifications and achievements</p>
+        </div>
+        
+        {% if certificates %}
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 2rem;">
+                {% for cert in certificates %}
+                    <div class="certificate-card" style="background: linear-gradient(135deg, var(--primary) 0%, var(--info) 50%, var(--secondary) 100%); padding: 0; overflow: hidden; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.3);">
+                        <div style="background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); padding: 2.5rem; text-align: center; border-bottom: 3px solid rgba(255,255,255,0.3);">
+                            <div style="font-size: 4rem; margin-bottom: 1rem; text-shadow: 0 4px 12px rgba(0,0,0,0.3);">🏆</div>
+                            <h2 style="color: white; margin: 0 0 0.5rem 0; font-size: 1.8rem; font-weight: 700; letter-spacing: 0.02em;">{{ cert.name }}</h2>
+                            <p style="color: rgba(255,255,255,0.9); margin: 0; font-size: 1.1rem; font-weight: 500;">{{ cert.issued_by or 'BUILD UP PILOT' }}</p>
+                        </div>
+                        <div style="padding: 1.5rem; background: rgba(255,255,255,0.95); color: #1e293b;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.75rem; font-size: 0.875rem;">
+                                <div>
+                                    <span style="color: var(--gray);">Certificate ID:</span><br>
+                                    <strong style="font-family: monospace;">{{ cert.certificate_id or 'N/A' }}</strong>
+                                </div>
+                                <div style="text-align: right;">
+                                    <span style="color: var(--gray);">Score:</span><br>
+                                    <strong style="color: var(--primary);">{{ cert.score or 'N/A' }}%</strong>
+                                </div>
+                            </div>
+                            <div style="border-top: 1px solid var(--border); padding-top: 0.75rem; margin-top: 0.75rem;">
+                                <p style="font-size: 0.875rem; color: var(--gray); margin: 0 0 0.5rem 0;">{{ cert.description }}</p>
+                                <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--gray);">
+                                    <span>Issued: {{ cert.earned_at.strftime('%B %d, %Y') if cert.earned_at else 'N/A' }}</span>
+                                    {% if cert.validity_date %}
+                                    <span>Valid until: {{ cert.validity_date.strftime('%B %d, %Y') }}</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div style="margin-top: 1rem; display: flex; gap: 0.5rem;">
+                                <a href="{{ url_for('student.view_certificate', cert_id=cert.id) }}" class="btn btn-sm btn-primary" style="flex: 1;">View</a>
+                                <button onclick="downloadCert('{{ cert.id }}')" class="btn btn-sm btn-outline" style="flex: 1;">Download</button>
+                                <button onclick="shareCert('{{ cert.id }}', '{{ cert.certificate_id }}')" class="btn btn-sm btn-outline" style="flex: 1;">Share</button>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="card" style="text-align: center; padding: 3rem;">
+                <div style="font-size: 4rem; margin-bottom: 1rem;">🎓</div>
+                <h3>No certificates yet</h3>
+                <p style="color: var(--gray);">Complete skill tests with 70%+ score or achieve 70%+ in mock interviews without AI assistance to earn certificates!</p>
+                <div style="margin-top: 1.5rem;">
+                    <a href="{{ url_for('student.tests') }}" class="btn btn-primary">Take Tests</a>
+                    <a href="{{ url_for('student.mock_interview') }}" class="btn btn-outline">Start Mock Interview</a>
+                </div>
+            </div>
+            
+            <div class="card" style="margin-top: 1.5rem;">
+                <h3 style="margin-bottom: 1rem;">How to Earn Certificates</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+                    <div style="padding: 1.5rem; background: var(--light); border-radius: 12px;">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">📝</div>
+                        <h4>Skill Tests</h4>
+                        <p style="color: var(--gray); font-size: 0.875rem;">Score 70% or higher in any skill test (DSA, Aptitude, Coding, Core) without suspicious activity.</p>
+                    </div>
+                    <div style="padding: 1.5rem; background: var(--light); border-radius: 12px;">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">🎤</div>
+                        <h4>Mock Interviews</h4>
+                        <p style="color: var(--gray); font-size: 0.875rem;">Score 70% or higher in mock interviews, demonstrating genuine human responses.</p>
+                    </div>
+                    <div style="padding: 1.5rem; background: var(--light); border-radius: 12px;">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">⚠️</div>
+                        <h4>AI Detection</h4>
+                        <p style="color: var(--gray); font-size: 0.875rem;">Certificates are only awarded when answers show human effort, not AI-generated content.</p>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </main>
+</div>
+
+<script>
+function downloadCert(certId) {
+    try {
+        if (certId && certId !== 'N/A') {
+            window.location.href = `/download-certificate/${certId}`;
+        } else {
+            alert('Certificate ID not available');
+        }
+    } catch (error) {
+        console.error('Download error:', error);
+        alert('Download not available');
+    }
+}
+
+function shareCert(certId, certificateId) {
+    try {
+        if (certId && certId !== 'N/A') {
+            const shareText = 'Check out my certificate from BUILD UP PILOT! Certificate ID: ' + (certificateId || certId);
+            const shareUrl = window.location.origin + `/view-certificate/${certId}`;
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: 'My Certificate',
+                    text: shareText,
+                    url: shareUrl
+                });
+            } else {
+                // Fallback for browsers without Web Share API
+                const textArea = document.createElement('textarea');
+                textArea.value = shareText + ' - ' + shareUrl;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                alert('Certificate details copied to clipboard!');
+            }
+        } else {
+            alert('Certificate ID not available');
+        }
+    } catch (error) {
+        console.error('Share error:', error);
+        alert('Share not available');
+    }
+}
+</script>
+{% endblock %}

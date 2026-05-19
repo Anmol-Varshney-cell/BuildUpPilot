@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MFA Verification - BUILD UP PILOT</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        .auth-container {
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .auth-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        
+        .form-group input:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+        
+        .btn {
+            background: #007bff;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+        }
+        
+        .btn:hover {
+            background: #0056b3;
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+            margin-top: 10px;
+        }
+        
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+        
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .alert-danger {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .alert-warning {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+        
+        .mfa-info {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border-left: 4px solid #2196f3;
+        }
+        
+        .text-center {
+            text-align: center;
+        }
+        
+        .mb-3 {
+            margin-bottom: 15px;
+        }
+        
+        @media (max-width: 768px) {
+            .auth-container {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-header">
+            <h2>MFA Verification</h2>
+            <p>Enter your multi-factor authentication code</p>
+        </div>
+        
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        <!-- MFA Info -->
+        <div class="mfa-info">
+            <h4>🔐 Two-Factor Authentication</h4>
+            <p>For security, admin accounts require MFA verification.</p>
+            <p><strong>Demo Mode:</strong> Use code <code>123456</code></p>
+        </div>
+        
+        <!-- MFA Form -->
+        <form method="POST">
+            <div class="form-group">
+                <label for="mfa_code">MFA Code</label>
+                <input type="text" id="mfa_code" name="mfa_code" 
+                       placeholder="Enter 6-digit MFA code" 
+                       maxlength="6" pattern="[0-9]{6}" required
+                       autocomplete="one-time-code">
+            </div>
+            
+            <div class="form-group">
+                <button type="submit" class="btn">Verify MFA Code</button>
+            </div>
+            
+            <div class="form-group">
+                <button type="button" class="btn btn-secondary" onclick="sendMFA()">Resend Code</button>
+            </div>
+        </form>
+        
+        <!-- Status Messages -->
+        <div id="statusMessage" class="hidden"></div>
+        
+        <!-- Loading Indicator -->
+        <div id="loadingIndicator" class="hidden text-center">
+            <p>Sending MFA code...</p>
+        </div>
+        
+        <!-- Back to Login -->
+        <div class="text-center mb-3">
+            <a href="{{ url_for('auth.login') }}">← Back to Login</a>
+        </div>
+    </div>
+    
+    <script>
+        // Focus on MFA code input
+        document.getElementById('mfa_code').focus();
+        
+        // Auto-format MFA code (6 digits)
+        document.getElementById('mfa_code').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 6) {
+                value = value.slice(0, 6);
+            }
+            e.target.value = value;
+        });
+        
+        // Send MFA code function
+        function sendMFA() {
+            showLoading(true);
+            
+            fetch('/auth/send_mfa', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                showLoading(false);
+                
+                if (data.success) {
+                    showStatus('success', data.message);
+                    document.getElementById('mfa_code').focus();
+                } else {
+                    showStatus('error', data.message);
+                }
+            })
+            .catch(error => {
+                showLoading(false);
+                showStatus('error', 'Network error. Please try again.');
+            });
+        }
+        
+        // Show status message
+        function showStatus(type, message) {
+            const statusDiv = document.getElementById('statusMessage');
+            statusDiv.className = 'alert alert-' + (type === 'error' ? 'danger' : type);
+            statusDiv.textContent = message;
+            statusDiv.classList.remove('hidden');
+            
+            // Auto-hide after 5 seconds
+            setTimeout(() => {
+                statusDiv.classList.add('hidden');
+            }, 5000);
+        }
+        
+        // Show loading indicator
+        function showLoading(show) {
+            const loadingDiv = document.getElementById('loadingIndicator');
+            if (show) {
+                loadingDiv.classList.remove('hidden');
+            } else {
+                loadingDiv.classList.add('hidden');
+            }
+        }
+        
+        // Handle form submission
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const mfaCode = document.getElementById('mfa_code').value;
+            
+            if (!mfaCode || mfaCode.length !== 6) {
+                e.preventDefault();
+                showStatus('error', 'Please enter a valid 6-digit MFA code');
+                return false;
+            }
+        });
+    </script>
+</body>
+</html>

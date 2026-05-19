@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="dashboard">
+    <aside class="sidebar">
+        <ul class="sidebar-menu">
+            <li><a href="{{ url_for('student.dashboard') }}">Dashboard</a></li>
+            <li><a href="{{ url_for('student.profile') }}">Profile</a></li>
+            <li><a href="{{ url_for('student.tests') }}">Skill Tests</a></li>
+            <li><a href="{{ url_for('student.readiness') }}">Readiness Meter</a></li>
+            <li><a href="{{ url_for('student.jobs') }}" class="active">Job Listings</a></li>
+            <li><a href="{{ url_for('student.applications') }}">Applications</a></li>
+            <li><a href="{{ url_for('student.mock_interview') }}">Mock Interview</a></li>
+            <li><a href="{{ url_for('student.roadmap') }}">Learning Roadmap</a></li>
+            <li><a href="{{ url_for('student.certificates') }}">Certificates</a></li>
+            <li><a href="{{ url_for('student.discussions') }}">Discussions</a></li>
+            <li><a href="{{ url_for('student.support') }}">Support</a></li>
+        </ul>
+    </aside>
+    
+    <main class="main-content">
+        <div class="page-header">
+            <h1 class="portal-heading">Job Listings</h1>
+            <p class="portal-subheading">Find opportunities matching your skills</p>
+        </div>
+        
+        {% if jobs %}
+            {% for item in jobs %}
+                <div class="job-card">
+                    <div class="job-header">
+                        <div>
+                            <div class="job-title">
+                                <a href="{{ url_for('student.job_detail', job_id=item.job.id) }}" style="color: inherit; text-decoration: none;">
+                                    {{ item.job.title }}
+                                </a>
+                            </div>
+                            <div class="job-company">{{ item.job.company }}</div>
+                        </div>
+                        <div class="match-indicator">{{ item.match_score }}% Match</div>
+                    </div>
+                    
+                    <div style="margin-bottom: 1rem;">
+                        <span style="color: var(--gray); font-size: 0.875rem;">
+                            📍 {{ item.job.location or 'Not specified' }} | 
+                            💰 
+                            {% if item.job.stipend and item.job.stipend > 0 %}
+                                ₹{{ item.job.stipend }}/month (Stipend)
+                            {% else %}
+                                ₹{{ (item.job.salary_min/100000)|round(1) if item.job.salary_min else '0' }} - {{ (item.job.salary_max/100000)|round(1) if item.job.salary_max else '0' }} LPA
+                            {% endif %}
+                        </span>
+                    </div>
+                    
+                    <div style="margin-bottom: 0.75rem;">
+                        <span class="skill-tag" style="background: {% if item.job.work_mode == 'remote' %}#d1fae5{% elif item.job.work_mode == 'hybrid' %}#dbeafe{% else %}#f3f4f6{% endif %};">
+                            {% if item.job.work_mode == 'remote' %}🏠 Remote{% elif item.job.work_mode == 'hybrid' %}🔄 Hybrid{% else %}🏢 On-site{% endif %}
+                        </span>
+                        <span class="skill-tag">{{ item.job.job_type or 'Full-time' }}</span>
+                    </div>
+                    
+                    {% if item.job.description %}
+                    <p style="color: var(--gray); font-size: 0.875rem; margin-bottom: 1rem;">
+                        {{ item.job.description[:150] }}{% if item.job.description|length > 150 %}...{% endif %}
+                        <a href="{{ url_for('student.job_detail', job_id=item.job.id) }}">Read more</a>
+                    </p>
+                    {% endif %}
+                    
+                    <div style="margin-bottom: 1rem;">
+                        <strong>Required Skills:</strong>
+                        {% if item.job.required_skills %}
+                            {% for skill in item.job.required_skills.split(',')[:5] %}
+                                <span class="skill-tag {% if profile and profile.skills and skill.strip() in profile.skills %}matching{% endif %}">
+                                    {{ skill.strip() }}
+                                </span>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span style="color: var(--gray); font-size: 0.875rem;">
+                            Posted: {{ item.job.posted_at.strftime('%b %d, %Y') }}
+                            {% if item.job.deadline %} | Deadline: {{ item.job.deadline.strftime('%b %d, %Y') }}{% endif %}
+                        </span>
+                        {% if item.is_applied %}
+                            <button class="btn btn-outline btn-sm" disabled>Applied</button>
+                        {% else %}
+                            <button onclick="applyJob({{ item.job.id }})" class="btn btn-primary btn-sm">Apply Now</button>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="card" style="text-align: center; padding: 3rem;">
+                <h1 class="portal-heading">No jobs available</h1>
+                <p style="color: var(--gray);">Check back later for new opportunities.</p>
+            </div>
+        {% endif %}
+    </main>
+</div>
+
+<script>
+let lastJobsSignature = {{ jobs_signature|tojson }};
+
+async function applyJob(jobId) {
+    try {
+        const response = await fetch(`/student/apply/${jobId}`, {
+            method: 'POST'
+        });
+        const data = await response.json();
+        
+        if (data.success) {
+            alert('Application submitted successfully!');
+            location.reload();
+        } else {
+            alert(data.message || 'Failed to apply');
+        }
+    } catch (error) {
+        alert('Error applying to job');
+    }
+}
+
+async function checkForLiveJobUpdates() {
+    try {
+        const response = await fetch('/student/jobs/live', {
+            headers: { 'Cache-Control': 'no-cache' }
+        });
+        if (!response.ok) return;
+
+        const data = await response.json();
+        const nextSignature = data.signature || '';
+
+        if (lastJobsSignature && nextSignature !== lastJobsSignature) {
+            window.location.reload();
+            return;
+        }
+
+        lastJobsSignature = nextSignature;
+    } catch (error) {
+        console.debug('Live job refresh skipped', error);
+    }
+}
+
+setInterval(checkForLiveJobUpdates, 30000);
+</script>
+{% endblock %}

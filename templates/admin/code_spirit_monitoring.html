@@ -1,0 +1,281 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="dashboard">
+    <aside class="sidebar">
+        <ul class="sidebar-menu">
+            <li><a href="{{ url_for('admin.dashboard') }}">Dashboard</a></li>
+            <li><a href="{{ url_for('admin.code_spirit_monitoring') }}" class="active">Skill Up</a></li>
+            <li><a href="{{ url_for('admin.manage_users') }}">Manage Users</a></li>
+            <li><a href="{{ url_for('admin.manage_jobs') }}">Manage Jobs</a></li>
+            <li><a href="{{ url_for('admin.manage_tickets') }}">Support Tickets</a></li>
+            <li><a href="{{ url_for('admin.analytics') }}">Analytics</a></li>
+        </ul>
+    </aside>
+    
+    <main class="main-content">
+        <div class="page-header">
+            <h1 style="color: white !important;">Skill Up</h1>
+            <p style="color: var(--gray);">Student activity monitoring and overview</p>
+        </div>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value">{{ stats.total_students }}</div>
+                <div class="stat-label">Skill Up Students</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">{{ stats.problems_attempted }}</div>
+                <div class="stat-label">Problems Attempted</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">{{ stats.problems_solved }}</div>
+                <div class="stat-label">Problems Solved</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">{{ stats.total_submissions }}</div>
+                <div class="stat-label">Total Submissions</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">{{ stats.success_rate }}%</div>
+                <div class="stat-label">Success Rate</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">{{ stats.active_today }}</div>
+                <div class="stat-label">Active Today</div>
+            </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem;">
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">Recent Student Activity</span>
+                </div>
+                <div class="activity-list">
+                    {% for activity in recent_activities %}
+                    <div class="activity-item">
+                        <div class="activity-header">
+                            <span class="activity-user">{{ activity.student_name }}</span>
+                            <span class="activity-time">{{ activity.time_ago }}</span>
+                        </div>
+                        <div class="activity-details">
+                            {{ activity.action }} - {{ activity.problem_title }}
+                        </div>
+                        <div class="activity-status {{ 'success' if activity.success else 'pending' }}">
+                            {{ 'Solved' if activity.success else 'Attempted' }}
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="empty-state">
+                        No real Skill Up submissions yet.
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">Top Performers</span>
+                </div>
+                <div class="leaderboard">
+                    {% for student in top_students %}
+                    <div class="leaderboard-item">
+                        <div class="rank">{{ loop.index }}</div>
+                        <div class="student-info">
+                            <div class="student-name">{{ student.name }}</div>
+                            <div class="student-stats">{{ student.solved }} solved, {{ student.attempted }} attempted</div>
+                        </div>
+                        <div class="success-rate">{{ student.success_rate }}%</div>
+                    </div>
+                    {% else %}
+                    <div class="empty-state">
+                        No top performers yet. Students will appear here after real submissions.
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <span class="card-title">Attempted Problem Difficulty Distribution</span>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;">
+                <div class="difficulty-stat">
+                    <div class="difficulty-label">Easy</div>
+                    <div class="difficulty-bar">
+                        <div class="difficulty-fill easy" style="width: {{ difficulty_stats.easy_percent }}%"></div>
+                    </div>
+                    <div class="difficulty-count">{{ difficulty_stats.easy_count }} problems</div>
+                </div>
+                <div class="difficulty-stat">
+                    <div class="difficulty-label">Medium</div>
+                    <div class="difficulty-bar">
+                        <div class="difficulty-fill medium" style="width: {{ difficulty_stats.medium_percent }}%"></div>
+                    </div>
+                    <div class="difficulty-count">{{ difficulty_stats.medium_count }} problems</div>
+                </div>
+                <div class="difficulty-stat">
+                    <div class="difficulty-label">Hard</div>
+                    <div class="difficulty-bar">
+                        <div class="difficulty-fill hard" style="width: {{ difficulty_stats.hard_percent }}%"></div>
+                    </div>
+                    <div class="difficulty-count">{{ difficulty_stats.hard_count }} problems</div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<style>
+.activity-list {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.activity-item {
+    padding: 1rem;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.2s;
+}
+
+.activity-item:hover {
+    background: var(--light);
+}
+
+.activity-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.activity-user {
+    font-weight: 600;
+    color: var(--primary);
+}
+
+.activity-time {
+    font-size: 0.875rem;
+    color: var(--gray);
+}
+
+.activity-details {
+    color: var(--text);
+    margin-bottom: 0.5rem;
+}
+
+.activity-status {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-weight: 600;
+}
+
+.activity-status.success {
+    background: var(--success);
+    color: white;
+}
+
+.activity-status.pending {
+    background: var(--warning);
+    color: white;
+}
+
+.leaderboard {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.leaderboard-item {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.2s;
+}
+
+.leaderboard-item:hover {
+    background: var(--light);
+}
+
+.rank {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background: var(--primary);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    margin-right: 1rem;
+}
+
+.student-info {
+    flex: 1;
+}
+
+.student-name {
+    font-weight: 600;
+    color: var(--text);
+}
+
+.student-stats {
+    font-size: 0.875rem;
+    color: var(--gray);
+}
+
+.success-rate {
+    font-weight: 600;
+    color: var(--success);
+}
+
+.difficulty-stat {
+    text-align: center;
+}
+
+.difficulty-label {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--text);
+}
+
+.difficulty-bar {
+    height: 0.5rem;
+    background: var(--border);
+    border-radius: 0.25rem;
+    margin-bottom: 0.5rem;
+    overflow: hidden;
+}
+
+.difficulty-fill {
+    height: 100%;
+    transition: width 0.3s ease;
+}
+
+.difficulty-fill.easy {
+    background: var(--success);
+}
+
+.difficulty-fill.medium {
+    background: var(--warning);
+}
+
+.difficulty-fill.hard {
+    background: var(--danger);
+}
+
+.difficulty-count {
+    font-size: 0.875rem;
+    color: var(--gray);
+}
+
+.empty-state {
+    padding: 1rem;
+    color: var(--gray);
+    text-align: center;
+}
+</style>
+{% endblock %}

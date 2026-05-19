@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>BUILD UP PILOT – Placement Portal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+    content="Build Up Pilot – AI-powered placement portal for students and freshers to discover jobs, prepare for interviews, and track career growth." />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='landing/style.css') }}" />
+</head>
+
+<body class="theme-dark" id="top">
+  <!-- Page wrapper -->
+  <div class="page-wrapper">
+
+    <!-- Navigation -->
+    <header class="navbar">
+      <div class="container navbar-inner">
+        <!-- Logo -->
+        <a href="#top" class="nav-logo">
+          <div class="nav-logo-badge">
+            <img src="{{ url_for('static', filename='landing/BUILD UP LOGO .jpeg') }}" alt="Build Up Pilot">
+          </div>
+          <div class="nav-logo-text" aria-label="Build Up Pilot">
+            <span class="nav-logo-title">BUILD UP</span>
+            <span class="nav-logo-tagline">PILOT</span>
+          </div>
+        </a>
+
+        <!-- Desktop Nav -->
+        <nav class="nav-links">
+          <a href="#features">Features</a>
+          <a href="#about">About</a>
+          <a href="#faq">FAQ</a>
+          <a href="#team">Team</a>
+          <a href="#support">Support</a>
+          <a href="#privacy">Privacy Policy</a>
+        </nav>
+
+        <!-- Right actions -->
+        <div class="nav-actions">
+          <button id="themeToggle" class="btn-icon" aria-label="Toggle theme">
+            <span id="iconLight" class="icon-theme">☀️</span>
+            <span id="iconDark" class="icon-theme hidden">🌙</span>
+          </button>
+
+          <a href="{{ url_for('auth.login') }}" class="btn btn-outline nav-login-desktop">Login</a>
+          <a href="{{ url_for('auth.signup') }}" class="btn btn-primary nav-cta-desktop">Get Started</a>
+
+          <!-- Mobile burger -->
+          <button id="mobileToggle" class="btn-icon nav-mobile-toggle" aria-label="Toggle navigation" aria-controls="mobileMenu" aria-expanded="false">
+            <span id="mobileIconOpen">☰</span>
+            <span id="mobileIconClose" class="hidden">✕</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile nav -->
+      <div id="mobileMenu" class="mobile-menu">
+        <nav class="mobile-menu-links">
+          <a href="#features">Features</a>
+          <a href="#about">About</a>
+          <a href="#faq">FAQ</a>
+          <a href="#team">Team</a>
+          <a href="#support">Support</a>
+          <a href="#privacy">Privacy Policy</a>
+          <div class="mobile-menu-auth">
+            <a href="{{ url_for('auth.login') }}" class="btn btn-outline">Login</a>
+            <a href="{{ url_for('auth.signup') }}" class="btn btn-primary">Sign Up</a>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <!-- HERO -->
+      <section id="hero" class="hero animate-on-load"  data-delay="1">
+        <div class="hero-bg-layer"></div>
+        <div class="container hero-grid">
+          <!-- Left -->
+          <div class="hero-left">
+
+            <h1 class="hero-title">
+              Let’s get start with <span>Build Up Pilot</span> – your smart placement co‑pilot for students and
+              freshers.
+            </h1>
+
+            <p class="hero-subtext">
+              Explore curated jobs, practice with AI‑driven interview prep, and build a career‑ready profile in one
+              simple dashboard — Anyone ready to launch their careers.
+            </p>
+
+            <div class="hero-actions">
+              <a href="{{ url_for('auth.signup') }}" class="btn btn-primary hero-btn-primary">
+                Get Started
+              </a>
+              <a href="{{ url_for('auth.login') }}" class="btn btn-outline hero-btn-secondary">
+                Login
+              </a>
+            </div>
+          </div>
+          <!-- Right illustrations -->
+          <div class="hero-right">
+            <img src="{{ url_for('static', filename='landing/Why-Career-Opportunities-Are-Important.jpg') }}" alt="Students exploring career opportunities with Build Up Pilot">
+          </div>
+        </div>
+
+      </section>
+
+      <!-- FEATURES (Bento style) -->
+      <section id="features" class="section animate-on-load" data-delay="2">
+        <div class="container">
+          <div class="section-header">
+            <div>
+              <h2 class="section-title">
+                Everything you need to crack placements.
+              </h2>
+              <p class="section-subtext">
+                An integrated toolkit to discover roles, practice interviews, and track your journey from college to
+                your first offer letter.
+              </p>
+            </div>
+            <p class="section-meta">
+              Designed to land a dream job, optimized for speed and clarity.
+            </p>
+          </div>
+
+          <div class="bento-grid">
+            <article class="card bento-item bento-large">
+              <div class="card-header-row">
+                <span class="chip chip-primary">Curated Job Discovery</span>
+                <span class="emoji">🔍</span>
+              </div>
+              <p class="card-text">
+                Find fresher‑friendly roles, internships, and pre‑placement offers curated for your skills and college
+                background.
+              </p>
+              <p class="card-subtext accent-green">
+                Filters by role, stack, location, and growth potential.
+              </p>
+            </article>
+
+            <article class="card bento-item bento-tall">
+              <div class="card-header-row">
+                <span class="chip chip-accent">AI Interview Prep</span>
+                <span class="emoji">🤖</span>
+              </div>
+              <p class="card-text">
+                Simulate real HR and technical interviews with AI‑driven questions, instant feedback, and confidence
+                scores.
+              </p>
+              <ul class="card-list">
+                <li class="accent-green">Role‑specific question banks</li>
+                <li class="accent-green">Behavioral + DSA + system design</li>
+                <li class="accent-green">Instant transcript & feedback notes</li>
+              </ul>
+            </article>
+
+            <article class="card bento-item">
+              <div class="card-header-row">
+                <span class="chip chip-soft">Smart Resume</span>
+                <span class="emoji">📄</span>
+              </div>
+              <p class="card-text">
+                Upload your resume and get instant, action‑able suggestions to make it recruiter‑ready.
+              </p>
+              <p class="card-subtext accent-green">
+                Highlights impact, keywords, and clarity.
+              </p>
+            </article>
+            <article class="card bento-item bento-tall">
+              <div class="card-header-row">
+                <span class="chip chip-accent">Skill Up</span>
+                <span class="emoji">📈</span>
+              </div>
+              <p class="card-text">
+                Get personalized learning paths to fill skill gaps identified in your profile and interview feedback. Where student and fresher can Skill up their dream programming language and technical skills.
+              </p>
+            </article>
+
+            <article class="card bento-item">
+              <div class="card-header-row">
+                <span class="chip chip-soft">One Dashboard</span>
+                <span class="emoji">📊</span>
+              </div>
+              <p class="card-text">
+                Track applications, interviews, tasks, and learning streaks in a single view.
+              </p>
+              <p class="card-subtext accent-green">
+                Stay organized through the full placement season.
+              </p>
+            </article>
+
+            <article class="card bento-item bento-wide">
+              <div class="bento-wide-inner">
+                <div>
+                  <p class="chip chip-soft">Skill Growth Journey</p>
+                  <p class="card-text">
+                    Visualize your skills, certifications, and interview readiness over time with smart progress
+                    analytics.
+                  </p>
+                </div>
+                <div class="mini-bars">
+                  <span class="bar bar-1"></span>
+                  <span class="bar bar-2"></span>
+                  <span class="bar bar-3"></span>
+                  <span class="bar bar-4"></span>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- ABOUT -->
+      <section id="about" class="section section-alt animate-on-load" data-delay="3">
+        <div class="container about-grid">
+          <div>
+            <h2 class="section-title">
+              Built for campus placements, from first trial to final offer.
+            </h2>
+            <p class="section-subtext">
+              Build Up Pilot is an AI‑powered placement co‑pilot designed specifically for college students and freshers
+              to discover opportunities, practice interviews, and track progress without overwhelm.
+            </p>
+            <p class="section-subtext">
+              The platform feels familiar like your favorite social apps, but is tuned for focus — so you can move from
+              confusion to clarity about your career roadmap.
+            </p>
+            <ul class="about-list">
+              <li>Fast onboarding with student‑first flows</li>
+              <li>Guided journeys for 1st/2nd/3rd/4th year students</li>
+              <li>Built‑in reminders to keep you consistent</li>
+            </ul>
+          </div>
+
+          <div class="about-card-wrapper">
+            <div class="about-glow"></div>
+            <div class="card about-card">
+              <div class="card-header-row">
+                <span class="chip chip-primary clip-primary-dark">Student Snapshot</span>
+              </div>
+
+              <div class="about-stats">
+                <div class="about-stat">
+                  <p class="about-stat-number">4.3</p>
+                  <p class="about-stat-label">Avg. interviews / month</p>
+                </div>
+                <div class="about-stat">
+                  <p class="about-stat-number green">73%</p>
+                  <p class="about-stat-label">Profile completion</p>
+                </div>
+                <div class="about-stat">
+                  <p class="about-stat-number purple">21</p>
+                  <p class="about-stat-label">Active applications</p>
+                </div>
+              </div>
+
+              <div class="about-timeline-box about-timeline">
+                Timeline view: 1st year → 4th year milestones, internships, offers, and skills.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TESTIMONIALS -->
+      <section id="testimonials" class="section">
+        <div class="container">
+          <div class="section-header">
+            <h2 class="section-title">
+             Enhancing Skills & Building Confidence - <span id="skill">#SKILL UP</span>
+            </h2>
+          </div>
+
+          <div class="testimonials-grid">
+            <article class="card testimonial-card">
+              <div class="testimonial-header">
+                <div class="testimonial-avatar">
+                  <img src="" alt="">
+                </div>
+                  <p class="testimonial-name">Transform your skill gap into your greatest edge</p>
+              </div>
+              <p class="testimonial-text">
+                Join a community where theory meets production. Our club provides the ultimate sandbox for you to master your favorite programming languages through high-intensity coding sprints and real-world project challenges. It’s not just about learning syntax; it’s about building the muscle memory to solve complex problems. Collaborate with peers, bridge your skill gaps, and transform from a coder into a creator
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- FAQ -->
+      <section id="faq" class="section section-alt">
+        <div class="container">
+          <div class="section-header center">
+            <h2 class="section-title">Questions students ask before starting.</h2>
+            <p class="section-subtext">
+              Quick answers to help you decide if Build Up Pilot fits your placement journey.
+            </p>
+          </div>
+
+          <div class="faq-list">
+            <details class="faq-item">
+              <summary>
+                <span>Is Build Up Pilot free for students?</span>
+                <span class="faq-toggle">+</span>
+              </summary>
+              <p>
+               Nothing is Paid for Now and Yes, core features like job discovery, basic interview prep, and resume checks advanced analytics and deep‑dive mock sessions, with Skill Up learning paths available in free version
+              </p>
+            </details>
+
+            <details class="faq-item">
+              <summary>
+                <span>Can I use it from 1st year or only in final year?</span>
+                <span class="faq-toggle">+</span>
+              </summary>
+              <p>
+                You can start any time. The platform adapts your roadmap based on your current year and experience level
+                — earlier start simply means less pressure later.
+              </p>
+            </details>
+
+            <details class="faq-item">
+              <summary>
+                <span>Does the AI store my interview recordings?</span>
+                <span class="faq-toggle">+</span>
+              </summary>
+              <p>
+                We only store the data necessary to generate feedback and help you track improvement. You can delete
+                sessions any time from your dashboard, User can also skill up their communication while recording their own audio To gain their confidence and user can also preview his/her audio and gave marks based on their confidence level.
+              </p>
+            </details>
+          </div>
+        </div>
+      </section>
+
+      <!-- SUPPORT + TICKET BOX -->
+      <section id="support" class="section animate-on-load" data-delay="4">
+        <div class="container support-grid">
+          <div>
+            <h2 class="section-title">
+              Need help logging in or signing up?
+            </h2>
+            <p class="section-subtext">
+              If something breaks on the landing page, during login, or while signing up, raise a ticket in a few
+              seconds and our team will get back quickly.
+            </p>
+            <ul class="about-list">
+              <li>Report login, signup, or dashboard issues</li>
+              <li>Attach a short description and optional screenshot link</li>
+              <li>Ticket goes directly to the admin panel for faster resolution</li>
+            </ul>
+          </div>
+
+          <div class="card ticket-card">
+            <div class="ticket-header">
+              <h3>Raise a Support Ticket</h3>
+              <span id="ticketStatusBadge" class="badge-soft">
+                Avg. response: &lt; 24 hours
+              </span>
+            </div>
+
+            <form id="ticketForm" class="ticket-form">
+              <div class="form-group">
+                <label for="ticketName">Your name</label>
+                <input type="text" id="ticketName" class="ticket-input" placeholder="e.g. Anmol Varshney" required />
+              </div>
+
+              <div class="form-group">
+                <label for="ticketEmail">Email</label>
+                <input type="email" id="ticketEmail" class="ticket-input" placeholder="you@college.edu" required />
+              </div>
+
+              <div class="form-group">
+                <label for="ticketType">Issue type</label>
+                <select id="ticketType" class="ticket-select">
+                  <option value="landing">Landing page error</option>
+                  <option value="login">Login issue</option>
+                  <option value="signup">Signup issue</option>
+                  <option value="dashboard">Dashboard issue</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="ticketMessage">Describe the problem</label>
+                <textarea id="ticketMessage" class="ticket-textarea" rows="3"
+                  placeholder="Share what went wrong, what you expected, and any error messages..." required></textarea>
+              </div>
+
+              <div class="form-group">
+                <label for="ticketScreenshot">Screenshot link (optional)</label>
+                <input type="url" id="ticketScreenshot" class="ticket-input"
+                  placeholder="https://drive.google.com/..." />
+              </div>
+
+              <button type="submit" class="btn btn-primary btn-block">
+                Submit Ticket to Admin
+              </button>
+              <p id="ticketFeedback" class="ticket-feedback hidden">
+                Ticket created successfully! Our admin team has been notified.
+              </p>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <!-- TEAM -->
+      <section id="team" class="section section-alt">
+        <div class="container">
+          <div class="section-header">
+            <h2 class="section-title">
+              The crew behind Build Up Pilot.
+            </h2>
+            <p class="section-subtext small">
+              A small team of engineers, designers, and ex‑campus‑placed grads building tools they wished they had.
+            </p>
+          </div>
+
+          <div class="team-grid">
+
+            <article class="card team-card">
+              <div class="team-avatar">
+                <img src="{{ url_for('static', filename='landing/foun.jpeg') }}" alt="founder">
+              </div>
+              <p class="team-role">Anmol Varshney</p>
+              <p class="team-text">Founder</p>
+              <p class="team-meta">Backned Engineer</p>
+            </article>
+
+            <article class="card team-card">
+              <div class="team-avatar ">
+                <img src="{{ url_for('static', filename='landing/co.jpeg') }}" alt="cofounder">
+              </div>
+              <p class="team-role">Abhishek Varshney</p>
+              <p class="team-text">Co-Founder</p>
+              <p class="team-meta">Database Analytics</p>
+            </article>
+
+            <article class="card team-card">
+              <div class="team-avatar">
+                <img src="{{ url_for('static', filename='landing/manger.jpeg') }}" alt="manager">
+              </div>
+              <p class="team-role">Hemant Pundhir</p>
+              <p class="team-text">Manager</p>
+              <p class="team-meta">Fronted Engineer</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- AUTH CTA -->
+      <section id="auth" class="section">
+        <div class="container">
+          <div class="card auth-card">
+            <div class="auth-text">
+              <h2 class="section-title">
+                Ready to give your placements a co‑pilot?
+              </h2>
+              <p class="section-subtext">
+                Create your account in under 60 seconds, connect your skills and interests, and get a personalized
+                placement roadmap.
+              </p>
+            </div>
+            <div class="auth-actions">
+              <a id="signup" href="{{ url_for('auth.signup') }}" class="btn btn-primary btn-block-sm">
+                Sign Up
+              </a>
+              <a id="login" href="{{ url_for('auth.login') }}" class="btn btn-outline btn-block-sm">
+                Already have an account? Login
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Privacy -->
+      <section id="privacy" class="section section-privacy">
+        <div class="containers">
+          <h3 class="section-subtitle">Privacy & trust</h3>
+          <p class="section-subtext small">
+           The Build Up Pilot Privacy Policy outlines a commitment to protecting student data while delivering a personalized placement experience. The platform collects essential information—including identity details, academic records, uploaded resumes, and audio recordings from AI mock interviews—to provide features like smart resume analysis, curated job discovery, and instant performance feedback. In compliance with the Digital Personal Data Protection (DPDP) Act, the policy ensures that data is processed only with user consent for specific purposes, such as tracking learning progress and improving interview readiness. Students retain full control over their data, with the right to edit profiles, withdraw consent, or delete interview sessions at any time through their dashboard, while a dedicated grievance system is in place to address any privacy or technical concerns.
+          </p>
+          <p class="section-subtext small">
+            We treat student data with care. Only the minimum required information is stored to deliver features like
+            interview history, resume feedback, and job tracking.
+          </p>
+        </div>
+        <div id="img">
+          <img src="{{ url_for('static', filename='landing/privacy.jpeg') }}" alt="">
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container footer-inner">
+        <div class="footer-left">
+          <span class="footer-logo-text">BUILD UP PILOT</span>
+          <span class="footer-divider">|</span>
+          <span>Placement Portal for students & freshers</span>
+        </div>
+        <div class="footer-links">
+          <a href="#support">Contact</a>
+          <a href="#faq">FAQ</a>
+          <a href="#privacy">Privacy Policy</a>
+          <a href="#top">Back to top ↑</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Scripts -->
+  <script src="{{ url_for('static', filename='landing/script.js') }}"></script>
+</body>
+
+</html>

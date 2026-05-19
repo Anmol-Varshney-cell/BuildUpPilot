@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BUILD UP PILOT - Your Career Launchpad</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v={{ 123456 }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/password-toggle.css') }}">
+    <script>
+        (() => {
+            const storedTheme = localStorage.getItem('buildUpPilotTheme') || 'dark';
+            document.documentElement.classList.add(`theme-${storedTheme}`);
+        })();
+    </script>
+</head>
+<body class="portal-body">
+    <div class="portal-bg portal-bg-one"></div>
+    <div class="portal-bg portal-bg-two"></div>
+    <div class="portal-bg portal-bg-grid"></div>
+
+<!-- Theme toggle moved to header -->
+
+    <div class="portal-site-shell">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="portal-alert-stack">
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        <div class="container">{{ message }}</div>
+                    </div>
+                {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <header class="app-header">
+            <div class="header-left">
+                <a href="{{ url_for('main.index') }}" class="logo">
+                    <img src="{{ url_for('static', filename='Image/buildup-logo.jpeg') }}" alt="Build Up Pilot" />
+                </a>
+            </div>
+            <div class="header-right">
+                {% if current_user.is_authenticated and current_user.role == 'student' %}
+                    <span class="student-id-chip">
+                        Student ID: {{ 'BUP000' if (current_user.email or '')|lower == 'student@buildup.com' else (current_user.student_id if current_user.student_id else 'BUP000') }}
+                    </span>
+                {% endif %}
+                <button id="themeToggle" class="theme-toggle-btn" type="button" aria-label="Toggle theme" title="Toggle dark/light mode">
+                    <span id="iconLight" class="icon-theme">☀️</span>
+                    <span id="iconDark" class="icon-theme hidden">🌙</span>
+                </button>
+                {% if current_user.is_authenticated %}
+                    <a href="{{ url_for('auth.logout') }}" class="btn btn-sm btn-success">Logout</a>
+                {% elif request.endpoint in ['auth.login', 'auth.signup', 'auth.register', 'auth.verify_aadhaar_page'] %}
+                    {# Keep auth pages minimal: logo + theme toggle only #}
+                {% else %}
+                    <a href="{{ url_for('auth.login') }}" class="btn btn-sm btn-outline">Login</a>
+                    <a href="{{ url_for('auth.signup') }}" class="btn btn-sm btn-primary">Register Now</a>
+                {% endif %}
+            </div>
+        </header>
+
+        {% block content %}{% endblock %}
+
+        <footer class="footer">
+            <div class="container">
+                <div class="branding">
+                    <div>BUILD UP PILOT</div>
+                <small>Guiding students from potential to placements.</small>
+                </div>
+            </div>
+        </footer>
+    </div>
+    
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/password-toggle.js') }}"></script>
+</body>
+
+</html>

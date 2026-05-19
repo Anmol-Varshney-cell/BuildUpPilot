@@ -1,0 +1,20 @@
+import { Router } from "express";
+import authRoutes from "./authRoutes.js";
+import simpleOidcRoutes from "./simpleOidcRoutes.js";
+import problemRoutes from "./problemRoutes.js";
+import submissionRoutes from "./submissionRoutes.js";
+import profileRoutes from "./profileRoutes.js";
+import journeyRoutes from "./journeyRoutes.js";
+import adminRoutes from "./adminRoutes.js";
+const router = Router();
+router.get("/health", (_req, res) => {
+    res.json({ status: "ok" });
+});
+router.use("/auth", authRoutes);
+router.use("/oidc", simpleOidcRoutes);
+router.use("/problems", problemRoutes);
+router.use("/submissions", submissionRoutes);
+router.use("/profile", profileRoutes);
+router.use("/journeys", journeyRoutes);
+router.use("/admin", adminRoutes);
+export default router;

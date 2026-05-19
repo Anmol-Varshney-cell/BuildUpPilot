@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="hero">
+    <div class="container">
+        <h1>Build Up Pilot</h1>
+        <p>Your comprehensive placement preparation platform</p>
+        <div class="hero-buttons">
+            <a href="{{ url_for('auth.signup') }}" class="btn btn-primary">Get Started</a>
+            <a href="{{ url_for('auth.login') }}" class="btn btn-secondary">Login</a>
+        </div>
+    </div>
+</section>
+
+<section class="features">
+    <div class="container">
+        <h2>Features</h2>
+        <div class="feature-grid">
+            <div class="feature-card">
+                <h3>Skill Assessment</h3>
+                <p>Evaluate your skills and get personalized feedback</p>
+            </div>
+            <div class="feature-card">
+                <h3>Mock Interviews</h3>
+                <p>Practice with AI-powered interview simulations</p>
+            </div>
+            <div class="feature-card">
+                <h3>Resume Builder</h3>
+                <p>Create professional resumes with AI assistance</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="about">
+    <div class="container">
+        <h2>About Build Up Pilot</h2>
+        <p>We help students and freshers prepare for placements and launch their careers in tech.</p>
+    </div>
+</section>
+
+<section class="role-section">
+    <div class="container">
+        <h2>Role-Based Access</h2>
+        <div class="role-grid">
+            <div class="role-card">
+                <h3>Students</h3>
+                <p>Access assessments, mock interviews, and job opportunities</p>
+            </div>
+            <div class="role-card">
+                <h3>Recruiters</h3>
+                <p>Post jobs and review candidate applications</p>
+            </div>
+            <div class="role-card">
+                <h3>Admins</h3>
+                <p>Manage platform and monitor user activities</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="container">
+        <p>&copy; 2024 Build Up Pilot. All rights reserved.</p>
+    </div>
+</footer>
+                
+                // Reset after 2 seconds (in case of slow network)
+                setTimeout(() => {
+                    this.innerHTML = originalText;
+                    this.disabled = false;
+                }, 2000);
+            }
+        });
+    });
+});
+
+// Performance Monitoring
+if ('performance' in window) {
+    window.addEventListener('load', function() {
+        const perfData = performance.getEntriesByType('navigation')[0];
+        console.log('Page Load Time:', perfData.loadEventEnd - perfData.loadEventStart, 'ms');
+    });
+}
+</script>
+{% endblock %}

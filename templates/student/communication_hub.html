@@ -1,0 +1,273 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="dashboard">
+    <aside class="sidebar">
+        <ul class="sidebar-menu">
+            <li><a href="{{ url_for('student.dashboard') }}">Dashboard</a></li>
+            <li><a href="{{ url_for('student.profile') }}">Profile</a></li>
+            <li><a href="{{ url_for('student.tests') }}">Skill Tests</a></li>
+            <li><a href="{{ url_for('student.readiness') }}">Readiness Meter</a></li>
+            <li><a href="{{ url_for('student.applications') }}">Job Applications</a></li>
+            <li><a href="{{ url_for('student.mock_interview') }}">Mock Interview</a></li>
+            <li><a href="{{ url_for('student.roadmap') }}">Learning Roadmap</a></li>
+            <li><a href="{{ url_for('student.certificates') }}">Certificates</a></li>
+            <li><a href="{{ url_for('student.discussions') }}">Discussions</a></li>
+            <li><a href="{{ url_for('student.support') }}">Support</a></li>
+        </ul>
+    </aside>
+    
+    <main class="main-content">
+        <div class="page-header">
+            <h1 style="color: #0f172a !important;">Communication Hub</h1>
+            <p style="color: var(--gray);">Practice your speaking and writing skills for interviews</p>
+        </div>
+        
+        <div class="stats-grid" style="grid-template-columns: repeat(4, 1fr);">
+            <div class="stat-card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                <div class="stat-value" style="font-size: 2.5rem;">{{ streak }}</div>
+                <div class="stat-label" style="color: rgba(255,255,255,0.8);">Day Streak</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">{{ practices|length if practices else 0 }}</div>
+                <div class="stat-label">Total Practices</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">{% if today_practiced %}✓{% else %}✗{% endif %}</div>
+                <div class="stat-label">Today</div>
+            </div>
+            <div class="stat-card" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white;">
+                <div class="stat-value" style="font-size: 2.5rem;">1</div>
+                <div class="stat-label" style="color: rgba(255,255,255,0.8);">Task/Day</div>
+            </div>
+        </div>
+        
+        <div class="card" style="margin-top: 1.5rem;">
+            <h3>Practice Tasks</h3>
+            <p style="color: var(--gray);">Complete one task daily to maintain your streak!</p>
+            
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin-top: 1rem;">
+                <div style="padding: 1.5rem; background: var(--light); border-radius: 12px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                        <h4 style="margin: 0;">🎤 Speaking Practice</h4>
+                        <span class="badge badge-applied">Speaking</span>
+                    </div>
+                    <p style="color: var(--gray); font-size: 0.875rem;">Record a 1-2 minute answer to an HR question</p>
+                    <form method="POST" action="{{ url_for('student.save_communication_practice') }}">
+                        <input type="hidden" name="type" value="speaking">
+                        <div class="form-group">
+                            <label>Select Topic</label>
+                            <select name="topic" class="form-control" required>
+                                <option value="">Choose a topic...</option>
+                                <option value="Tell me about yourself">Tell me about yourself</option>
+                                <option value="Your strengths and weaknesses">Your strengths and weaknesses</option>
+                                <option value="Why should we hire you">Why should we hire you</option>
+                                <option value="Where do you see yourself in 5 years">Where do you see yourself in 5 years</option>
+                                <option value="Why do you want to work here">Why do you want to work here</option>
+                                <option value="Tell me about a challenging situation">Tell me about a challenging situation</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Your Answer (type or paste transcript)</label>
+                            <button type="button" class="btn btn-outline btn-sm" onclick="toggleSpeechRecognition()" style="margin-bottom: 0.75rem;">🎤 Start / Stop Mic</button>
+                            <textarea id="speechTranscript" name="content" class="form-control" rows="4" placeholder="Type your spoken answer here or use the mic button above..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Duration (seconds)</label>
+                            <input type="number" name="duration" class="form-control" placeholder="e.g., 90">
+                        </div>
+                        <h5 style="margin-top: 1rem;">Self-Rating Rubric</h5>
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;">
+                            <div>
+                                <label style="font-size: 0.75rem;">Clarity</label>
+                                <select name="clarity_rating" class="form-control" required>
+                                    <option value="1">1 - Poor</option>
+                                    <option value="2">2 - Fair</option>
+                                    <option value="3">3 - Good</option>
+                                    <option value="4">4 - Very Good</option>
+                                    <option value="5" selected>5 - Excellent</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label style="font-size: 0.75rem;">Structure</label>
+                                <select name="structure_rating" class="form-control" required>
+                                    <option value="1">1 - Poor</option>
+                                    <option value="2">2 - Fair</option>
+                                    <option value="3">3 - Good</option>
+                                    <option value="4">4 - Very Good</option>
+                                    <option value="5" selected>5 - Excellent</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label style="font-size: 0.75rem;">Confidence</label>
+                                <select name="confidence_rating" class="form-control" required>
+                                    <option value="1">1 - Poor</option>
+                                    <option value="2">2 - Fair</option>
+                                    <option value="3">3 - Good</option>
+                                    <option value="4">4 - Very Good</option>
+                                    <option value="5" selected>5 - Excellent</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="margin-top: 1rem; width: 100%;">Save Practice</button>
+                    </form>
+                </div>
+                
+                <div style="padding: 1.5rem; background: var(--light); border-radius: 12px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                        <h4 style="margin: 0;">✍️ Writing Practice</h4>
+                        <span class="badge badge-applied">Writing</span>
+                    </div>
+                    <p style="color: var(--gray); font-size: 0.875rem;">Write a 100-150 word response</p>
+                    <form method="POST" action="{{ url_for('student.save_communication_practice') }}">
+                        <input type="hidden" name="type" value="writing">
+                        <div class="form-group">
+                            <label>Select Prompt</label>
+                            <select name="topic" class="form-control" required>
+                                <option value="">Choose a prompt...</option>
+                                <option value="Professional Email">Professional Email (request meeting)</option>
+                                <option value="Why should we hire you">Why should we hire you (100 words)</option>
+                                <option value="LinkedIn About Section">LinkedIn About Section draft</option>
+                                <option value="Follow-up Email">Follow-up Email after interview</option>
+                                <option value="Project Description">Brief Project Description</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Your Response</label>
+                            <textarea name="content" class="form-control" rows="4" placeholder="Write your response here (100-150 words)..."></textarea>
+                        </div>
+                        <h5 style="margin-top: 1rem;">Self-Rating Rubric</h5>
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;">
+                            <div>
+                                <label style="font-size: 0.75rem;">Clarity</label>
+                                <select name="clarity_rating" class="form-control" required>
+                                    <option value="1">1 - Poor</option>
+                                    <option value="2">2 - Fair</option>
+                                    <option value="3">3 - Good</option>
+                                    <option value="4">4 - Very Good</option>
+                                    <option value="5" selected>5 - Excellent</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label style="font-size: 0.75rem;">Structure</label>
+                                <select name="structure_rating" class="form-control" required>
+                                    <option value="1">1 - Poor</option>
+                                    <option value="2">2 - Fair</option>
+                                    <option value="3">3 - Good</option>
+                                    <option value="4">4 - Very Good</option>
+                                    <option value="5" selected>5 - Excellent</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label style="font-size: 0.75rem;">Tone</label>
+                                <select name="confidence_rating" class="form-control" required>
+                                    <option value="1">1 - Poor</option>
+                                    <option value="2">2 - Fair</option>
+                                    <option value="3">3 - Good</option>
+                                    <option value="4">4 - Very Good</option>
+                                    <option value="5" selected>5 - Excellent</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="margin-top: 1rem; width: 100%;">Save Practice</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card" style="margin-top: 1.5rem;">
+            <h3>Previous Practices</h3>
+            {% if practices %}
+                <div style="display: grid; gap: 1rem;">
+                    {% for practice in practices %}
+                        <div style="padding: 1rem; background: var(--light); border-radius: 8px;">
+                            <div style="display: flex; justify-content: space-between; align-items: start;">
+                                <div>
+                                    <span class="badge badge-{{ 'offered' if practice.practice_type == 'speaking' else 'applied' }}">
+                                        {{ practice.practice_type|title }}
+                                    </span>
+                                    <strong style="margin-left: 0.5rem;">{{ practice.topic }}</strong>
+                                </div>
+                                <div style="text-align: right;">
+                                    <span style="color: var(--gray); font-size: 0.75rem;">{{ practice.created_at.strftime('%b %d, %Y') }}</span>
+                                </div>
+                            </div>
+                            <p style="margin: 0.75rem 0; font-size: 0.875rem; color: var(--dark);">{{ practice.content[:150] }}...</p>
+                            <div style="display: flex; gap: 1rem; font-size: 0.75rem; color: var(--gray);">
+                                <span>Clarity: {{ practice.clarity_rating }}/5</span>
+                                <span>Structure: {{ practice.structure_rating }}/5</span>
+                                <span>Rating: {{ practice.confidence_rating }}/5</span>
+                            </div>
+                            <form method="POST" action="{{ url_for('student.share_practice', practice_id=practice.id) }}" style="margin-top: 0.5rem;">
+                                <button type="submit" class="btn btn-sm btn-outline">Share for Peer Feedback</button>
+                            </form>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p style="color: var(--gray); text-align: center; padding: 2rem;">No practices yet. Start your first practice above!</p>
+            {% endif %}
+        </div>
+        
+        <div class="card" style="margin-top: 1.5rem; background: linear-gradient(135deg, #dbeafe 0%, #e0e7ff 100%);">
+            <h1 style="color: #0f172a !important;">Sample Answers for Reference</h1>
+            <div style="margin-top: 1rem;">
+                <details style="margin-bottom: 1rem;">
+                    <summary style="cursor: pointer; font-weight: 600;">"Tell me about yourself"</summary>
+                    <div style="padding: 1rem; background: white; border-radius: 8px; margin-top: 0.5rem;">
+                        <p><strong>Structure:</strong> Present → Past → Future</p>
+                        <p><em>"I'm a final year Computer Science student at [College Name]. I've developed a strong foundation in Python, Java, and web development through various projects including an e-commerce platform and a task management app. I'm particularly interested in backend development and cloud technologies. Looking ahead, I want to join a product-based company where I can contribute to scalable systems while continuing to grow as a software engineer."</em></p>
+                    </div>
+                </details>
+                <details style="margin-bottom: 1rem;">
+                    <summary style="cursor: pointer; font-weight: 600;">"Why should we hire you?"</summary>
+                    <div style="padding: 1rem; background: white; border-radius: 8px; margin-top: 0.5rem;">
+                        <p><em>"I have the technical skills you need for this role - strong proficiency in Python, experience with SQL databases, and hands-on project work. Beyond technical skills, I'm a quick learner who can adapt to new technologies fast. I'm also a team player who communicates well and takes ownership of tasks. Given this opportunity, I can start contributing from day one while continuing to grow with your team."</em></p>
+                    </div>
+                </details>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script>
+let recognition;
+let isRecording = false;
+
+function toggleSpeechRecognition() {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const transcriptBox = document.getElementById('speechTranscript');
+    if (!SpeechRecognition || !transcriptBox) {
+        alert('Speech recognition is not supported in this browser. You can still type your answer manually.');
+        return;
+    }
+
+    if (!recognition) {
+        recognition = new SpeechRecognition();
+        recognition.continuous = true;
+        recognition.interimResults = true;
+        recognition.lang = 'en-US';
+
+        recognition.onresult = (event) => {
+            let finalTranscript = '';
+            for (let i = 0; i < event.results.length; i += 1) {
+                finalTranscript += event.results[i][0].transcript + ' ';
+            }
+            transcriptBox.value = finalTranscript.trim();
+        };
+
+        recognition.onend = () => {
+            isRecording = false;
+        };
+    }
+
+    if (isRecording) {
+        recognition.stop();
+        isRecording = false;
+    } else {
+        recognition.start();
+        isRecording = true;
+    }
+}
+</script>
+{% endblock %}

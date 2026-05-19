@@ -1,0 +1,176 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="dashboard">
+    <aside class="sidebar">
+        <ul class="sidebar-menu">
+            <li><a href="{{ url_for('student.dashboard') }}">Dashboard</a></li>
+            <li><a href="{{ url_for('student.profile') }}">Profile</a></li>
+            <li><a href="{{ url_for('student.tests') }}">Skill Tests</a></li>
+            <li><a href="{{ url_for('student.readiness') }}">Readiness Meter</a></li>
+            <li><a href="{{ url_for('student.applications') }}">Job Applications</a></li>
+            <li><a href="{{ url_for('student.mock_interview') }}">Mock Interview</a></li>
+            <li><a href="{{ url_for('student.roadmap') }}" class="active">Learning Roadmap</a></li>
+            <li><a href="{{ url_for('student.certificates') }}">Certificates</a></li>
+            <li><a href="{{ url_for('student.discussions') }}">Discussions</a></li>
+            <li><a href="{{ url_for('student.support') }}">Support</a></li>
+        </ul>
+    </aside>
+    
+    <main class="main-content">
+        <div class="page-header">
+            <h1 class="portal-heading">Learning Roadmap</h1>
+            <p class="portal-subheading">Get a personalized learning plan for your target role (up to 90 days)</p>
+        </div>
+        
+        {% if force_new %}
+            <div class="card" style="text-align: center; padding: 3rem;">
+                <div style="font-size: 4rem; margin-bottom: 1rem;">🗺️</div>
+                <h2>Generate Your Roadmap</h2>
+                <p style="color: var(--gray); max-width: 500px; margin: 1rem auto;">
+                    Choose your target role and duration to create a brand new roadmap.
+                </p>
+
+                <form method="POST" style="max-width: 500px; margin: 2rem auto;">
+                    <div class="form-group">
+                        <label>Target Role</label>
+                        <select name="target_role" class="form-control" required>
+                            <option value="">Select your dream role...</option>
+                            <optgroup label="Web Development">
+                                <option value="frontend">Frontend Developer</option>
+                                <option value="backend">Backend Developer</option>
+                                <option value="fullstack">Full Stack Developer</option>
+                            </optgroup>
+                            <optgroup label="Data & AI">
+                                <option value="data">Data Analyst/Scientist</option>
+                                <option value="ml">Machine Learning Engineer</option>
+                            </optgroup>
+                            <optgroup label="Mobile & Cloud">
+                                <option value="mobile">Mobile App Developer (Flutter)</option>
+                                <option value="devops">DevOps Engineer</option>
+                            </optgroup>
+                            <optgroup label="Security & QA">
+                                <option value="cybersecurity">Cybersecurity Analyst</option>
+                                <option value="qa">QA Automation Engineer</option>
+                            </optgroup>
+                            <optgroup label="General">
+                                <option value="sde">Software Development Engineer (SDE)</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Duration (days)</label>
+                        <input type="number" name="duration" class="form-control" value="30" min="7" max="90">
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Generate Roadmap</button>
+                </form>
+            </div>
+        {% elif not profile.resume_path and not profile.skills %}
+            <div class="card" style="text-align: center; padding: 3rem;">
+                <h3>📄 Upload Resume First</h3>
+                <p style="color: var(--gray);">Upload your resume or add your skills in <a href="{{ url_for('student.profile') }}">Profile</a> to generate a personalized roadmap.</p>
+                <a href="{{ url_for('student.profile') }}" class="btn btn-primary">Go to Profile</a>
+            </div>
+        {% elif not roadmap %}
+            <div class="card" style="text-align: center; padding: 3rem;">
+                <div style="font-size: 4rem; margin-bottom: 1rem;">🗺️</div>
+                <h2>Generate Your Roadmap</h2>
+                <p style="color: var(--gray); max-width: 500px; margin: 1rem auto;">
+                    Tell us your target role and we'll create a personalized learning plan for you.
+                </p>
+                
+                <form method="POST" style="max-width: 500px; margin: 2rem auto;">
+                    <div class="form-group">
+                        <label>Target Role</label>
+                        <select name="target_role" class="form-control" required>
+                            <option value="">Select your dream role...</option>
+                            <optgroup label="Web Development">
+                                <option value="frontend">Frontend Developer</option>
+                                <option value="backend">Backend Developer</option>
+                                <option value="fullstack">Full Stack Developer</option>
+                            </optgroup>
+                            <optgroup label="Data & AI">
+                                <option value="data">Data Analyst/Scientist</option>
+                                <option value="ml">Machine Learning Engineer</option>
+                            </optgroup>
+                            <optgroup label="Mobile & Cloud">
+                                <option value="mobile">Mobile App Developer (Flutter)</option>
+                                <option value="devops">DevOps Engineer</option>
+                            </optgroup>
+                            <optgroup label="Security & QA">
+                                <option value="cybersecurity">Cybersecurity Analyst</option>
+                                <option value="qa">QA Automation Engineer</option>
+                            </optgroup>
+                            <optgroup label="General">
+                                <option value="sde">Software Development Engineer (SDE)</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Duration (days)</label>
+                        <input type="number" name="duration" class="form-control" value="30" min="7" max="90">
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Generate Roadmap</button>
+                </form>
+            </div>
+        {% else %}
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">{{ roadmap.title }}</span>
+                    <a href="{{ url_for('student.roadmap', new=1) }}" class="btn btn-sm btn-outline">Generate New</a>
+                </div>
+                <div class="roadmap-timeline" style="margin-top: 2rem;">
+                    {% for week in roadmap.weeks %}
+                        <div class="roadmap-week">
+                            <div class="roadmap-week-card">
+                                <h4>Week {{ week.week }}: {{ week.title }}</h4>
+                                <ul>
+                                    {% for task in week.tasks %}
+                                        <li>{{ task }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+        
+        <div class="card" style="margin-top: 1.5rem;">
+            <h3 style="margin-bottom: 1rem;">Career Paths Overview</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem;">
+                <div style="padding: 1rem; background: var(--light); border-radius: 8px; text-align: center;">
+                    <div style="font-size: 2rem; margin-bottom: 0.5rem;">🎨</div>
+                    <strong>Frontend</strong>
+                    <p style="color: var(--gray); font-size: 0.75rem;">React, Vue, Angular</p>
+                </div>
+                <div style="padding: 1rem; background: var(--light); border-radius: 8px; text-align: center;">
+                    <div style="font-size: 2rem; margin-bottom: 0.5rem;">⚙️</div>
+                    <strong>Backend</strong>
+                    <p style="color: var(--gray); font-size: 0.75rem;">Node, Python, Java</p>
+                </div>
+                <div style="padding: 1rem; background: var(--light); border-radius: 8px; text-align: center;">
+                    <div style="font-size: 2rem; margin-bottom: 0.5rem;">📊</div>
+                    <strong>Data Science</strong>
+                    <p style="color: var(--gray); font-size: 0.75rem;">ML, AI, Analytics</p>
+                </div>
+                <div style="padding: 1rem; background: var(--light); border-radius: 8px; text-align: center;">
+                    <div style="font-size: 2rem; margin-bottom: 0.5rem;">📱</div>
+                    <strong>Mobile</strong>
+                    <p style="color: var(--gray); font-size: 0.75rem;">Flutter, React Native</p>
+                </div>
+                <div style="padding: 1rem; background: var(--light); border-radius: 8px; text-align: center;">
+                    <div style="font-size: 2rem; margin-bottom: 0.5rem;">🔒</div>
+                    <strong>Security</strong>
+                    <p style="color: var(--gray); font-size: 0.75rem;">Ethical Hacking</p>
+                </div>
+                <div style="padding: 1rem; background: var(--light); border-radius: 8px; text-align: center;">
+                    <div style="font-size: 2rem; margin-bottom: 0.5rem;">☁️</div>
+                    <strong>DevOps</strong>
+                    <p style="color: var(--gray); font-size: 0.75rem;">Docker, K8s, AWS</p>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+{% endblock %}

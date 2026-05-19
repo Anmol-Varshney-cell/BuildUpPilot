@@ -1,0 +1,230 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<script>
+document.body.dataset.disableRevealAnimation = 'true';
+</script>
+
+<div class="dashboard">
+    <aside class="sidebar">
+        <ul class="sidebar-menu">
+            <li><a href="{{ url_for('student.dashboard') }}">Dashboard</a></li>
+            <li><a href="{{ url_for('student.profile') }}">Profile</a></li>
+            <li><a href="{{ url_for('student.tests') }}">Skill Tests</a></li>
+            <li><a href="{{ url_for('student.readiness') }}">Readiness Meter</a></li>
+            <li><a href="{{ url_for('student.applications') }}" class="active">Job Applications</a></li>
+            <li><a href="{{ url_for('student.mock_interview') }}">Mock Interview</a></li>
+            <li><a href="{{ url_for('student.roadmap') }}">Learning Roadmap</a></li>
+            <li><a href="{{ url_for('student.certificates') }}">Certificates</a></li>
+            <li><a href="{{ url_for('student.discussions') }}">Discussions</a></li>
+            <li><a href="{{ url_for('student.support') }}">Support</a></li>
+        </ul>
+    </aside>
+    
+    <main class="main-content">
+        <div class="page-header">
+            <h1 class="portal-heading">Job Applications</h1>
+            <p class="portal-subheading">Browse opportunities, open full job details, and track every application in one place</p>
+        </div>
+
+        <div class="card" style="margin-bottom: 1.5rem;">
+            <div style="display: flex; justify-content: space-between; gap: 1rem; align-items: center; flex-wrap: wrap;">
+                <div>
+                    <h3 style="margin-bottom: 0.35rem;">Open Jobs</h3>
+                    <p style="color: var(--gray); margin: 0;">Click any job title to open the full role description and apply from the same portal.</p>
+                </div>
+                <div class="skill-tag" style="font-size: 0.95rem; padding: 0.6rem 0.9rem;">
+                    {{ jobs|length }} active opportunities
+                </div>
+            </div>
+        </div>
+        
+        <div class="stats-grid" style="grid-template-columns: repeat(5, 1fr);">
+            <div class="stat-card">
+                <div class="stat-value">{{ applications|selectattr('status', 'equalto', 'applied')|list|length }}</div>
+                <div class="stat-label">Applied</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">{{ applications|selectattr('status', 'equalto', 'shortlisted')|list|length }}</div>
+                <div class="stat-label">Shortlisted</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">{{ applications|selectattr('status', 'equalto', 'interview')|list|length }}</div>
+                <div class="stat-label">Interview</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">{{ applications|selectattr('status', 'equalto', 'rejected')|list|length }}</div>
+                <div class="stat-label">Rejected</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">{{ applications|selectattr('status', 'equalto', 'offered')|list|length }}</div>
+                <div class="stat-label">Offered</div>
+            </div>
+        </div>
+        
+        <!-- Job Listings Section -->
+        <div class="card" style="margin-bottom: 2rem;">
+            <h3 style="margin-bottom: 1rem;">Available Opportunities</h3>
+            {% if jobs %}
+                {% for item in jobs %}
+                    <div class="job-card" style="margin-bottom: 1rem; position: relative;">
+                        <div class="job-header">
+                            <div>
+                                <div class="job-title">
+                                    <a href="{{ url_for('student.job_detail', job_id=item.job.id) }}" style="color: inherit; text-decoration: none;">
+                                        {{ item.job.title }}
+                                    </a>
+                                </div>
+                                <div class="job-company">{{ item.job.company }}</div>
+                            </div>
+                            <div class="match-indicator">{{ item.match_score }}% Match</div>
+                        </div>
+
+                        <div style="margin-bottom: 1rem;">
+                            <span style="color: var(--gray); font-size: 0.875rem;">
+                                {% if item.job.stipend and item.job.stipend > 0 %}
+                                    {{ item.job.location or 'Not specified' }} | {{ item.job.stipend }}/month (Stipend)
+                                {% else %}
+                                    {{ item.job.location or 'Not specified' }} | {{ (item.job.salary_min/100000)|round(1) if item.job.salary_min else '0' }} - {{ (item.job.salary_max/100000)|round(1) if item.job.salary_max else '0' }} LPA
+                                {% endif %}
+                            </span>
+                        </div>
+
+                        <div style="margin-bottom: 0.75rem;">
+                            {% set work_mode_class = 'remote' if item.job.work_mode == 'remote' else ('hybrid' if item.job.work_mode == 'hybrid' else 'onsite') %}
+                            <span class="skill-tag work-mode-{{ work_mode_class }}">
+                                {% if item.job.work_mode == 'remote' %}Remote{% elif item.job.work_mode == 'hybrid' %}Hybrid{% else %}On-site{% endif %}
+                            </span>
+                            <span class="skill-tag">{{ item.job.job_type or 'Full-time' }}</span>
+                            {% if item.is_applied %}
+                                <span class="skill-tag" style="background: #e5e7eb;">Applied</span>
+                            {% endif %}
+                        </div>
+
+                        <div class="job-description" style="font-family: 'Times New Roman', serif; margin-bottom: 1rem; line-height: 1.6;">
+                            {% if item.job.description %}
+                                {{ item.job.description[:180] }}{% if item.job.description|length > 180 %}...{% endif %}
+                                <a href="{{ url_for('student.job_detail', job_id=item.job.id) }}">Read full job description</a>
+                            {% else %}
+                                No description available.
+                            {% endif %}
+                        </div>
+
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span style="color: var(--gray); font-size: 0.875rem;">
+                                Posted: {{ item.job.posted_at.strftime('%b %d, %Y') }}
+                            </span>
+                            {% if item.is_applied %}
+                                <button class="btn btn-outline btn-sm" disabled>Applied</button>
+                            {% else %}
+                                <button onclick="applyJob({{ item.job.id }})" class="btn btn-primary btn-sm">Apply Now</button>
+                            {% endif %}
+                        </div>
+                        {% if item.job.required_skills %}
+                        <div style="margin-top: 0.75rem;">
+                            {% for skill in item.job.required_skills.split(',')[:6] %}
+                            <span class="skill-tag">{{ skill.strip() }}</span>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p style="color: var(--gray); text-align: center; padding: 2rem;">No new job opportunities available.</p>
+            {% endif %}
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <span class="card-title">My Applications</span>
+            </div>
+            {% if applications %}
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Company</th>
+                            <th>Position</th>
+                            <th>Location</th>
+                            <th>Status</th>
+                            <th>Applied Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for app in applications %}
+                            <tr>
+                                <td>
+                                    <strong>{{ app.job.company }}</strong>
+                                </td>
+                                <td>{{ app.job.title }}</td>
+                                <td>{{ app.job.location or 'Remote' }}</td>
+                                <td>
+                                    <span class="badge badge-{{ app.status }}">
+                                        {{ app.status|title }}
+                                    </span>
+                                </td>
+                                <td>{{ app.applied_at.strftime('%b %d, %Y') }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <div style="padding: 1.5rem 0;">
+                    <p style="color: var(--gray); margin-bottom: 0.75rem;">You have not applied to any jobs yet.</p>
+                    <p style="color: var(--gray);">Use the Open Jobs section above to browse roles and submit your first application.</p>
+                </div>
+            {% endif %}
+        </div>
+    </main>
+</div>
+
+<style>
+.work-mode-remote { background: #d1fae5 !important; }
+.work-mode-hybrid { background: #dbeafe !important; }
+.work-mode-onsite { background: #f3f4f6 !important; }
+</style>
+
+<script>
+let lastJobsSignature = {{ jobs_signature|tojson }};
+
+async function applyJob(jobId) {
+    try {
+        const response = await fetch(`/student/apply/${jobId}`, {
+            method: 'POST'
+        });
+        const data = await response.json();
+        
+        if (data.success) {
+            alert('Application submitted successfully!');
+            location.reload();
+        } else {
+            alert(data.message || 'Failed to apply');
+        }
+    } catch (error) {
+        alert('Error applying to job');
+    }
+}
+
+async function checkForLiveJobUpdates() {
+    try {
+        const response = await fetch('/student/jobs/live', {
+            headers: { 'Cache-Control': 'no-cache' }
+        });
+        if (!response.ok) return;
+
+        const data = await response.json();
+        const nextSignature = data.signature || '';
+
+        if (lastJobsSignature && nextSignature !== lastJobsSignature) {
+            window.location.reload();
+            return;
+        }
+
+        lastJobsSignature = nextSignature;
+    } catch (error) {
+        console.debug('Live job refresh skipped', error);
+    }
+}
+
+setInterval(checkForLiveJobUpdates, 30000);
+</script>
+{% endblock %}

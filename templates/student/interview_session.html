@@ -1,0 +1,367 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="interview-container" style="padding-top: 2rem;">
+    <div class="interview-header">
+        <a href="javascript:history.back()" class="btn btn-outline" style="margin-right: 1rem;">← Back</a>
+        <h2>Mock Interview: {{ interview.job_role|title }} Developer</h2>
+        <p style="color: var(--gray);">Question <span id="currentQ">1</span> of {{ questions|length }}</p>
+    </div>
+    <div class="card" style="margin: 1rem 0; border: 1px solid var(--warning); background: color-mix(in srgb, var(--warning) 10%, transparent);">
+        <strong style="color: var(--text);">Interview Rules</strong>
+        <p style="margin: 0.4rem 0 0; color: var(--text); font-size: 0.92rem;">
+            Stay on this tab and keep full-screen enabled. Tab switching, exiting full-screen, copy/paste, and shortcut attempts are logged.
+            3 violations will auto-submit and mark this interview as invalid.
+        </p>
+        <p id="violationStatus" style="margin: 0.4rem 0 0; color: var(--danger); font-weight: 600;">Violations: 0 / 3</p>
+    </div>
+    
+    <div class="interview-question" id="questionArea">
+        <h3 id="questionText">{{ questions[0] if questions else 'Loading...' }}</h3>
+    </div>
+
+    <div class="card" style="margin-top: 1rem;">
+        <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
+            <div style="display:flex; align-items:center; gap:0.75rem;">
+                <div id="aiFace" style="width:58px; height:58px; border-radius:50%; background: var(--primary); position: relative; box-shadow: var(--shadow);">
+                    <span style="position:absolute; top:18px; left:16px; width:8px; height:8px; border-radius:50%; background:#fff;"></span>
+                    <span style="position:absolute; top:18px; right:16px; width:8px; height:8px; border-radius:50%; background:#fff;"></span>
+                    <span id="aiMouth" style="position:absolute; left:50%; bottom:12px; transform:translateX(-50%); width:16px; height:5px; border-radius:10px; background:#fff; transition: all 0.12s ease;"></span>
+                </div>
+                <div>
+                    <strong style="color: var(--text);">AI Interviewer</strong>
+                    <p id="aiState" style="margin: 0.2rem 0 0; color: var(--gray); font-size: 0.85rem;">Ready</p>
+                </div>
+            </div>
+            <div style="display:flex; gap:0.5rem; margin-left:auto;">
+                <button type="button" class="btn btn-outline" id="speakBtn" onclick="speakCurrentQuestion()">🔊 Read Question</button>
+                <button type="button" class="btn btn-outline" id="voiceAnswerBtn" onclick="toggleVoiceAnswer()">🎙 Voice Answer</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card">
+        <label><strong>Your Answer:</strong></label>
+        <textarea id="answerText" class="answer-textarea" placeholder="Type your answer here..."></textarea>
+    </div>
+    
+    <div style="display: flex; justify-content: space-between; margin-top: 1.5rem;">
+        <button onclick="prevQuestion()" class="btn btn-outline" id="prevBtn" disabled>← Previous</button>
+        <button onclick="nextQuestion()" class="btn btn-primary" id="nextBtn">Next →</button>
+        <button onclick="submitInterview()" class="btn btn-secondary" id="submitBtn" style="display: none;">Submit Interview</button>
+    </div>
+</div>
+
+<div id="proctoringAlert" class="proctoring-alert">
+    ⚠️ Tab switch detected! This will be logged for proctoring.
+</div>
+
+<script>
+let currentQuestion = 0;
+let answers = [];
+const questions = {{ questions|tojson }};
+const interviewId = {{ interview.id }};
+const MAX_VIOLATIONS = 3;
+let violationCount = 0;
+let interviewInvalid = false;
+let isSubmitting = false;
+let mouthTimer = null;
+let speechRecognition = null;
+let isListening = false;
+const proctoringLogs = {
+    tab_switches: 0,
+    fullscreen_exits: 0,
+    copy_paste_attempts: 0,
+    shortcut_attempts: 0,
+    violations: [],
+    violation_count: 0,
+    interview_invalid: false
+};
+
+function setAiState(text) {
+    const el = document.getElementById('aiState');
+    if (el) el.textContent = text;
+}
+
+function startMouthAnimation() {
+    const mouth = document.getElementById('aiMouth');
+    if (!mouth) return;
+    if (mouthTimer) clearInterval(mouthTimer);
+    mouthTimer = setInterval(() => {
+        const wide = Math.random() > 0.45;
+        mouth.style.width = wide ? '20px' : '14px';
+        mouth.style.height = wide ? '9px' : '4px';
+    }, 130);
+}
+
+function stopMouthAnimation() {
+    const mouth = document.getElementById('aiMouth');
+    if (!mouth) return;
+    if (mouthTimer) clearInterval(mouthTimer);
+    mouthTimer = null;
+    mouth.style.width = '16px';
+    mouth.style.height = '5px';
+}
+
+function speakCurrentQuestion() {
+    if (!('speechSynthesis' in window)) {
+        setAiState('Voice not supported in this browser');
+        return;
+    }
+    const text = questions[currentQuestion] || '';
+    if (!text) return;
+    window.speechSynthesis.cancel();
+    const utter = new SpeechSynthesisUtterance(text);
+    utter.rate = 1;
+    utter.pitch = 1;
+    utter.onstart = () => {
+        setAiState('Asking question...');
+        startMouthAnimation();
+    };
+    utter.onend = () => {
+        stopMouthAnimation();
+        setAiState('Waiting for your answer');
+    };
+    utter.onerror = () => {
+        stopMouthAnimation();
+        setAiState('Speech failed, continue typing answer');
+    };
+    window.speechSynthesis.speak(utter);
+}
+
+function toggleVoiceAnswer() {
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SR) {
+        alert('Speech recognition is not supported in this browser.');
+        return;
+    }
+    if (!speechRecognition) {
+        speechRecognition = new SR();
+        speechRecognition.lang = 'en-US';
+        speechRecognition.interimResults = true;
+        speechRecognition.continuous = true;
+
+        speechRecognition.onresult = (event) => {
+            let transcript = '';
+            for (let i = event.resultIndex; i < event.results.length; i++) {
+                transcript += event.results[i][0].transcript;
+            }
+            const area = document.getElementById('answerText');
+            area.value = transcript.trim();
+        };
+
+        speechRecognition.onend = () => {
+            isListening = false;
+            setAiState('Waiting for your answer');
+            const btn = document.getElementById('voiceAnswerBtn');
+            if (btn) btn.textContent = '🎙 Voice Answer';
+        };
+    }
+
+    const btn = document.getElementById('voiceAnswerBtn');
+    if (!isListening) {
+        speechRecognition.start();
+        isListening = true;
+        setAiState('Listening to your answer...');
+        if (btn) btn.textContent = '⏹ Stop Voice';
+    } else {
+        speechRecognition.stop();
+        isListening = false;
+        setAiState('Waiting for your answer');
+        if (btn) btn.textContent = '🎙 Voice Answer';
+    }
+}
+
+function pushViolation(type, detail) {
+    if (isSubmitting) return;
+    violationCount += 1;
+    proctoringLogs.violation_count = violationCount;
+    proctoringLogs.violations.push({
+        type,
+        detail,
+        timestamp: new Date().toISOString(),
+        question_index: currentQuestion + 1
+    });
+    const status = document.getElementById('violationStatus');
+    if (status) status.textContent = `Violations: ${violationCount} / ${MAX_VIOLATIONS}`;
+    showProctoringAlert(`${detail} (${violationCount}/${MAX_VIOLATIONS})`);
+
+    if (violationCount >= MAX_VIOLATIONS) {
+        interviewInvalid = true;
+        proctoringLogs.interview_invalid = true;
+        showProctoringAlert('Maximum violations reached. Interview will be submitted now.');
+        setTimeout(() => submitInterview(true), 700);
+    }
+}
+
+function showProctoringAlert(message) {
+    const alertBox = document.getElementById('proctoringAlert');
+    alertBox.textContent = `⚠️ ${message}`;
+    alertBox.style.display = 'block';
+    setTimeout(() => {
+        alertBox.style.display = 'none';
+    }, 2500);
+}
+
+async function requestInterviewFullscreen() {
+    const el = document.documentElement;
+    try {
+        if (!document.fullscreenElement && el.requestFullscreen) {
+            await el.requestFullscreen();
+        }
+    } catch (_err) {
+        // If browser blocks fullscreen gesture, continue and monitor exits.
+    }
+}
+
+function updateQuestion() {
+    document.getElementById('questionText').textContent = questions[currentQuestion];
+    document.getElementById('currentQ').textContent = currentQuestion + 1;
+    document.getElementById('answerText').value = answers[currentQuestion] || '';
+    
+    document.getElementById('prevBtn').disabled = currentQuestion === 0;
+    
+    if (currentQuestion === questions.length - 1) {
+        document.getElementById('nextBtn').style.display = 'none';
+        document.getElementById('submitBtn').style.display = 'inline-flex';
+    } else {
+        document.getElementById('nextBtn').style.display = 'inline-flex';
+        document.getElementById('submitBtn').style.display = 'none';
+    }
+    speakCurrentQuestion();
+}
+
+function nextQuestion() {
+    answers[currentQuestion] = document.getElementById('answerText').value;
+    if (currentQuestion < questions.length - 1) {
+        currentQuestion++;
+        updateQuestion();
+    }
+}
+
+function prevQuestion() {
+    answers[currentQuestion] = document.getElementById('answerText').value;
+    if (currentQuestion > 0) {
+        currentQuestion--;
+        updateQuestion();
+    }
+}
+
+async function submitInterview() {
+    if (isSubmitting) return;
+    isSubmitting = true;
+    answers[currentQuestion] = document.getElementById('answerText').value;
+    
+    const score = Math.floor(Math.random() * 30) + 70;
+    const feedback = generateFeedback(score);
+    
+    try {
+        window.speechSynthesis.cancel();
+        stopMouthAnimation();
+        await fetch('/api/save-interview', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                interview_id: interviewId,
+                questions: questions,
+                answers: answers,
+                score: score,
+                feedback: feedback,
+                ai_detected: interviewInvalid,
+                proctoring_logs: proctoringLogs
+            })
+        });
+        
+        document.body.innerHTML = `
+            <div style="max-width: 600px; margin: 5rem auto; text-align: center;">
+                <div class="card">
+                    <div style="font-size: 4rem;">🎉</div>
+                    <h2>Interview Completed!</h2>
+                    <div style="margin: 2rem 0;">
+                        <div style="font-size: 4rem; font-weight: 700; color: var(--primary);">${interviewInvalid ? 'Flagged' : `${score}%`}</div>
+                        <p style="color: var(--gray);">Interview Score</p>
+                    </div>
+                    <div style="text-align: left; padding: 1rem; background: var(--light); border-radius: 8px; margin: 1rem 0;">
+                        <h4>Feedback:</h4>
+                        <p>${interviewInvalid ? 'Interview marked invalid due to multiple proctoring violations (tab/shortcut/fullscreen/copy-paste checks).' : feedback}</p>
+                    </div>
+                    <div style="margin-top: 1rem;">
+                        <a href="/student/mock-interview" class="btn btn-outline">Practice Again</a>
+                        <a href="/student/dashboard" class="btn btn-primary">Back to Dashboard</a>
+                    </div>
+                </div>
+            </div>
+        `;
+    } catch (error) {
+        alert('Error submitting interview');
+        isSubmitting = false;
+    }
+}
+
+function generateFeedback(score) {
+    if (score >= 90) {
+        return "Excellent performance! You demonstrated strong technical knowledge and communication skills. Keep practicing to maintain your edge.";
+    } else if (score >= 75) {
+        return "Good job! You showed solid understanding of concepts. Focus on areas where you hesitated and practice more mock interviews.";
+    } else if (score >= 60) {
+        return "Average performance. Consider reviewing fundamentals and practice articulating your thoughts more clearly.";
+    } else {
+        return "Needs improvement. Focus on building stronger technical foundations and practice explaining concepts step by step.";
+    }
+}
+
+document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+        proctoringLogs.tab_switches += 1;
+        pushViolation('tab_switch', 'Tab switch detected');
+    }
+});
+
+window.addEventListener('blur', () => {
+    if (document.visibilityState !== 'hidden') {
+        proctoringLogs.tab_switches += 1;
+        pushViolation('window_blur', 'Window focus lost');
+    }
+});
+
+document.addEventListener('fullscreenchange', () => {
+    if (!document.fullscreenElement && !isSubmitting) {
+        proctoringLogs.fullscreen_exits += 1;
+        pushViolation('fullscreen_exit', 'Fullscreen exited');
+    }
+});
+
+document.addEventListener('copy', (e) => {
+    e.preventDefault();
+    proctoringLogs.copy_paste_attempts += 1;
+    pushViolation('copy_attempt', 'Copy action blocked');
+});
+
+document.addEventListener('paste', (e) => {
+    e.preventDefault();
+    proctoringLogs.copy_paste_attempts += 1;
+    pushViolation('paste_attempt', 'Paste action blocked');
+});
+
+document.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
+    proctoringLogs.shortcut_attempts += 1;
+    pushViolation('context_menu', 'Right-click blocked');
+});
+
+document.addEventListener('keydown', (e) => {
+    const key = (e.key || '').toLowerCase();
+    const blocked =
+        (e.ctrlKey && ['c', 'v', 'x', 'a', 's', 'p', 'u'].includes(key)) ||
+        key === 'f12';
+    if (blocked) {
+        e.preventDefault();
+        proctoringLogs.shortcut_attempts += 1;
+        pushViolation('keyboard_shortcut', `Shortcut blocked: ${e.key}`);
+    }
+});
+
+updateQuestion();
+requestInterviewFullscreen();
+</script>
+{% endblock %}

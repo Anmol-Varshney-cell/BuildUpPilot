@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Build Up Pilot - Career Development Platform</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-color: #6366f1;
+            --secondary-color: #8b5cf6;
+            --accent-color: #ec4899;
+            --dark-bg: #0f172a;
+            --light-bg: #ffffff;
+            --dark-card: #1e293b;
+            --light-card: #f8fafc;
+            --dark-text: #f1f5f9;
+            --light-text: #1e293b;
+            --dark-border: #334155;
+            --light-border: #e2e8f0;
+            --shadow-light: rgba(0, 0, 0, 0.1);
+            --shadow-dark: rgba(0, 0, 0, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--light-bg);
+            color: var(--light-text);
+            transition: all 0.3s ease;
+            overflow-x: hidden;
+        }
+
+        body.dark-mode {
+            background: var(--dark-bg);
+            color: var(--dark-text);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .header {
+            background: var(--light-bg);
+            border-bottom: 1px solid var(--light-border);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            background: rgba(248, 250, 252, 0.95);
+        }
+
+        .dark-mode .header {
+            background: rgba(15, 23, 42, 0.95);
+            border-bottom: 1px solid var(--dark-border);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .logo img {
+            height: 40px;
+            width: auto;
+        }
+
+        .theme-toggle {
+            background: var(--light-card);
+            border: 2px solid var(--light-border);
+            border-radius: 50px;
+            padding: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+            color: var(--light-text);
+        }
+
+        .dark-mode .theme-toggle {
+            background: var(--dark-card);
+            border-color: var(--dark-border);
+            color: var(--dark-text);
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 8rem 0 4rem;
+            text-align: center;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--gray);
+            margin-bottom: 2rem;
+            max-width: 600px;
+            line-height: 1.6;
+        }
+
+        .dark-mode .hero p {
+            color: #94a3b8;
+        }
+
+        /* Portal Cards */
+        .portals {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 4rem 0;
+        }
+
+        .portal-card {
+            background: var(--light-card);
+            border: 1px solid var(--light-border);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dark-mode .portal-card {
+            background: var(--dark-card);
+            border-color: var(--dark-border);
+        }
+
+        .portal-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color), var(--accent-color));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .portal-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .portal-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px var(--shadow-light);
+        }
+
+        .dark-mode .portal-card:hover {
+            box-shadow: 0 20px 40px var(--shadow-dark);
+        }
+
+        .portal-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+        }
+
+        .portal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--light-text);
+        }
+
+        .dark-mode .portal-title {
+            color: var(--dark-text);
+        }
+
+        .portal-description {
+            color: var(--gray);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .dark-mode .portal-description {
+            color: #94a3b8;
+        }
+
+        .portal-btn {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .portal-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);
+        }
+
+        /* Features Section */
+        .features {
+            padding: 4rem 0;
+            background: var(--light-bg);
+        }
+
+        .dark-mode .features {
+            background: var(--dark-bg);
+        }
+
+        .features h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+            color: var(--light-text);
+        }
+
+        .dark-mode .features h2 {
+            color: var(--dark-text);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 1rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .feature h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--light-text);
+        }
+
+        .dark-mode .feature h3 {
+            color: var(--dark-text);
+        }
+
+        .feature p {
+            color: var(--gray);
+            line-height: 1.6;
+        }
+
+        .dark-mode .feature p {
+            color: #94a3b8;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--light-card);
+            border-top: 1px solid var(--light-border);
+            padding: 2rem 0;
+            text-align: center;
+            margin-top: 4rem;
+        }
+
+        .dark-mode .footer {
+            background: var(--dark-card);
+            border-top: 1px solid var(--dark-border);
+        }
+
+        .footer p {
+            color: var(--gray);
+        }
+
+        .dark-mode .footer p {
+            color: #94a3b8;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            .portals {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <a href="#" class="logo">
+                    <img src="{{ url_for('static', filename='Image/logo.png') }}" alt="Build Up Pilot">
+                    Build Up Pilot
+                </a>
+                <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+                    <i class="fas fa-moon" id="theme-icon"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Build Your Future with Build Up Pilot</h1>
+            <p>Connect, learn, and grow with our comprehensive career development platform. From skill assessments to job placements, we've got you covered.</p>
+            
+            <!-- Portal Cards -->
+            <div class="portals">
+                <div class="portal-card" onclick="window.location.href='/auth/login?role=student'">
+                    <div class="portal-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h3 class="portal-title">Student Portal</h3>
+                    <p class="portal-description">Access skill tests, track readiness, apply for jobs, and connect with mentors.</p>
+                    <button class="portal-btn">Get Started</button>
+                </div>
+                
+                <div class="portal-card" onclick="window.location.href='/auth/login?role=recruiter'">
+                    <div class="portal-icon">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <h3 class="portal-title">Recruiter Portal</h3>
+                    <p class="portal-description">Post jobs, find qualified candidates, and manage your hiring process efficiently.</p>
+                    <button class="portal-btn">Find Talent</button>
+                </div>
+                
+                <div class="portal-card" onclick="window.location.href='/auth/login?role=admin'">
+                    <div class="portal-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3 class="portal-title">Admin Portal</h3>
+                    <p class="portal-description">Manage users, monitor platform activity, and oversee all operations.</p>
+                    <button class="portal-btn">Admin Access</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <h2>Why Choose Build Up Pilot?</h2>
+            <div class="features-grid">
+                <div class="feature">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Skill Assessment</h3>
+                    <p>Comprehensive testing and evaluation to identify your strengths and areas for improvement.</p>
+                </div>
+                
+                <div class="feature">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Mentor Network</h3>
+                    <p>Connect with industry experts and get personalized guidance for your career growth.</p>
+                </div>
+                
+                <div class="feature">
+                    <div class="feature-icon">
+                        <i class="fas fa-bullseye"></i>
+                    </div>
+                    <h3>Job Matching</h3>
+                    <p>AI-powered matching to connect you with opportunities that fit your skills perfectly.</p>
+                </div>
+                
+                <div class="feature">
+                    <div class="feature-icon">
+                        <i class="fas fa-certificate"></i>
+                    </div>
+                    <h3>Certifications</h3>
+                    <p>Earn recognized certificates that validate your skills and boost your profile.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Build Up Pilot. All rights reserved. Empowering careers worldwide.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Theme Toggle
+        function toggleTheme() {
+            const body = document.body;
+            const themeIcon = document.getElementById('theme-icon');
+            
+            if (body.classList.contains('dark-mode')) {
+                body.classList.remove('dark-mode');
+                themeIcon.className = 'fas fa-moon';
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.classList.add('dark-mode');
+                themeIcon.className = 'fas fa-sun';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        // Load saved theme
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('theme');
+            const themeIcon = document.getElementById('theme-icon');
+            
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-mode');
+                themeIcon.className = 'fas fa-sun';
+            } else {
+                themeIcon.className = 'fas fa-moon';
+            }
+        });
+
+        // Add parallax effect on scroll
+        window.addEventListener('scroll', function() {
+            const scrolled = window.pageYOffset;
+            const parallax = document.querySelector('.hero');
+            if (parallax) {
+                parallax.style.transform = `translateY(${scrolled * 0.5}px)`;
+            }
+        });
+    </script>
+</body>
+</html>

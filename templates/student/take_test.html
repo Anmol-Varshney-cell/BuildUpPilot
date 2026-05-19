@@ -1,0 +1,208 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="test-container" style="padding-top: 2rem; max-width: 900px; margin: 0 auto;">
+    <div class="card" style="margin-bottom: 1.5rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <h2 style="text-transform: capitalize;">{{ test_type }} Test</h2>
+                <p style="color: var(--gray);">{{ questions|length }} Questions | 25 Minutes</p>
+            </div>
+            <div class="test-timer" id="timer" style="position: static; background: var(--danger); color: white; padding: 0.75rem 1.5rem; border-radius: 8px;">
+                25:00
+            </div>
+        </div>
+    </div>
+    
+    <div class="progress-bar" style="margin-bottom: 1.5rem;">
+        <div class="progress-fill" id="progressFill" style="width: 0%; background: var(--secondary);"></div>
+    </div>
+    <p style="text-align: center; color: var(--gray); margin-bottom: 1rem;" id="progressText">0 of {{ questions|length }} answered</p>
+    
+    <form id="testForm" method="POST" action="{{ url_for('student.submit_test') }}">
+        <input type="hidden" name="test_type" value="{{ test_type }}">
+        
+        {% for question in questions %}
+            {% set q_idx = loop.index %}
+            <div class="question-card" id="question-{{ loop.index }}" data-question-id="{{ question.id }}" data-topic="{{ question.topic }}">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div class="question-number">Question {{ loop.index }} of {{ questions|length }}</div>
+                    <span class="skill-tag" style="background: var(--light);">{{ question.topic }}</span>
+                </div>
+                <div class="question-text">{{ question.question }}</div>
+                <div class="options-list">
+                    {% for option in question.options %}
+                        <label class="option-label">
+                            <input type="radio" name="q{{ q_idx }}" value="{{ option }}" required onclick="markAnswered({{ loop.index }})">
+                            <span>{{ option }}</span>
+                        </label>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+        
+        <div style="text-align: center; margin-top: 2rem;">
+            <button type="submit" class="btn btn-primary btn-lg" id="submitBtn">Submit Test</button>
+        </div>
+    </form>
+</div>
+
+<div id="proctoringAlert" class="proctoring-alert">
+    ⚠️ Warning: Tab switch detected! This activity is being logged. Multiple violations may result in test cancellation.
+</div>
+
+<script>
+let timeLeft = 25 * 60;
+let tabSwitches = 0;
+let answeredQuestions = new Set();
+const timerElement = document.getElementById('timer');
+const questionsData = {{ questions|tojson }};
+
+const timerInterval = setInterval(() => {
+    timeLeft--;
+    const minutes = Math.floor(timeLeft / 60);
+    const seconds = timeLeft % 60;
+    timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    
+    if (timeLeft <= 60) {
+        timerElement.style.background = 'var(--danger)';
+    }
+    
+    if (timeLeft <= 0) {
+        clearInterval(timerInterval);
+        submitTest(true);
+    }
+}, 1000);
+
+document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+        tabSwitches++;
+        const alert = document.getElementById('proctoringAlert');
+        alert.style.display = 'block';
+        setTimeout(() => {
+            alert.style.display = 'none';
+        }, 3000);
+        
+        if (tabSwitches >= 3) {
+            alert.textContent = '⚠️ Multiple tab switches detected! Your test may be cancelled.';
+            alert.style.background = 'var(--danger)';
+        }
+    }
+});
+
+function markAnswered(questionNum) {
+    answeredQuestions.add(questionNum);
+    document.getElementById('question-' + questionNum).style.borderLeft = '4px solid var(--secondary)';
+    updateProgress();
+}
+
+function updateProgress() {
+    const progress = (answeredQuestions.size / questionsData.length) * 100;
+    document.getElementById('progressFill').style.width = progress + '%';
+    document.getElementById('progressText').textContent = `${answeredQuestions.size} of ${questionsData.length} answered`;
+}
+
+async function submitTest(ignoreValidation = false) {
+    if (!ignoreValidation && answeredQuestions.size < questionsData.length) {
+        const remaining = questionsData.length - answeredQuestions.size;
+        if (!confirm(`You have ${remaining} unanswered questions. Are you sure you want to submit?`)) {
+            return;
+        }
+    }
+
+    const form = document.getElementById('testForm');
+    const formData = new FormData(form);
+    const answers = [];
+    let correct = 0;
+    const weakTopics = {};
+    const questionOrder = [];
+    
+    for (let i = 1; i <= questionsData.length; i++) {
+        const answer = formData.get(`q${i}`);
+        questionOrder.push(questionsData[i-1].id);
+        
+        const isCorrect = answer === questionsData[i-1].correct;
+        if (isCorrect) {
+            correct++;
+        } else {
+            const topic = questionsData[i-1].topic;
+            weakTopics[topic] = (weakTopics[topic] || 0) + 1;
+        }
+        
+        answers.push({
+            question: questionsData[i-1].question,
+            options: questionsData[i-1].options,
+            correct_answer: questionsData[i-1].correct,
+            user_answer: answer || '',
+            is_correct: isCorrect,
+            topic: questionsData[i-1].topic
+        });
+    }
+    
+    const wrong = questionsData.length - correct;
+    const score = Math.round((correct / questionsData.length) * 100);
+    const weakTopicsList = Object.keys(weakTopics);
+    const avgTimePerQuestion = (25 * 60 - timeLeft) / questionsData.length;
+    const aiDetected = avgTimePerQuestion < 3 && tabSwitches === 0;
+    
+    try {
+        const response = await fetch('{{ url_for("student.submit_test") }}', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                test_type: '{{ test_type }}',
+                score: score,
+                total_questions: questionsData.length,
+                correct_answers: correct,
+                wrong_answers: wrong,
+                time_taken: 25 * 60 - timeLeft,
+                tab_switches: tabSwitches,
+                question_order: questionOrder,
+                weak_topics: weakTopicsList,
+                ai_detected: aiDetected,
+                questions: answers
+            })
+        });
+
+        const result = await response.json();
+        
+        document.body.innerHTML = `
+            <div style="max-width: 600px; margin: 3rem auto; text-align: center;">
+                <div class="card fade-in">
+                    <h2 style="margin-bottom: 1rem;">Test Completed!</h2>
+                    <div style="font-size: 5rem; margin: 1rem 0;">${score >= 80 ? '🎉' : score >= 50 ? '👍' : '📚'}</div>
+                    <div style="font-size: 3rem; font-weight: 700; color: ${score >= 80 ? 'var(--secondary)' : score >= 50 ? 'var(--primary)' : 'var(--warning)'};">${score}%</div>
+                    <p style="color: var(--gray); margin: 1rem 0;">${correct} correct | ${wrong} wrong | ${questionsData.length} total</p>
+                    
+                    ${aiDetected ? '<p style="color: var(--danger); font-weight: 600;">⚠️ Suspicious activity detected - Answer time too fast</p>' : ''}
+                    ${tabSwitches > 0 ? '<p style="color: var(--warning);">Tab switches detected: ' + tabSwitches + '</p>' : ''}
+                    
+                    <div style="margin: 1.5rem 0; padding: 1rem; background: var(--light); border-radius: 8px;">
+                        <h4 style="margin-bottom: 0.5rem;">Weak Areas to Focus:</h4>
+                        ${weakTopicsList.length > 0 ? weakTopicsList.map(t => '<span class="skill-tag" style="background: #fef3c7; margin: 0.25rem;">' + t + '</span>').join('') : '<p style="color: var(--secondary);">Great job! No weak areas identified.</p>'}
+                    </div>
+                    
+                    ${score >= 80 && !aiDetected ? '<p style="color: var(--secondary); font-weight: 600;">🏆 Congratulations! You earned a certificate!</p>' : ''}
+                    
+                    <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 1.5rem;">
+                        <a href="{{ url_for('student.tests') }}" class="btn btn-outline">Back to Tests</a>
+                        <a href="/student/test-result/${result.test_id}" class="btn btn-primary">View Detailed Results</a>
+                    </div>
+                </div>
+            </div>
+        `;
+    } catch (error) {
+        alert('Unable to submit test. Please try again.');
+    }
+}
+
+document.getElementById('testForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    submitTest(false);
+});
+
+window.onbeforeunload = function() {
+    return "You have an unfinished test. Are you sure you want to leave?";
+};
+</script>
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="dashboard">
+    <aside class="sidebar">
+        <ul class="sidebar-menu">
+            <li><a href="{{ url_for('student.dashboard') }}">Dashboard</a></li>
+            <li><a href="{{ url_for('student.profile') }}">Profile</a></li>
+            <li><a href="{{ url_for('student.tests') }}">Skill Tests</a></li>
+            <li><a href="{{ url_for('student.readiness') }}">Readiness Meter</a></li>
+            <li><a href="{{ url_for('student.applications') }}">Job Applications</a></li>
+            <li><a href="{{ url_for('student.mock_interview') }}">Mock Interview</a></li>
+            <li><a href="{{ url_for('student.roadmap') }}">Learning Roadmap</a></li>
+            <li><a href="{{ url_for('student.certificates') }}">Certificates</a></li>
+            <li><a href="{{ url_for('student.discussions') }}">Discussions</a></li>
+            <li><a href="{{ url_for('student.support') }}">Support</a></li>
+        </ul>
+    </aside>
+    
+    <main class="main-content">
+        <div class="page-header">
+            <h1 class="portal-heading">My Bookings</h1>
+        </div>
+        
+        {% if bookings %}
+            <div class="card">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Mentor</th>
+                            <th>Type</th>
+                            <th>Date & Time</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for booking in bookings %}
+                            <tr>
+                                <td>{{ booking.mentor.name }}</td>
+                                <td style="text-transform: capitalize;">{{ booking.booking_type|replace('_', ' ') }}</td>
+                                <td>{{ booking.scheduled_time.strftime('%b %d, %Y - %I:%M %p') }}</td>
+                                <td>
+                                    <span class="badge badge-{{ 'offered' if booking.status == 'confirmed' else 'applied' if booking.status == 'pending' else 'rejected' }}">
+                                        {{ booking.status|title }}
+                                    </span>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="card" style="text-align: center; padding: 3rem;">
+                <h3>No bookings yet</h3>
+                <p style="color: var(--gray);">Book a mentor session to get started!</p>
+            </div>
+        {% endif %}
+    </main>
+</div>
+{% endblock %}

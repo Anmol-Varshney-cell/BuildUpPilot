@@ -1,0 +1,57 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: coding-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: coding_portal
+    ports:
+      - "5433:5432"
+    volumes:
+      - coding_pg_data:/var/lib/postgresql/data
+
+  judge:
+    build:
+      context: ./judge
+    container_name: coding-judge
+    environment:
+      - PORT=5001
+    ports:
+      - "5001:5001"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  backend:
+    build:
+      context: ./backend
+    container_name: coding-backend
+    environment:
+      - NODE_ENV=development
+      - PORT=4000
+      - FRONTEND_URL=http://localhost:5173
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/coding_portal?schema=public
+      - SESSION_SECRET=super_secret_session_key
+      - JUDGE_URL=http://judge:5001
+    ports:
+      - "4000:4000"
+    depends_on:
+      - postgres
+      - judge
+    command: sh -c "npm install && npx prisma generate && npx prisma db push && npm run seed && npm run dev"
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: coding-frontend
+    environment:
+      - VITE_API_BASE_URL=http://localhost:4000/api
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+
+volumes:
+  coding_pg_data:

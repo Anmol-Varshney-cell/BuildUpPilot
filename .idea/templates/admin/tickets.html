@@ -1,0 +1,325 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="dashboard">
+    <aside class="sidebar">
+        <ul class="sidebar-menu">
+            <li><a href="{{ url_for('admin.dashboard') }}">Dashboard</a></li>
+            <li><a href="{{ url_for('admin.code_spirit_monitoring') }}">Skill Up</a></li>
+            <li><a href="{{ url_for('admin.manage_users') }}">Manage Users</a></li>
+            <li><a href="{{ url_for('admin.manage_jobs') }}">Manage Jobs</a></li>
+            <li><a href="{{ url_for('admin.manage_tickets') }}" class="active">Support Tickets</a></li>
+            <li><a href="{{ url_for('admin.analytics') }}">Analytics</a></li>
+        </ul>
+    </aside>
+    
+    <main class="main-content">
+        <div class="page-header">
+            <h1 style="color: white !important;">Support Tickets</h1>
+        </div>
+        
+        <div class="card">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Student</th>
+                        <th>Subject</th>
+                        <th>Category</th>
+                        <th>Priority</th>
+                        <th>Status</th>
+                        <th>Created</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for ticket in tickets %}
+                        <tr>
+                            <td>
+                                <div class="student-info">
+                                    <div class="student-name">{{ ticket.name or (ticket.user.student_id if ticket.user else 'Unknown') }}</div>
+                                    <div class="student-email">{{ ticket.email or (ticket.user.email if ticket.user else 'N/A') }}</div>
+                                </div>
+                            </td>
+                            <td>{{ ticket.subject }}</td>
+                            <td style="text-transform: capitalize;">{{ ticket.category }}</td>
+                            <td><span class="badge badge-{{ ticket.priority }}">{{ ticket.priority|title }}</span></td>
+                            <td><span class="badge badge-{{ ticket.status }}">{{ ticket.status|title }}</span></td>
+                            <td>{{ ticket.created_at.strftime('%b %d, %Y') }}</td>
+                            <td class="actions-inline">
+                                <button
+                                    class="btn btn-sm btn-info"
+                                    onclick="viewTicketDetails(this)"
+                                    data-subject="{{ ticket.subject }}"
+                                    data-description="{{ ticket.description }}"
+                                    data-category="{{ ticket.category }}"
+                                    data-priority="{{ ticket.priority }}"
+                                    data-status="{{ ticket.status }}"
+                                    data-user-name="{{ ticket.name or (ticket.user.student_id if ticket.user else 'Unknown') }}"
+                                    data-user-email="{{ ticket.email or (ticket.user.email if ticket.user else 'N/A') }}"
+                                    data-user-role="{{ 'viewer' if ticket.name else (ticket.user.role if ticket.user else 'N/A') }}"
+                                    data-user-created-at="{{ ticket.user.created_at.strftime('%Y-%m-%d') if ticket.user and ticket.user.created_at else 'N/A' }}"
+                                >View Details</button>
+                                {% if ticket.status == 'open' %}
+                                <button class="btn btn-sm btn-success" onclick="clearTicket({{ ticket.id }})">Clear</button>
+                                {% elif ticket.status == 'closed' %}
+                                <button class="btn btn-sm btn-danger" onclick="deleteTicket({{ ticket.id }})">Delete</button>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Ticket Details Modal -->
+        <div id="ticketModal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Ticket Details</h3>
+                    <span class="close" onclick="closeTicketModal()">&times;</span>
+                </div>
+                <div class="modal-body" id="ticketDetails">
+                    <!-- Ticket details will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<style>
+.student-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.student-name {
+    font-weight: 600;
+    color: var(--text);
+}
+
+.student-email {
+    font-size: 0.875rem;
+    color: var(--gray);
+}
+
+.modal {
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+}
+
+.modal-content {
+    background-color: var(--light);
+    margin: 5% auto;
+    padding: 0;
+    border-radius: 0.5rem;
+    width: 80%;
+    max-width: 600px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.modal-header h3 {
+    margin: 0;
+    color: var(--text);
+}
+
+.close {
+    font-size: 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    color: var(--gray);
+}
+
+.close:hover {
+    color: var(--text);
+}
+
+.modal-body {
+    padding: 1.5rem;
+}
+
+.ticket-detail-section {
+    margin-bottom: 1.5rem;
+}
+
+.ticket-detail-label {
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+}
+
+.ticket-detail-value {
+    color: var(--gray);
+    line-height: 1.6;
+}
+
+.student-details {
+    background: var(--background);
+    padding: 1rem;
+    border-radius: 0.25rem;
+    margin-top: 1rem;
+}
+
+.student-detail-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+}
+
+.student-detail-label {
+    font-weight: 600;
+    color: var(--text);
+}
+
+.student-detail-value {
+    color: var(--gray);
+}
+</style>
+
+<script>
+function viewTicketDetails(buttonEl) {
+    const ticketDetails = {
+        subject: buttonEl.dataset.subject || 'N/A',
+        description: buttonEl.dataset.description || 'N/A',
+        category: buttonEl.dataset.category || 'N/A',
+        priority: buttonEl.dataset.priority || 'N/A',
+        status: buttonEl.dataset.status || 'N/A',
+        user: {
+            name: buttonEl.dataset.userName || 'N/A',
+            email: buttonEl.dataset.userEmail || 'N/A',
+            role: buttonEl.dataset.userRole || 'N/A',
+            created_at: buttonEl.dataset.userCreatedAt || 'N/A'
+        }
+    };
+
+    const detailsHtml = `
+        <div class="ticket-detail-section">
+            <div class="ticket-detail-label">Subject</div>
+            <div class="ticket-detail-value">${ticketDetails.subject}</div>
+        </div>
+        
+        <div class="ticket-detail-section">
+            <div class="ticket-detail-label">Description</div>
+            <div class="ticket-detail-value">${ticketDetails.description}</div>
+        </div>
+        
+        <div class="ticket-detail-section">
+            <div class="ticket-detail-label">Category</div>
+            <div class="ticket-detail-value">${ticketDetails.category}</div>
+        </div>
+        
+        <div class="ticket-detail-section">
+            <div class="ticket-detail-label">Priority</div>
+            <div class="ticket-detail-value">${ticketDetails.priority}</div>
+        </div>
+        
+        <div class="ticket-detail-section">
+            <div class="ticket-detail-label">Status</div>
+            <div class="ticket-detail-value">${ticketDetails.status}</div>
+        </div>
+        
+        <div class="ticket-detail-section">
+            <div class="ticket-detail-label">Student Details</div>
+            <div class="student-details">
+                <div class="student-detail-row">
+                    <span class="student-detail-label">Name:</span>
+                    <span class="student-detail-value">${ticketDetails.user.name}</span>
+                </div>
+                <div class="student-detail-row">
+                    <span class="student-detail-label">Email:</span>
+                    <span class="student-detail-value">${ticketDetails.user.email}</span>
+                </div>
+                <div class="student-detail-row">
+                    <span class="student-detail-label">Role:</span>
+                    <span class="student-detail-value">${ticketDetails.user.role}</span>
+                </div>
+                <div class="student-detail-row">
+                    <span class="student-detail-label">Member Since:</span>
+                    <span class="student-detail-value">${ticketDetails.user.created_at}</span>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    document.getElementById('ticketDetails').innerHTML = detailsHtml;
+    document.getElementById('ticketModal').style.display = 'block';
+}
+
+function closeTicketModal() {
+    document.getElementById('ticketModal').style.display = 'none';
+}
+
+function clearTicket(ticketId) {
+    if (confirm('Are you sure you want to clear this ticket? This will mark it as solved for the student.')) {
+        fetch(`{{ url_for('admin.clear_ticket', ticket_id=0) }}`.replace('0', ticketId), {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token() if csrf_token else "" }}'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Ticket cleared successfully. Student can see it as approved.');
+                location.reload();
+            } else {
+                alert(data.message || 'Failed to clear ticket');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error clearing ticket');
+        });
+    }
+}
+
+function deleteTicket(ticketId) {
+    if (confirm('Are you sure you want to permanently delete this ticket? This action cannot be undone.')) {
+        fetch(`{{ url_for('admin.delete_ticket_permanently', ticket_id=0) }}`.replace('0', ticketId), {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token() if csrf_token else "" }}'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Ticket deleted permanently.');
+                location.reload();
+            } else {
+                alert(data.message || 'Failed to delete ticket');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error deleting ticket');
+        });
+    }
+}
+
+// Close modal when clicking outside
+window.onclick = function(event) {
+    const modal = document.getElementById('ticketModal');
+    if (event.target == modal) {
+        modal.style.display = 'none';
+    }
+}
+</script>
+    </main>
+</div>
+{% endblock %}

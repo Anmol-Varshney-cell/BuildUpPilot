@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="dashboard">
+    <aside class="sidebar">
+        <ul class="sidebar-menu">
+            <li><a href="{{ url_for('admin.dashboard') }}" class="active">Dashboard</a></li>
+            <li><a href="{{ url_for('admin.code_spirit_monitoring') }}">Skill Up</a></li>
+
+            <li><a href="{{ url_for('admin.manage_users') }}">Manage Users</a></li>
+            <li><a href="{{ url_for('admin.manage_jobs') }}">Manage Jobs</a></li>
+            <li><a href="{{ url_for('admin.manage_tickets') }}">Support Tickets</a></li>
+            <li><a href="{{ url_for('admin.analytics') }}">Analytics</a></li>
+        </ul>
+    </aside>
+
+    <main class="main-content">
+        <div class="page-header">
+            <h1 class="portal-heading">Admin Dashboard</h1>
+            <p class="portal-subheading">{{ platform_help }}</p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value">{{ stats.total_students or 0 }}</div>
+                <div class="stat-label">Total Students</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">{{ stats.total_recruiters or 0 }}</div>
+                <div class="stat-label">Recruiters</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">{{ stats.total_jobs or 0 }}</div>
+                <div class="stat-label">Active Jobs</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">{{ stats.total_applications or 0 }}</div>
+                <div class="stat-label">Applications</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" style="color: var(--danger);">{{ stats.active_tickets or 0 }}</div>
+                <div class="stat-label">Open Tickets</div>
+            </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem;">
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">Quick Actions</span>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;">
+                    <a href="{{ url_for('admin.manage_users') }}" class="btn btn-outline">Manage Users</a>
+                    <a href="{{ url_for('admin.manage_jobs') }}" class="btn btn-outline">Manage Jobs</a>
+                    <a href="{{ url_for('admin.manage_tickets') }}" class="btn btn-outline">View Tickets</a>
+                    <a href="{{ url_for('admin.analytics') }}" class="btn btn-outline">View Analytics</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">Platform Health</span>
+                </div>
+                {% if stats %}
+                <div class="skill-meter" style="margin-bottom: 1rem;">
+                    <div class="skill-meter-header">
+                        <span>Active Users</span>
+                        <span>{{ stats.active_users_rate or 0 }}%</span>
+                    </div>
+                    <div class="skill-meter-bar">
+                        <div class="skill-meter-fill" style="width: {{ stats.active_users_rate or 0 }}%; background: var(--secondary);"></div>
+                    </div>
+                </div>
+                <div class="skill-meter" style="margin-bottom: 1rem;">
+                    <div class="skill-meter-header">
+                        <span>Job Applications</span>
+                        <span>{{ stats.application_rate or 0 }}%</span>
+                    </div>
+                    <div class="skill-meter-bar">
+                        <div class="skill-meter-fill" style="width: {{ stats.application_rate or 0 }}%; background: var(--primary);"></div>
+                    </div>
+                </div>
+                <div class="skill-meter">
+                    <div class="skill-meter-header">
+                        <span>Problem Solving</span>
+                        <span>{{ stats.problem_solve_rate or 0 }}%</span>
+                    </div>
+                    <div class="skill-meter-bar">
+                        <div class="skill-meter-fill" style="width: {{ stats.problem_solve_rate or 0 }}%; background: var(--warning);"></div>
+                    </div>
+                </div>
+                <div class="skill-meter" style="margin-top: 1rem;">
+                    <div class="skill-meter-header">
+                        <span>Support Response</span>
+                        <span>{{ stats.support_response_rate or 0 }}%</span>
+                    </div>
+                    <div class="skill-meter-bar">
+                        <div class="skill-meter-fill" style="width: {{ stats.support_response_rate or 0 }}%; background: var(--info);"></div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </main>
+</div>
+{% endblock %}

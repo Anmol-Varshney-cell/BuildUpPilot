@@ -1,0 +1,182 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% set score_val = certificate.score or 0 %}
+{% set is_excellent = score_val >= 80 %}
+{% set full_name = (profile.first_name + ' ' + profile.last_name) if profile else 'Student' %}
+<div style="min-height: 100vh; background: #f5f5f5; padding: 2rem 0;">
+    <div class="container">
+        <div style="max-width: 800px; margin: 0 auto;">
+            {% if score_val <= 50 %}
+            <div style="background: #fef3c7; border: 1px solid #f59e0b; border-radius: 4px; padding: 0.3rem 1rem; text-align: center; margin-bottom: 0.8rem;">
+                <span style="color: #92400e; font-size: 0.65rem; font-weight: 600;">
+                    &#9888;&#65039; Improvement Needed — Keep Practicing to Reach Excellence (80%+)
+                </span>
+            </div>
+            {% endif %}
+
+            <!-- Certificate -->
+            <div style="position: relative; background: #ffffff; box-shadow: 0 10px 40px rgba(0,0,0,0.15); width: 100%; min-height: 600px; overflow: hidden;">
+
+                <!-- Curved navy/gold decorative bands -->
+                <div style="position: absolute; top: 0; left: 0; width: 180px; height: 180px;">
+                    <svg viewBox="0 0 200 200" style="width:100%;height:100%;">
+                        <path d="M0,0 L200,0 L200,40 Q100,60 0,20 Z" fill="#1e3a8a"/>
+                        <path d="M0,20 Q100,60 200,40 L200,55 Q100,75 0,35 Z" fill="#d4a017"/>
+                    </svg>
+                </div>
+                <div style="position: absolute; bottom: 0; right: 0; width: 180px; height: 180px;">
+                    <svg viewBox="0 0 200 200" style="width:100%;height:100%;">
+                        <path d="M200,200 L0,200 L0,160 Q100,140 200,180 Z" fill="#1e3a8a"/>
+                        <path d="M200,180 Q100,140 0,160 L0,145 Q100,125 200,165 Z" fill="#d4a017"/>
+                    </svg>
+                </div>
+
+                <!-- Congratulations stamp for 70%+ -->
+                {% if score_val >= 70 %}
+                <div style="position: absolute; top: 18%; right: 6%; z-index: 10; transform: rotate(-12deg); opacity: 0.7; pointer-events: none;">
+                    <div style="border: 3px solid #1e3a8a; border-radius: 50%; width: 130px; height: 130px; display: flex; align-items: center; justify-content: center; flex-direction: column; background: rgba(255,255,255,0.15);">
+                        <span style="color: #1e3a8a; font-size: 0.5rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">BUILD UP PILOT</span>
+                        <span style="color: #1e3a8a; font-size: 0.65rem; font-weight: 700; font-family: 'Georgia', serif; margin-top: 2px;">Congratulations</span>
+                        <div style="width: 50px; height: 1px; background: #1e3a8a; margin: 3px 0;"></div>
+                        <span style="font-family: 'Brush Script MT', cursive, 'Lucida Handwriting', serif; font-size: 0.9rem; color: #1e3a8a; line-height: 1;">Anmol Varshney</span>
+                        <span style="color: #1e3a8a; font-size: 0.45rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">Admin</span>
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Inner content -->
+                <div style="position: relative; z-index: 1; padding: 2.5rem 3rem;">
+
+                    <!-- Top section: Gold medal icon + CERTIFICATE heading -->
+                    <div style="display: flex; align-items: center; gap: 0.8rem; margin-bottom: 0.3rem;">
+                        <div style="font-size: 2.8rem; line-height: 1;">&#127941;</div>
+                        <h1 style="color: #000; font-size: 2.5rem; margin: 0; font-weight: 700; font-family: 'Georgia', 'Times New Roman', serif; letter-spacing: 3px; text-transform: uppercase;">
+                            CERTIFICATE
+                        </h1>
+                    </div>
+
+                    <!-- OF APPRECIATION -->
+                    <div style="margin-bottom: 0.15rem;">
+                        <h2 style="color: #000; font-size: 1.1rem; margin: 0; font-weight: 600; font-family: 'Georgia', 'Times New Roman', serif; letter-spacing: 4px; text-transform: uppercase;">
+                            OF APPRECIATION
+                        </h2>
+                    </div>
+
+                    <!-- PROUDLY PRESENTED TO -->
+                    <div style="margin-bottom: 0.1rem;">
+                        <p style="color: #000; font-size: 0.8rem; margin: 0; font-weight: 500; font-family: 'Georgia', 'Times New Roman', serif; letter-spacing: 2px; text-transform: uppercase;">
+                            PROUDLY PRESENTED TO
+                        </p>
+                    </div>
+
+                    <!-- Student Name -->
+                    <div style="margin: 0.6rem 0;">
+                        <h2 style="color: #000; font-size: 1.8rem; margin: 0; font-weight: 700; font-family: 'Georgia', 'Times New Roman', serif; text-transform: uppercase; letter-spacing: 2px;">
+                            {{ full_name }}
+                        </h2>
+                    </div>
+
+                    <!-- Thin horizontal line -->
+                    <hr style="border: none; border-top: 1px solid #ccc; margin: 0.6rem 0;">
+
+                    <!-- Body Paragraph -->
+                    <div style="margin: 0.6rem 0;">
+                        <p style="color: #000; font-size: 0.85rem; line-height: 1.6; margin: 0; font-family: 'Georgia', 'Times New Roman', serif; text-align: justify;">
+                            This certificate is proudly awarded to <strong>{{ full_name }}</strong> by <strong>BUILD UP PILOT</strong> for achieving outstanding performance in <strong>{{ certificate.test_category.title() }}</strong> with a score of <strong>{{ score_val }}%</strong>, demonstrating dedication, discipline, and a strong commitment to continuous learning.
+                        </p>
+                    </div>
+
+                    <!-- Footer: three signatures -->
+                    <div style="margin-top: 2rem; display: flex; justify-content: space-between; align-items: flex-start;">
+
+                        <!-- Anmol Varshney -->
+                        <div style="text-align: center; width: 30%;">
+                            <div style="font-family: 'Brush Script MT', cursive, 'Lucida Handwriting', serif; font-size: 1rem; color: #000; margin-bottom: 0.1rem;">Anmol Varshney</div>
+                            <hr style="border: none; border-top: 1.5px solid #333; width: 100%; margin: 0.1rem 0;">
+                            <div style="font-size: 0.75rem; font-weight: 600; font-family: 'Georgia', serif; margin-top: 0.15rem;">Anmol Varshney</div>
+                            <div style="font-size: 0.65rem; color: #555; font-family: 'Georgia', serif;">(Founder)</div>
+                        </div>
+
+                        <!-- Abhishek Varshney -->
+                        <div style="text-align: center; width: 30%;">
+                            <div style="font-family: 'Brush Script MT', cursive, 'Lucida Handwriting', serif; font-size: 1rem; color: #000; margin-bottom: 0.1rem;">Abhishek Varshney</div>
+                            <hr style="border: none; border-top: 1.5px solid #333; width: 100%; margin: 0.1rem 0;">
+                            <div style="font-size: 0.75rem; font-weight: 600; font-family: 'Georgia', serif; margin-top: 0.15rem;">Abhishek Varshney</div>
+                            <div style="font-size: 0.65rem; color: #555; font-family: 'Georgia', serif;">(Co-founder)</div>
+                        </div>
+
+                        <!-- Hemant Pundhir -->
+                        <div style="text-align: center; width: 30%;">
+                            <div style="font-family: 'Brush Script MT', cursive, 'Lucida Handwriting', serif; font-size: 1rem; color: #000; margin-bottom: 0.1rem;">Hemant Pundhir</div>
+                            <hr style="border: none; border-top: 1.5px solid #333; width: 100%; margin: 0.1rem 0;">
+                            <div style="font-size: 0.75rem; font-weight: 600; font-family: 'Georgia', serif; margin-top: 0.15rem;">Hemant Pundhir</div>
+                            <div style="font-size: 0.65rem; color: #555; font-family: 'Georgia', serif;">(Manager)</div>
+                        </div>
+
+                    </div>
+
+                    <!-- Certificate ID and Date at very bottom -->
+                    <div style="margin-top: 1.5rem; display: flex; justify-content: space-between; font-size: 0.65rem; color: #888; font-family: 'Georgia', serif; border-top: 1px solid #e0e0e0; padding-top: 0.5rem;">
+                        <span>Certificate ID: {{ certificate.certificate_id }}</span>
+                        <span>Date Issued: {{ certificate.earned_at.strftime('%B %d, %Y') if certificate.earned_at else 'N/A' }}</span>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div style="text-align: center; margin-top: 2rem;">
+                <button onclick="downloadCertificate()" class="btn btn-primary" style="margin-right: 1rem;">
+                    Download Certificate
+                </button>
+                <button onclick="shareCertificate()" class="btn btn-outline">
+                    Share Certificate
+                </button>
+                <a href="{{ url_for('student.certificates') }}" class="btn btn-outline">
+                    Back to Certificates
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+@media print {
+    .navbar {
+        display: none !important;
+    }
+    body {
+        background: white !important;
+        padding: 0 !important;
+    }
+    .container > div {
+        box-shadow: none !important;
+        margin: 0 !important;
+        max-width: 100% !important;
+    }
+    button, a {
+        display: none !important;
+    }
+}
+</style>
+
+<script>
+function downloadCertificate() {
+    window.print();
+}
+
+function shareCertificate() {
+    if (navigator.share) {
+        navigator.share({
+            title: 'BUILD UP PILOT Certificate',
+            text: `I earned a certificate in {{ certificate.test_category.title() }} with {{ score_val }}% score! Certificate ID: {{ certificate.certificate_id }}`,
+            url: window.location.href
+        });
+    } else {
+        navigator.clipboard.writeText('Check out my certificate from BUILD UP PILOT! Certificate ID: {{ certificate.certificate_id }} - Score: {{ score_val }}%');
+        alert('Certificate details copied to clipboard!');
+    }
+}
+</script>
+{% endblock %}

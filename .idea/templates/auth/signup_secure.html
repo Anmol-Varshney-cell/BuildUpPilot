@@ -1,0 +1,730 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-card">
+        <div class="auth-header">
+            <h2>Create Account</h2>
+            <p>Join BUILD UP PILOT - Secure Career Platform</p>
+        </div>
+
+        <!-- Step 1: Basic Information -->
+        <div id="step1" class="auth-step">
+            <form id="signupForm" class="auth-form">
+                <div class="form-group">
+                    <label for="full_name">Full Name *</label>
+                    <input type="text" id="full_name" name="full_name" required 
+                           class="form-control" placeholder="Enter your full name">
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address *</label>
+                    <input type="email" id="email" name="email" required 
+                           class="form-control" placeholder="your.email@example.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="mobile">Mobile Number *</label>
+                    <input type="tel" id="mobile" name="mobile" required 
+                           class="form-control" placeholder="10-digit mobile number">
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password *</label>
+                    <input type="password" id="password" name="password" required 
+                           class="form-control" placeholder="Create a strong password">
+                    <small class="form-text">Minimum 8 characters with letters and numbers</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="role">Account Type *</label>
+                    <select id="role" name="role" required class="form-control">
+                        <option value="">Select your role</option>
+                        <option value="student">Student / Fresher</option>
+                        <option value="recruiter">Recruiter</option>
+                    </select>
+                </div>
+
+                <!-- Recruiter Company ID Fields -->
+                <div id="recruiterFields" class="recruiter-fields" style="display: none;">
+                    <div class="form-group">
+                        <label>Company ID Verification *</label>
+                        <div class="company-id-options">
+                            <div class="radio-group">
+                                <label class="radio-option">
+                                    <input type="radio" name="company_id_option" value="number" checked>
+                                    <span>Company ID Number</span>
+                                </label>
+                                <label class="radio-option">
+                                    <input type="radio" name="company_id_option" value="image">
+                                    <span>Upload ID Card Image</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="company_id_number_field" class="form-group">
+                        <label for="company_id">Company ID Number</label>
+                        <input type="text" id="company_id" name="company_id" 
+                               class="form-control" placeholder="Enter your company ID number">
+                    </div>
+
+                    <div id="company_id_image_field" class="form-group" style="display: none;">
+                        <label for="company_id_image">Upload Company ID Card</label>
+                        <input type="file" id="company_id_image" name="company_id_image" 
+                               accept="image/*,.pdf" class="form-control">
+                        <small class="form-text">Upload front side of company ID card (PNG, JPG, PDF)</small>
+                    </div>
+                </div>
+
+                <!-- Consent Section -->
+                <div class="consent-section">
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="aadhaar_consent" required>
+                            <span>I consent to Aadhaar verification for identity confirmation</span>
+                        </label>
+                        <small class="form-text">
+                            Your Aadhaar information will be used solely for identity verification 
+                            and will be stored in masked format as per security guidelines.
+                        </small>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block">
+                    Continue to Aadhaar Verification
+                </button>
+            </form>
+        </div>
+
+        <!-- Step 2: Aadhaar Verification -->
+        <div id="step2" class="auth-step" style="display: none;">
+            <div class="verification-header">
+                <h3>Aadhaar Verification</h3>
+                <p>Complete identity verification using Aadhaar</p>
+            </div>
+
+            <div class="verification-methods">
+                <div class="method-tabs">
+                    <button class="tab-btn active" data-method="otp">OTP Verification</button>
+                    <button class="tab-btn" data-method="qr">QR Code/Offline XML</button>
+                </div>
+
+                <!-- OTP Method -->
+                <div id="otpMethod" class="verification-method">
+                    <form id="aadhaarOtpForm">
+                        <div class="form-group">
+                            <label for="aadhaar_number">Aadhaar Number *</label>
+                            <input type="text" id="aadhaar_number" name="aadhaar_number" 
+                                   class="form-control" placeholder="12-digit Aadhaar number" 
+                                   maxlength="12" pattern="[0-9]{12}" required>
+                            <small class="form-text">Enter your 12-digit Aadhaar number</small>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-block">
+                            Send OTP
+                        </button>
+                    </form>
+
+                    <div id="otpVerification" style="display: none;">
+                        <form id="verifyOtpForm">
+                            <div class="form-group">
+                                <label for="otp">Enter OTP *</label>
+                                <input type="text" id="otp" name="otp" 
+                                       class="form-control" placeholder="6-digit OTP" 
+                                       maxlength="6" pattern="[0-9]{6}" required>
+                                <small class="form-text">Enter the OTP sent to your registered mobile</small>
+                            </div>
+
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-success btn-block">
+                                    Verify OTP
+                                </button>
+                                <button type="button" id="resendOtp" class="btn btn-outline btn-block">
+                                    Resend OTP
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- QR Method -->
+                <div id="qrMethod" class="verification-method" style="display: none;">
+                    <form id="aadhaarQrForm">
+                        <div class="form-group">
+                            <label for="xml_data">Aadhaar XML/QR Data *</label>
+                            <textarea id="xml_data" name="xml_data" 
+                                      class="form-control" rows="6" 
+                                      placeholder="Paste Aadhaar XML data or QR code content"
+                                      required></textarea>
+                            <small class="form-text">
+                                Upload your Aadhaar XML file or scan QR code from Aadhaar app
+                            </small>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-block">
+                            Verify Aadhaar
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="verification-status" id="verificationStatus" style="display: none;">
+                <div class="status-message"></div>
+            </div>
+        </div>
+
+        <!-- Step 3: Completion -->
+        <div id="step3" class="auth-step" style="display: none;">
+            <div class="completion-message">
+                <div class="success-icon">✓</div>
+                <h3>Account Created Successfully!</h3>
+                <p>Your secure account has been created with verified identity.</p>
+                <a href="{{ url_for('auth.login') }}" class="btn btn-primary btn-block">
+                    Proceed to Login
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="auth-footer">
+        <p>Already have an account? <a href="{{ url_for('auth.login') }}">Sign In</a></p>
+        <p class="security-note">
+            🔒 Your data is secure and encrypted. We follow KYC compliance guidelines.
+        </p>
+    </div>
+</div>
+
+<style>
+.auth-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.auth-card {
+    background: white;
+    border-radius: 1rem;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    width: 100%;
+    overflow: hidden;
+}
+
+.auth-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 2rem;
+    text-align: center;
+}
+
+.auth-header h2 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.8rem;
+    font-weight: 600;
+}
+
+.auth-header p {
+    margin: 0;
+    opacity: 0.9;
+}
+
+.auth-step {
+    padding: 2rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #333;
+}
+
+.form-control {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid #e1e5e9;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.form-text {
+    display: block;
+    margin-top: 0.25rem;
+    font-size: 0.875rem;
+    color: #6c757d;
+}
+
+.company-id-options {
+    margin-bottom: 1rem;
+}
+
+.radio-group {
+    display: flex;
+    gap: 1rem;
+}
+
+.radio-option {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    border: 2px solid #e1e5e9;
+    border-radius: 0.5rem;
+    transition: all 0.3s;
+}
+
+.radio-option input[type="radio"] {
+    margin: 0;
+}
+
+.radio-option:hover {
+    border-color: #667eea;
+}
+
+.radio-option input[type="radio"]:checked + span {
+    color: #667eea;
+}
+
+.consent-section {
+    background: #f8f9fa;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin: 1.5rem 0;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    cursor: pointer;
+}
+
+.checkbox-label input[type="checkbox"] {
+    margin-top: 0.25rem;
+}
+
+.verification-methods {
+    margin-top: 1rem;
+}
+
+.method-tabs {
+    display: flex;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid #e1e5e9;
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 1rem;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-weight: 500;
+    color: #6c757d;
+    border-bottom: 2px solid transparent;
+    transition: all 0.3s;
+}
+
+.tab-btn.active {
+    color: #667eea;
+    border-bottom-color: #667eea;
+}
+
+.verification-method {
+    margin-bottom: 1rem;
+}
+
+.completion-message {
+    text-align: center;
+    padding: 2rem;
+}
+
+.success-icon {
+    width: 4rem;
+    height: 4rem;
+    background: #28a745;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 2rem;
+    margin: 0 auto 1.5rem auto;
+}
+
+.auth-footer {
+    padding: 1rem 2rem;
+    text-align: center;
+    background: #f8f9fa;
+    border-top: 1px solid #e1e5e9;
+}
+
+.auth-footer p {
+    margin: 0.5rem 0;
+    color: #6c757d;
+}
+
+.auth-footer a {
+    color: #667eea;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.auth-footer a:hover {
+    text-decoration: underline;
+}
+
+.security-note {
+    font-size: 0.875rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+}
+
+.btn-primary {
+    background: #667eea;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #5a6fd8;
+    transform: translateY(-1px);
+}
+
+.btn-success {
+    background: #28a745;
+    color: white;
+}
+
+.btn-success:hover {
+    background: #218838;
+}
+
+.btn-outline {
+    background: transparent;
+    border: 2px solid #667eea;
+    color: #667eea;
+}
+
+.btn-outline:hover {
+    background: #667eea;
+    color: white;
+}
+
+.btn-block {
+    width: 100%;
+}
+
+.verification-status {
+    margin-top: 1rem;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    text-align: center;
+}
+
+.status-message.success {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.status-message.error {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.status-message.warning {
+    background: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeaa7;
+}
+
+@media (max-width: 768px) {
+    .auth-container {
+        padding: 1rem;
+    }
+    
+    .auth-header {
+        padding: 1.5rem;
+    }
+    
+    .auth-step {
+        padding: 1.5rem;
+    }
+    
+    .radio-group {
+        flex-direction: column;
+    }
+}
+</style>
+
+<script>
+let currentStep = 1;
+let currentUserId = null;
+let currentRequestId = null;
+
+// Role selection handling
+document.getElementById('role').addEventListener('change', function() {
+    const recruiterFields = document.getElementById('recruiterFields');
+    if (this.value === 'recruiter') {
+        recruiterFields.style.display = 'block';
+    } else {
+        recruiterFields.style.display = 'none';
+    }
+});
+
+// Company ID option handling
+document.querySelectorAll('input[name="company_id_option"]').forEach(radio => {
+    radio.addEventListener('change', function() {
+        const numberField = document.getElementById('company_id_number_field');
+        const imageField = document.getElementById('company_id_image_field');
+        
+        if (this.value === 'number') {
+            numberField.style.display = 'block';
+            imageField.style.display = 'none';
+        } else {
+            numberField.style.display = 'none';
+            imageField.style.display = 'block';
+        }
+    });
+});
+
+// Verification method tabs
+document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        
+        const method = this.dataset.method;
+        document.querySelectorAll('.verification-method').forEach(m => m.style.display = 'none');
+        document.getElementById(method + 'Method').style.display = 'block';
+    });
+});
+
+// Step 1: Basic signup form
+document.getElementById('signupForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(this);
+    
+    try {
+        const response = await fetch('/auth/signup', {
+            method: 'POST',
+            body: formData
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            currentUserId = result.user_id;
+            showStep(2);
+        } else {
+            alert(result.message || 'Signup failed');
+        }
+    } catch (error) {
+        alert('Network error. Please try again.');
+    }
+});
+
+// Step 2: Aadhaar OTP send
+document.getElementById('aadhaarOtpForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const aadhaarNumber = document.getElementById('aadhaar_number').value;
+    
+    try {
+        const response = await fetch('/auth/aadhaar/send-otp', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                aadhaar_number: aadhaarNumber,
+                user_id: currentUserId
+            })
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            currentRequestId = result.request_id;
+            document.getElementById('otpVerification').style.display = 'block';
+            document.getElementById('aadhaarOtpForm').style.display = 'none';
+            showStatus('OTP sent successfully!', 'success');
+        } else {
+            showStatus(result.message || 'Failed to send OTP', 'error');
+        }
+    } catch (error) {
+        alert('Network error. Please try again.');
+    }
+});
+
+// Step 2: Verify OTP
+document.getElementById('verifyOtpForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const otp = document.getElementById('otp').value;
+    const aadhaarNumber = document.getElementById('aadhaar_number').value;
+    
+    try {
+        const response = await fetch('/auth/aadhaar/verify-otp', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                aadhaar_number: aadhaarNumber,
+                otp: otp,
+                request_id: currentRequestId,
+                user_id: currentUserId
+            })
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            completeSignup();
+        } else {
+            showStatus(result.message || 'OTP verification failed', 'error');
+        }
+    } catch (error) {
+        alert('Network error. Please try again.');
+    }
+});
+
+// Step 2: QR verification
+document.getElementById('aadhaarQrForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const xmlData = document.getElementById('xml_data').value;
+    
+    try {
+        const response = await fetch('/auth/aadhaar/verify-qr', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                xml_data: xmlData,
+                user_id: currentUserId
+            })
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            completeSignup();
+        } else {
+            showStatus(result.message || 'QR verification failed', 'error');
+        }
+    } catch (error) {
+        alert('Network error. Please try again.');
+    }
+});
+
+// Complete signup
+async function completeSignup() {
+    try {
+        const response = await fetch('/auth/complete-signup', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                user_id: currentUserId
+            })
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            showStep(3);
+        } else {
+            showStatus(result.message || 'Failed to complete signup', 'error');
+        }
+    } catch (error) {
+        alert('Network error. Please try again.');
+    }
+}
+
+// Step navigation
+function showStep(step) {
+    document.querySelectorAll('.auth-step').forEach(s => s.style.display = 'none');
+    document.getElementById('step' + step).style.display = 'block';
+    currentStep = step;
+}
+
+// Status messages
+function showStatus(message, type) {
+    const statusDiv = document.getElementById('verificationStatus');
+    const messageDiv = statusDiv.querySelector('.status-message');
+    
+    messageDiv.className = 'status-message ' + type;
+    messageDiv.textContent = message;
+    statusDiv.style.display = 'block';
+    
+    setTimeout(() => {
+        statusDiv.style.display = 'none';
+    }, 5000);
+}
+
+// Resend OTP
+document.getElementById('resendOtp').addEventListener('click', async function() {
+    const aadhaarNumber = document.getElementById('aadhaar_number').value;
+    
+    try {
+        const response = await fetch('/auth/aadhaar/send-otp', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                aadhaar_number: aadhaarNumber,
+                user_id: currentUserId
+            })
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            showStatus('OTP resent successfully!', 'success');
+        } else {
+            showStatus(result.message || 'Failed to resend OTP', 'error');
+        }
+    } catch (error) {
+        alert('Network error. Please try again.');
+    }
+});
+</script>
+{% endblock %}

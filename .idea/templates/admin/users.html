@@ -1,0 +1,249 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="dashboard">
+    <aside class="sidebar">
+        <ul class="sidebar-menu">
+            <li><a href="{{ url_for('admin.dashboard') }}">Dashboard</a></li>
+            <li><a href="{{ url_for('admin.code_spirit_monitoring') }}">Skill Up</a></li>
+            <li><a href="{{ url_for('admin.manage_users') }}">Manage Users</a></li>
+            <li><a href="{{ url_for('admin.manage_jobs') }}">Manage Jobs</a></li>
+            <li><a href="{{ url_for('admin.manage_tickets') }}">Support Tickets</a></li>
+            <li><a href="{{ url_for('admin.analytics') }}">Analytics</a></li>
+        </ul>
+    </aside>
+    
+    <main class="main-content">
+        <div class="page-header">
+            <h1 style="color: white !important;">Manage Users</h1>
+        </div>
+        
+        <div class="card">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Status</th>
+                        <th>Joined</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                        <tr>
+                            <td>{{ user.email }}</td>
+                            <td><span class="badge badge-{{ user.role }}" style="text-transform: capitalize;">{{ user.role }}</span></td>
+                            <td><span class="badge badge-{{ 'offered' if user.is_active else 'rejected' }}">{{ 'Active' if user.is_active else 'Inactive' }}</span></td>
+                            <td>{{ user.created_at.strftime('%b %d, %Y') }}</td>
+                            <td class="actions-inline">
+                                <button class="btn btn-sm btn-primary edit-user-btn" 
+                                        data-user-id="{{ user.id }}" 
+                                        data-email="{{ user.email|escape }}" 
+                                        data-role="{{ user.role|escape }}" 
+                                        data-mobile="{{ user.mobile|escape or '' }}" 
+                                        data-active="{{ 'true' if user.is_active else 'false' }}"
+                                        {% if user.id == current_user.id %}disabled{% endif %}>Edit</button>
+                                <form action="{{ url_for('admin.toggle_user_status', user_id=user.id) }}" method="POST" style="display:inline;">
+                                    <button class="btn btn-sm btn-outline" {% if user.id == current_user.id %}disabled{% endif %}>
+                                        {{ 'Deactivate' if user.is_active else 'Activate' }}
+                                    </button>
+                                </form>
+                                <form action="{{ url_for('admin.delete_user', user_id=user.id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Delete this user and related data? This cannot be undone.');">
+                                    <button class="btn btn-sm btn-danger" {% if user.id == current_user.id %}disabled{% endif %}>Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Edit User Modal -->
+        <div id="editUserModal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Edit User</h3>
+                    <span class="close" onclick="closeEditModal()">&times;</span>
+                </div>
+                <div class="modal-body">
+                    <form id="editUserForm" method="POST" action="{{ url_for('admin.edit_user') }}">
+                        <input type="hidden" id="editUserId" name="user_id">
+                        
+                        <div class="form-group">
+                            <label for="editEmail">Email:</label>
+                            <input type="email" id="editEmail" name="email" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="editRole">Role:</label>
+                            <select id="editRole" name="role" required>
+                                <option value="student">Student</option>
+                                <option value="recruiter">Recruiter</option>
+                                <option value="admin">Admin</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="editMobile">Mobile:</label>
+                            <input type="tel" id="editMobile" name="mobile">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="editActive">Status:</label>
+                            <select id="editActive" name="active" required>
+                                <option value="true">Active</option>
+                                <option value="false">Inactive</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                            <button type="button" class="btn btn-secondary" onclick="closeEditModal()">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script>
+function editUser(userId, email, role, mobile, isActive) {
+    document.getElementById('editUserId').value = userId;
+    document.getElementById('editEmail').value = email;
+    document.getElementById('editRole').value = role;
+    document.getElementById('editMobile').value = mobile;
+    document.getElementById('editActive').value = isActive;
+    document.getElementById('editUserModal').style.display = 'block';
+}
+
+function closeEditModal() {
+    document.getElementById('editUserModal').style.display = 'none';
+}
+
+// Close modal when clicking outside
+window.onclick = function(event) {
+    const modal = document.getElementById('editUserModal');
+    if (event.target == modal) {
+        closeEditModal();
+    }
+}
+</script>
+
+<style>
+.modal {
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 10% auto;
+    padding: 0;
+    border-radius: 8px;
+    width: 500px;
+    max-width: 90%;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #ddd;
+}
+
+.modal-header h3 {
+    margin: 0;
+    color: #333;
+}
+
+.close {
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #aaa;
+}
+
+.close:hover {
+    color: #000;
+}
+
+.modal-body {
+    padding: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0,123,255,0.25);
+}
+
+.btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-right: 10px;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #545b62;
+}
+
+.actions-inline {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+.actions-inline .btn {
+    margin-right: 5px;
+    white-space: nowrap;
+}
+</style>
+{% endblock %}

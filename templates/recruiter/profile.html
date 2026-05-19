@@ -1,0 +1,167 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="dashboard">
+    <aside class="sidebar">
+        <div style="text-align: center; margin-bottom: 2rem;">
+            <div class="profile-avatar" style="width: 80px; height: 80px; background: var(--primary); border-radius: 50%; margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem; font-weight: 600;">
+                {% if current_user.profile_image_path %}
+                    <img src="{{ url_for('static', filename='uploads/' + current_user.profile_image_path) }}" alt="Recruiter Photo" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover;" />
+                {% else %}
+                    {{ current_user.email.split('@')[0][0]|upper if current_user.email else 'R' }}
+                {% endif %}
+            </div>
+
+            <h4 style="margin-bottom: 0.25rem;">{{ current_user.email.split('@')[0] if current_user.email else 'Recruiter' }}</h4>
+            <p style="color: var(--gray); font-size: 0.875rem; margin: 0;">{{ current_user.student_id if current_user.student_id else '' }}</p>
+
+            <div style="margin-top: 0.75rem;">
+                <div style="font-size: 0.95rem; color: var(--text); font-weight: 600;">Recruiter Verification</div>
+                <div style="margin-top: 0.25rem;">
+                    {% if verified_by_admin %}
+                        <span style="color: #f59e0b; font-size: 1.25rem;" aria-label="Verified">
+                            {% for _ in range(5) %}★{% endfor %}
+                        </span>
+                        <div style="color: var(--gray); font-size: 0.85rem;">Verified recruiter by admin</div>
+                    {% else %}
+                        <span style="color: rgba(255,255,255,0.35); font-size: 1.25rem;" aria-label="Not verified">
+                            {% for _ in range(5) %}☆{% endfor %}
+                        </span>
+                        <div style="color: var(--gray); font-size: 0.85rem;">Verification pending</div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <ul class="sidebar-menu">
+            <li><a href="{{ url_for('recruiter.dashboard') }}">Dashboard</a></li>
+            <li><a href="{{ url_for('recruiter.profile') }}" class="active">Profile</a></li>
+            <li><a href="{{ url_for('recruiter.manage_jobs') }}">Manage Jobs</a></li>
+            <li><a href="{{ url_for('recruiter.post_job') }}">Post Job</a></li>
+            <li><a href="{{ url_for('recruiter.view_applications') }}">Applications</a></li>
+            <li><a href="{{ url_for('recruiter.matched_candidates') }}">Matched Candidates</a></li>
+            <li><a href="{{ url_for('recruiter.recruiter_support') }}">Support</a></li>
+        </ul>
+    </aside>
+
+    <main class="main-content">
+        <div class="page-header">
+            <h1 class="portal-heading">Recruiter Profile</h1>
+            <p class="portal-subheading">Company verification & recruiter details</p>
+        </div>
+
+        <div class="card">
+            <div class="stats-grid" style="margin-bottom: 1rem;">
+                <div class="stat-card">
+                    <div class="stat-value">{{ current_user.company_id if current_user.company_id else '—' }}</div>
+                    <div class="stat-label">Company ID</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">{{ current_user.company_id_status if current_user.company_id_status else 'pending_verification' }}</div>
+                    <div class="stat-label">Company Status</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">{{ 'Yes' if current_user.is_verified else 'No' }}</div>
+                    <div class="stat-label">OTP Verified</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <h3 style="margin: 0 0 0.75rem 0;">Edit Recruiter Details</h3>
+
+                <form method="POST" enctype="multipart/form-data">
+                    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.75rem;">
+                        <div class="form-group">
+                            <div style="color: var(--gray); font-size: 0.85rem;">First Name</div>
+                            <input name="first_name" class="form-control" type="text" value="{{ current_user.first_name if current_user.first_name is defined and current_user.first_name else '' }}" />
+                        </div>
+
+                        <div class="form-group">
+                            <div style="color: var(--gray); font-size: 0.85rem;">Last Name</div>
+                            <input name="last_name" class="form-control" type="text" value="{{ current_user.last_name if current_user.last_name is defined and current_user.last_name else '' }}" />
+                        </div>
+
+                        <div class="form-group">
+                            <div style="color: var(--gray); font-size: 0.85rem;">Phone</div>
+                            <input name="mobile" class="form-control" type="tel" value="{{ current_user.mobile if current_user.mobile else '' }}" />
+                        </div>
+
+                        <div class="form-group">
+                            <div style="color: var(--gray); font-size: 0.85rem;">Profile Photo</div>
+                            <input type="file" name="profile_image" class="form-control" accept="image/*" />
+                        </div>
+
+                        <div class="form-group">
+                            <div style="color: var(--gray); font-size: 0.85rem;">Profession</div>
+                            <input name="profession" class="form-control" type="text" value="{{ current_user.profession if current_user.profession is defined and current_user.profession else '' }}" />
+                        </div>
+
+                        <div class="form-group">
+                            <div style="color: var(--gray); font-size: 0.85rem;">Company Name</div>
+                            <input name="company_name" class="form-control" type="text" value="{{ current_user.company_name if current_user.company_name else '' }}" />
+                        </div>
+
+                        <div class="form-group">
+                            <div style="color: var(--gray); font-size: 0.85rem;">Recruiter Gmail</div>
+                            <input name="recruiter_request_email" class="form-control" type="email" value="{{ current_user.recruiter_request_email if current_user.recruiter_request_email else current_user.email }}" />
+                        </div>
+
+                        <div class="form-group">
+                            <div style="color: var(--gray); font-size: 0.85rem;">Company ID</div>
+                            <input name="company_id" class="form-control" type="text" value="{{ current_user.company_id if current_user.company_id else '' }}" />
+                        </div>
+
+                        <div class="form-group">
+                            <div style="color: var(--gray); font-size: 0.85rem;">Company ID Card</div>
+                            <input type="file" name="company_id_card" class="form-control" accept="image/*" />
+                            <small style="color: var(--gray);">Re-upload to reset verification</small>
+                        </div>
+
+                        <div class="form-group">
+                            <div style="color: var(--gray); font-size: 0.85rem;">LinkedIn URL</div>
+                            <input name="linkedin" class="form-control" type="url" value="{{ current_user.linkedin if current_user.linkedin is defined and current_user.linkedin else '' }}" />
+                        </div>
+
+                        <div class="form-group">
+                            <div style="color: var(--gray); font-size: 0.85rem;">GitHub URL</div>
+                            <input name="github" class="form-control" type="url" value="{{ current_user.github if current_user.github is defined and current_user.github else '' }}" />
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 1rem; display:flex; gap:0.75rem; flex-wrap:wrap;">
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+
+
+            <div class="form-group" style="margin-top: 1.25rem;">
+                <label style="display:block; margin-bottom: 0.5rem;">Profile Image (Recruiter)</label>
+                {% if current_user.profile_image_path %}
+                    <img src="{{ url_for('static', filename='uploads/' + current_user.profile_image_path) }}" alt="Recruiter Photo" style="max-width: 160px; width: 100%; border: 1px solid var(--border); border-radius: 12px;" />
+                {% else %}
+                    <p style="color: var(--gray);">No profile image uploaded.</p>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label style="display:block; margin-bottom: 0.5rem; margin-top: 1.25rem;">Company ID Card</label>
+                {% if current_user.company_id_image_path %}
+                    <img src="{{ url_for('static', filename='uploads/company_id_cards/' + current_user.company_id_image_path.split('/')[-1]) }}" alt="Company ID" style="max-width: 420px; width: 100%; border: 1px solid var(--border); border-radius: 12px;" />
+                    <p style="color: var(--gray); margin-top: 0.5rem;">Uploaded by recruiter</p>
+                {% else %}
+                    <p style="color: var(--gray);">No company ID card uploaded.</p>
+                {% endif %}
+            </div>
+
+            <div style="margin-top: 1.25rem; padding: 1rem; background: var(--light); border-radius: 12px; border: 1px solid var(--border);">
+                <div style="font-weight: 700; color: var(--text); margin-bottom: 0.5rem;">Recruiter Stars</div>
+                <div style="color: var(--gray);">Your ★★... rating is based on admin verification. Once admin verifies your company ID, this section will show filled stars.</div>
+            </div>
+        </div>
+    </main>
+</div>
+{% endblock %}
+
+
+

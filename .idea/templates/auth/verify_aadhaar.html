@@ -1,0 +1,748 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="auth-container" data-user-id="{{ user_id or (current_user.id if current_user else 0) }}">
+    <!-- Verification Header - Separate from main header -->
+    <div class="verification-header">
+        <div class="verification-header-content">
+            <div class="verification-title">
+                <h2>Aadhaar Verification Required</h2>
+            </div>
+            <div class="verification-nav">
+                <a href="{{ url_for('auth.signup') }}" class="btn btn-outline" style="text-decoration: none; padding: 0.75rem 1.5rem; font-size: 0.9rem;">
+                    ← Back to Sign Up
+                </a>
+            </div>
+        </div>
+        <div class="security-message">
+            <p>🔒 Your data is secure and encrypted. We follow KYC compliance guidelines.</p>
+        </div>
+    </div>
+
+    <div class="auth-card">
+
+        <div class="auth-step">
+            <div class="verification-info">
+                <div class="alert alert-warning">
+                    <strong>Verification Required:</strong> Your account requires Aadhaar verification for security and compliance.
+                </div>
+                
+                <div class="verification-steps">
+                    <h3>Verification Steps:</h3>
+                    <ol>
+                        <li>Enter your 12-digit Aadhaar number</li>
+                        <li>Receive OTP on your registered mobile number</li>
+                        <li>Enter OTP to complete verification</li>
+                        <li>Access your account with full features</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="verification-methods">
+                <div class="method-tabs">
+                    <button class="tab-btn active">OTP Verification</button>
+                </div>
+
+                <!-- OTP Method -->
+                <div id="otpMethod" class="verification-method">
+                    <form id="aadhaarOtpForm">
+                        <div class="form-group">
+                            <label for="aadhaar_number">Aadhaar Number *</label>
+                            <input type="text" id="aadhaar_number" name="aadhaar_number" 
+                                   class="form-control" placeholder="12-digit Aadhaar number" 
+                                   maxlength="12" pattern="[0-9]{12}" required>
+                            <small class="form-text">Enter your 12-digit Aadhaar number</small>
+                        </div>
+
+                        <div class="consent-section">
+                            <div class="form-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="aadhaar_consent" required>
+                                    <span>I consent to Aadhaar verification for identity confirmation</span>
+                                </label>
+                                <small class="form-text">
+                                    Your Aadhaar information will be used solely for identity verification 
+                                    and will be stored in masked format as per security guidelines.
+                                </small>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-block">
+                            Send OTP
+                        </button>
+                    </form>
+
+                    <div id="otpVerification" style="display: none;">
+                        <form id="verifyOtpForm">
+                            <div class="form-group">
+                                <label for="otp">Enter OTP *</label>
+                                <input type="text" id="otp" name="otp" 
+                                       class="form-control" placeholder="6-digit OTP" 
+                                       maxlength="6" pattern="[0-9]{6}" required>
+                                <small class="form-text">Enter the OTP sent to your registered mobile</small>
+                            </div>
+
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-success btn-block">
+                                    Verify OTP
+                                </button>
+                                <button type="button" id="resendOtp" class="btn btn-outline btn-block">
+                                    Resend OTP
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                            </div>
+
+            <div class="verification-status" id="verificationStatus" style="display: none;">
+                <div class="status-message"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+/* Light and Dark Mode Support - Landing Page Style */
+:root {
+    --primary-color: #6366f1;
+    --secondary-color: #8b5cf6;
+    --accent-color: #ec4899;
+    --dark-bg: #0f172a;
+    --light-bg: #ffffff;
+    --dark-card: #1e293b;
+    --light-card: #f8fafc;
+    --dark-text: #f1f5f9;
+    --light-text: #1e293b;
+    --dark-border: #334155;
+    --light-border: #e2e8f0;
+    --shadow-light: rgba(0, 0, 0, 0.1);
+    --shadow-dark: rgba(0, 0, 0, 0.3);
+}
+
+/* Default light mode */
+.auth-container {
+    background: var(--light-bg);
+    color: var(--light-text);
+}
+
+.verification-header {
+    background: var(--light-card);
+    border-color: var(--light-border);
+}
+
+.verification-title h2 {
+    color: var(--light-text);
+}
+
+.verification-nav .btn {
+    border-color: var(--light-border);
+    color: var(--light-text);
+}
+
+.security-message {
+    background: #e3f2fd;
+    border-color: #2196f3;
+}
+
+.security-message p {
+    color: #1976d2;
+}
+
+.auth-card {
+    background: var(--light-card);
+    border-color: var(--light-border);
+}
+
+.form-control {
+    background: var(--light-bg);
+    color: var(--light-text);
+    border-color: var(--light-border);
+}
+
+.form-group label {
+    color: var(--light-text);
+}
+
+.verification-steps {
+    background: var(--light-card);
+    border-color: var(--light-border);
+}
+
+.verification-steps h3 {
+    color: var(--light-text);
+}
+
+.verification-steps ol {
+    color: var(--light-text);
+}
+
+.consent-section {
+    background: var(--light-card);
+    border-color: var(--light-border);
+}
+
+/* Dark mode */
+body.dark-mode .auth-container {
+    background: var(--dark-bg);
+    color: var(--dark-text);
+}
+
+body.dark-mode .verification-header {
+    background: var(--dark-card);
+    border-color: var(--dark-border);
+}
+
+body.dark-mode .verification-title h2 {
+    color: var(--dark-text);
+}
+
+body.dark-mode .verification-nav .btn {
+    border-color: var(--dark-border);
+    color: var(--dark-text);
+}
+
+body.dark-mode .verification-nav .btn:hover {
+    background: var(--dark-text);
+    color: var(--dark-bg);
+}
+
+body.dark-mode .security-message {
+    background: #2c5282;
+    border-color: #3182ce;
+}
+
+body.dark-mode .security-message p {
+    color: var(--dark-text);
+}
+
+body.dark-mode .auth-card {
+    background: var(--dark-card);
+    border-color: var(--dark-border);
+}
+
+body.dark-mode .form-control {
+    background: var(--dark-bg);
+    color: var(--dark-text);
+    border-color: var(--dark-border);
+}
+
+body.dark-mode .form-group label {
+    color: var(--dark-text);
+}
+
+body.dark-mode .verification-steps {
+    background: var(--dark-card);
+    border-color: var(--dark-border);
+}
+
+body.dark-mode .verification-steps h3 {
+    color: var(--dark-text);
+}
+
+body.dark-mode .verification-steps ol {
+    color: var(--dark-text);
+}
+
+body.dark-mode .consent-section {
+    background: var(--dark-card);
+    border-color: var(--dark-border);
+}
+
+.auth-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 2rem;
+    transition: all 0.3s ease;
+}
+
+/* Verification Header Styles */
+.verification-header {
+    width: 100%;
+    max-width: 800px;
+    margin-bottom: 2rem;
+    background: var(--light-card);
+    border: 1px solid var(--light-border);
+    border-radius: 1rem;
+    padding: 2rem;
+    box-shadow: var(--shadow-light) 0 4px 6px;
+    transition: all 0.3s ease;
+}
+
+body.dark-mode .verification-header {
+    background: var(--dark-card);
+    border-color: var(--dark-border);
+    box-shadow: var(--shadow-dark) 0 4px 6px;
+}
+
+.verification-header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.verification-title h2 {
+    margin: 0;
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.verification-nav .btn {
+    background: transparent;
+    border: 2px solid var(--border-color);
+    color: var(--text-primary);
+    padding: 0.75rem 1.5rem;
+    font-size: 0.9rem;
+    text-decoration: none;
+    border-radius: 0.5rem;
+    transition: all 0.3s;
+}
+
+.verification-nav .btn:hover {
+    background: var(--text-primary);
+    color: var(--bg-primary);
+    transform: translateY(-1px);
+}
+
+.security-message {
+    text-align: center;
+    padding: 1.5rem;
+    background: var(--security-bg);
+    border-radius: 0.75rem;
+    border-left: 4px solid var(--security-border);
+}
+
+.security-message p {
+    margin: 0;
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 1rem;
+}
+
+.auth-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 1rem;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    width: 100%;
+    overflow: hidden;
+}
+
+.auth-header {
+    background: var(--header-bg);
+    color: var(--text-primary);
+    padding: 2.5rem;
+    text-align: center;
+}
+
+.auth-header h2 {
+    margin: 0 0 0.75rem 0;
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+.auth-header p {
+    margin: 0;
+    opacity: 0.9;
+    font-size: 1.1rem;
+}
+
+.auth-step {
+    padding: 3rem;
+}
+
+.verification-info {
+    margin-bottom: 2rem;
+}
+
+.alert {
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--border-color);
+}
+
+.alert-warning {
+    background: var(--alert-bg);
+    color: var(--alert-text);
+    border-color: var(--alert-border);
+}
+
+.alert-info {
+    background: #e3f2fd;
+    color: #1976d2;
+    border: 1px solid #2196f3;
+}
+
+body.dark-mode .alert-info {
+    background: #2c5282;
+    color: var(--dark-text);
+    border-color: #3182ce;
+}
+
+.verification-steps {
+    background: var(--bg-secondary);
+    padding: 2rem;
+    border-radius: 0.75rem;
+    border: 1px solid var(--border-color);
+}
+
+.verification-steps h3 {
+    margin: 0 0 1.5rem 0;
+    color: var(--text-primary);
+    font-size: 1.3rem;
+}
+
+.verification-steps ol {
+    margin: 0;
+    padding-left: 2rem;
+    color: var(--text-secondary);
+}
+
+.verification-steps li {
+    margin-bottom: 0.75rem;
+    font-size: 1.1rem;
+}
+
+.form-group {
+    margin-bottom: 2rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.75rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 1.1rem;
+}
+
+.form-control {
+    width: 100%;
+    padding: 1rem;
+    border: 2px solid var(--border-color);
+    border-radius: 0.75rem;
+    font-size: 1.1rem;
+    transition: border-color 0.3s;
+    background: var(--card-bg);
+    color: var(--text-primary);
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.form-text {
+    display: block;
+    margin-top: 0.5rem;
+    font-size: 1rem;
+    color: var(--text-secondary);
+}
+
+.consent-section {
+    background: var(--bg-secondary);
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    border: 1px solid var(--border-color);
+    margin: 1.5rem 0;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    cursor: pointer;
+}
+
+.checkbox-label input[type="checkbox"] {
+    margin-top: 0.25rem;
+}
+
+.verification-methods {
+    margin-top: 1rem;
+}
+
+.method-tabs {
+    display: flex;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid #e1e5e9;
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 1rem;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-weight: 500;
+    color: #6c757d;
+    border-bottom: 2px solid transparent;
+    transition: all 0.3s;
+}
+
+.tab-btn.active {
+    color: #667eea;
+    border-bottom-color: #667eea;
+}
+
+.verification-method {
+    margin-bottom: 1rem;
+}
+
+.auth-footer {
+    padding: 1rem 2rem;
+    text-align: center;
+    background: #f8f9fa;
+    border-top: 1px solid #e1e5e9;
+}
+
+.auth-footer p {
+    margin: 0.5rem 0;
+    color: #6c757d;
+}
+
+.auth-footer a {
+    color: #667eea;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.auth-footer a:hover {
+    text-decoration: underline;
+}
+
+.security-note {
+    font-size: 0.875rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+}
+
+.btn-primary {
+    background: #667eea;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #5a6fd8;
+    transform: translateY(-1px);
+}
+
+.btn-success {
+    background: #28a745;
+    color: white;
+}
+
+.btn-success:hover {
+    background: #218838;
+}
+
+.btn-outline {
+    background: transparent;
+    border: 2px solid #667eea;
+    color: #667eea;
+}
+
+.btn-outline:hover {
+    background: #667eea;
+    color: white;
+}
+
+.btn-block {
+    width: 100%;
+}
+
+.verification-status {
+    margin-top: 1rem;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    text-align: center;
+}
+
+.status-message.success {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.status-message.error {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.status-message.warning {
+    background: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeaa7;
+}
+
+@media (max-width: 768px) {
+    .auth-container {
+        padding: 1rem;
+    }
+    
+    .auth-header {
+        padding: 1.5rem;
+    }
+    
+    .auth-step {
+        padding: 1.5rem;
+    }
+}
+</style>
+
+<script>
+// Get user ID from data attribute
+var currentUserId = parseInt(document.querySelector('.auth-container').dataset.userId || '0');
+let currentRequestId = null;
+
+// OTP form is always visible since we removed QR method
+document.getElementById('otpMethod').style.display = 'block';
+
+// Step 1: Aadhaar OTP send
+document.getElementById('aadhaarOtpForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const aadhaarNumber = document.getElementById('aadhaar_number').value;
+    
+    if (!document.getElementById('aadhaar_consent').checked) {
+        showStatus('Please provide consent for Aadhaar verification', 'error');
+        return;
+    }
+    
+    try {
+        const requestData = {
+            aadhaar_number: aadhaarNumber,
+            user_id: currentUserId
+        };
+        
+        console.log('Sending request:', JSON.stringify(requestData, null, 2));
+        
+        const response = await fetch('/auth/aadhaar/send-otp', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestData)
+        });
+        
+        const result = await response.json();
+        console.log('Response:', result);
+        
+        if (result.success) {
+            currentRequestId = result.request_id;
+            document.getElementById('otpVerification').style.display = 'block';
+            document.getElementById('aadhaarOtpForm').style.display = 'none';
+            showStatus('OTP sent successfully!', 'success');
+        } else {
+            showStatus(result.message || 'Failed to send OTP', 'error');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Network error. Please try again.');
+    }
+});
+
+// Step 2: Verify OTP
+document.getElementById('verifyOtpForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const otp = document.getElementById('otp').value;
+    const aadhaarNumber = document.getElementById('aadhaar_number').value;
+    
+    try {
+        const response = await fetch('/auth/aadhaar/verify-otp', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                aadhaar_number: aadhaarNumber,
+                otp: otp,
+                request_id: currentRequestId,
+                user_id: currentUserId
+            })
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            showStatus('Aadhaar verification successful! Redirecting...', 'success');
+            setTimeout(() => {
+                window.location.href = '/auth/login';
+            }, 2000);
+        } else {
+            showStatus(result.message || 'OTP verification failed', 'error');
+        }
+    } catch (error) {
+        alert('Network error. Please try again.');
+    }
+});
+
+
+// Status messages
+function showStatus(message, type) {
+    const statusDiv = document.getElementById('verificationStatus');
+    const messageDiv = statusDiv.querySelector('.status-message');
+    
+    messageDiv.className = 'status-message ' + type;
+    messageDiv.textContent = message;
+    statusDiv.style.display = 'block';
+    
+    setTimeout(() => {
+        statusDiv.style.display = 'none';
+    }, 5000);
+}
+
+// Resend OTP
+document.getElementById('resendOtp').addEventListener('click', async function() {
+    const aadhaarNumber = document.getElementById('aadhaar_number').value;
+    
+    try {
+        const response = await fetch('/auth/aadhaar/send-otp', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                aadhaar_number: aadhaarNumber,
+                user_id: currentUserId
+            })
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            showStatus('OTP resent successfully!', 'success');
+        } else {
+            showStatus(result.message || 'Failed to resend OTP', 'error');
+        }
+    } catch (error) {
+        alert('Network error. Please try again.');
+    }
+});
+</script>
+{% endblock %}

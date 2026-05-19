@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="dashboard">
+    <aside class="sidebar">
+        <ul class="sidebar-menu">
+            <li><a href="{{ url_for('student.dashboard') }}">Dashboard</a></li>
+            <li><a href="{{ url_for('student.profile') }}">Profile</a></li>
+            <li><a href="{{ url_for('student.tests') }}" class="active">Skill Tests</a></li>
+            <li><a href="{{ url_for('student.readiness') }}">Readiness Meter</a></li>
+            <li><a href="{{ url_for('student.applications') }}">Job Applications</a></li>
+            <li><a href="{{ url_for('student.mock_interview') }}">Mock Interview</a></li>
+            <li><a href="{{ url_for('student.roadmap') }}">Learning Roadmap</a></li>
+            <li><a href="{{ url_for('student.certificates') }}">Certificates</a></li>
+            <li><a href="{{ url_for('student.discussions') }}">Discussions</a></li>
+            <li><a href="{{ url_for('student.support') }}">Support</a></li>
+        </ul>
+    </aside>
+    
+    <main class="main-content">
+        <div class="page-header">
+            <h1 style="color: #0f172a !important;">Skill Assessment Tests</h1>
+            <p style="color: var(--gray);">Test your knowledge and track your progress | 25 questions per test</p>
+        </div>
+        
+        <div class="stats-grid" style="grid-template-columns: repeat(4, 1fr);">
+            <div class="stat-card" style="cursor: pointer;" onclick="window.location.href='{{ url_for('student.take_test', test_type='dsa') }}'">
+                <div style="font-size: 2rem; margin-bottom: 0.5rem;">📊</div>
+                <div class="stat-label" style="font-weight: 600;">DSA</div>
+                <div style="font-size: 0.75rem; color: var(--gray); margin-top: 0.5rem;">Arrays, Trees, Graphs</div>
+            </div>
+            <div class="stat-card" style="cursor: pointer;" onclick="window.location.href='{{ url_for('student.take_test', test_type='aptitude') }}'">
+                <div style="font-size: 2rem; margin-bottom: 0.5rem;">🧠</div>
+                <div class="stat-label" style="font-weight: 600;">Aptitude</div>
+                <div style="font-size: 0.75rem; color: var(--gray); margin-top: 0.5rem;">Quantitative, Logical</div>
+            </div>
+            <div class="stat-card" style="cursor: pointer;" onclick="window.location.href='{{ url_for('student.coding_portal') }}'">
+                <div style="font-size: 2rem; margin-bottom: 0.5rem;">💻</div>
+                <div class="stat-label" style="font-weight: 600;">Coding</div>
+                <div style="font-size: 0.75rem; color: var(--gray); margin-top: 0.5rem;">Python, JS, Java</div>
+            </div>
+            <div class="stat-card" style="cursor: pointer;" onclick="window.location.href='{{ url_for('student.take_test', test_type='core') }}'">
+                <div style="font-size: 2rem; margin-bottom: 0.5rem;">⚙️</div>
+                <div class="stat-label" style="font-weight: 600;">Core Subjects</div>
+                <div style="font-size: 0.75rem; color: var(--gray); margin-top: 0.5rem;">OS, DB, Networking</div>
+            </div>
+        </div>
+        
+        <div class="card" style="margin-top: 2rem;">
+            <h3>Test Instructions</h3>
+            <ul style="line-height: 1.8;">
+                <li>Each test contains 25 questions with multiple choice answers</li>
+                <li>Duration: 30 minutes for each test</li>
+                <li>Score 70% or higher to earn certificates</li>
+                <li>Tests can be retaken to improve scores</li>
+                <li>Progress is tracked in your dashboard</li>
+            </ul>
+        </div>
+    </main>
+</div>
+{% endblock %}

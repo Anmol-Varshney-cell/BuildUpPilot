@@ -1,0 +1,275 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- Removed duplicate navbar from auth page -->
+
+<div class="container" style="padding-top: 3rem;">
+    <div style="max-width: 500px; margin: 0 auto;">
+        <div class="card fade-in" id="signupCard">
+            <h2 style="text-align: center; margin-bottom: 2rem;">Create Your Account</h2>
+            
+            <form id="signupForm">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" name="full_name" class="form-control" required placeholder="Radhe Krishna">
+                </div>
+                
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" name="email" class="form-control" required placeholder="you@example.com">
+                </div>
+                
+                <div class="form-group">
+                    <label>Mobile Number</label>
+                    <input type="tel" name="mobile" class="form-control" required placeholder="+91 9876543210" pattern="[+]?[0-9]{10,15}">
+                    <small style="color: var(--gray);">OTP will be sent for verification</small>
+                </div>
+                
+                <div class="form-group">
+                    <label>Password</label>
+                    <div class="password-field-wrap">
+                        <input type="password" name="password" id="signupPassword" class="form-control" required placeholder="Create a strong password" minlength="8">
+                        <button type="button" class="toggle-password password-toggle-btn" data-target="signupPassword" aria-label="Show password" title="Show password">&#128065;</button>
+                    </div>
+                    <small style="color: #dc3545; font-weight: bold; font-size: 0.875rem;" id="passwordRequirements">
+                        ⚠️ ALERT - At least 8 characters, One uppercase letter (A-Z), One lowercase letter (a-z), One number (0-9), One special character (!@#$%^&*)
+                    </small>
+                    <small style="color: var(--gray);" id="passwordStrength"></small>
+                </div>
+                
+                <div class="form-group">
+                    <label>Confirm Password</label>
+                    <div class="password-field-wrap">
+                        <input type="password" name="confirm_password" id="confirmPassword" class="form-control" required placeholder="Confirm your password" minlength="6">
+                        <button type="button" class="toggle-password password-toggle-btn" data-target="confirmPassword" aria-label="Show password" title="Show password">&#128065;</button>
+                    </div>
+                    <small style="color: var(--gray);" id="passwordMatchMessage"></small>
+                </div>
+                
+                <div class="form-group">
+                    <label>I am a...</label>
+                    <select name="role" class="form-control" required id="roleSelect">
+                        <option value="student">Student / Fresher</option>
+                        <option value="recruiter">Recruiter</option>
+                    </select>
+                </div>
+                
+                <div id="companyFields" style="display: none;">
+                    <div class="form-group">
+                        <label>Company ID Number</label>
+                        <input type="text" name="company_id" class="form-control" placeholder="Enter your company ID number">
+                        <small style="color: var(--gray);">Provide either company ID number OR upload ID card image</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Company ID Card Image</label>
+                        <input type="file" name="company_id_image" class="form-control" accept="image/*">
+                        <small style="color: var(--gray);">Upload company ID card image if you don't have ID number</small>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary" style="width: 100%;" id="signupBtn">Sign Up</button>
+            </form>
+            
+            <p style="text-align: center; margin-top: 1.5rem; color: var(--gray);">
+                Already have an account? <a href="{{ url_for('auth.login') }}" style="color: var(--primary);">Login</a>
+            </p>
+        </div>
+        
+        <div class="card fade-in" id="otpCard" style="display: none;">
+            <h2 style="text-align: center; margin-bottom: 1rem;">Verify Your Mobile</h2>
+            <p style="text-align: center; color: var(--gray); margin-bottom: 1.5rem;">Enter the OTP sent to your mobile number</p>
+            
+            <form id="otpForm">
+                <div class="form-group">
+                    <label>Enter OTP</label>
+                    <input type="text" name="otp" class="form-control" required placeholder="Enter 6-digit OTP" maxlength="6" pattern="[0-9]{6}">
+                </div>
+                
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Verify OTP</button>
+            </form>
+            
+            <p style="text-align: center; margin-top: 1rem; color: var(--gray);">
+                <a href="#" id="resendOtp" style="color: var(--primary);">Resend OTP</a>
+            </p>
+            <p style="text-align: center; margin-top: 0.5rem; color: var(--secondary); font-size: 0.875rem;">
+                Demo OTP will be shown on successful signup
+            </p>
+        </div>
+    </div>
+</div>
+
+<script>
+let currentUserId = null;
+
+// Handle role selection change
+document.getElementById('roleSelect').addEventListener('change', function() {
+    const companyFields = document.getElementById('companyFields');
+    if (this.value === 'recruiter') {
+        companyFields.style.display = 'block';
+    } else {
+        companyFields.style.display = 'none';
+    }
+});
+
+// Password strength validation
+function checkPasswordStrength(password) {
+    const requirements = {
+        length: password.length >= 8,
+        upper: /[A-Z]/.test(password),
+        lower: /[a-z]/.test(password),
+        number: /[0-9]/.test(password),
+        special: /[!@#$%^&*]/.test(password)
+    };
+    
+    // Calculate strength
+    const metRequirements = Object.values(requirements).filter(Boolean).length;
+    const strengthElement = document.getElementById('passwordStrength');
+    
+    if (metRequirements === 0) {
+        strengthElement.textContent = 'Password strength: Very Weak';
+        strengthElement.style.color = '#dc3545';
+    } else if (metRequirements === 1) {
+        strengthElement.textContent = 'Password strength: Weak';
+        strengthElement.style.color = '#fd7e14';
+    } else if (metRequirements === 2) {
+        strengthElement.textContent = 'Password strength: Fair';
+        strengthElement.style.color = '#ffc107';
+    } else if (metRequirements === 3) {
+        strengthElement.textContent = 'Password strength: Good';
+        strengthElement.style.color = '#20c997';
+    } else if (metRequirements === 4) {
+        strengthElement.textContent = 'Password strength: Strong';
+        strengthElement.style.color = '#0d6efd';
+    } else if (metRequirements === 5) {
+        strengthElement.textContent = 'Password strength: Very Strong';
+        strengthElement.style.color = '#28a745';
+    }
+    
+    return metRequirements === 5; // Return true only if all requirements met
+}
+
+// Password confirmation validation
+function checkPasswordMatch() {
+    const password = document.getElementById('signupPassword').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+    const messageElement = document.getElementById('passwordMatchMessage');
+    
+    if (confirmPassword === '') {
+        messageElement.textContent = '';
+        return true;
+    }
+    
+    if (password === confirmPassword) {
+        messageElement.textContent = '✓ Passwords match';
+        messageElement.style.color = '#28a745';
+        return true;
+    } else {
+        messageElement.textContent = '✗ Passwords do not match';
+        messageElement.style.color = '#dc3545';
+        return false;
+    }
+}
+
+// Add event listeners for password validation
+document.getElementById('signupPassword').addEventListener('input', function() {
+    checkPasswordStrength(this.value);
+    checkPasswordMatch();
+});
+document.getElementById('confirmPassword').addEventListener('input', checkPasswordMatch);
+
+document.getElementById('signupForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const password = document.getElementById('signupPassword').value;
+    
+    // Check password strength before submission
+    if (!checkPasswordStrength(password)) {
+        alert('Password does not meet all requirements. Please create a stronger password.');
+        document.getElementById('signupPassword').focus();
+        return;
+    }
+    
+    // Check if passwords match before submission
+    if (!checkPasswordMatch()) {
+        alert('Passwords do not match. Please confirm your password.');
+        document.getElementById('confirmPassword').focus();
+        return;
+    }
+    
+    const formData = new FormData(e.target);
+    
+    try {
+        const response = await fetch('{{ url_for("auth.signup") }}', {
+            method: 'POST',
+            body: formData
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            currentUserId = data.user_id;
+            if (data.next_step === 'aadhaar_verification') {
+                // Redirect to Aadhaar verification page with user ID
+                alert(data.message);
+                window.location.href = `/auth/verify-aadhaar/${data.user_id}`;
+            } else {
+                // Show mobile OTP verification for backward compatibility
+                document.getElementById('signupCard').style.display = 'none';
+                document.getElementById('otpCard').style.display = 'block';
+                alert(data.message);
+            }
+        } else {
+            alert(data.message || 'Signup failed');
+        }
+    } catch (error) {
+        alert('Error during signup');
+    }
+});
+
+document.getElementById('otpForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    formData.append('user_id', currentUserId);
+    
+    try {
+        const response = await fetch('{{ url_for("auth.verify_otp") }}', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                user_id: currentUserId,
+                otp: formData.get('otp')
+            })
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            alert(data.message);
+            window.location.href = '{{ url_for("auth.login") }}';
+        } else {
+            alert(data.message || 'OTP verification failed');
+        }
+    } catch (error) {
+        alert('Error during verification');
+    }
+});
+
+document.getElementById('resendOtp').addEventListener('click', async (e) => {
+    e.preventDefault();
+    
+    try {
+        const response = await fetch('{{ url_for("auth.resend_otp") }}', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({user_id: currentUserId})
+        });
+        
+        const data = await response.json();
+        alert(data.message);
+    } catch (error) {
+        alert('Error resending OTP');
+    }
+});
+</script>
+{% endblock %}

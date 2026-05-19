@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="dashboard">
+    <aside class="sidebar">
+        <ul class="sidebar-menu">
+            <li><a href="{{ url_for('recruiter.dashboard') }}">Dashboard</a></li>
+            <li><a href="{{ url_for('recruiter.profile') }}">Profile</a></li>
+            <li><a href="{{ url_for('recruiter.manage_jobs') }}">Manage Jobs</a></li>
+            <li><a href="{{ url_for('recruiter.post_job') }}" class="active">Post Job</a></li>
+            <li><a href="{{ url_for('recruiter.view_applications') }}">Applications</a></li>
+            <li><a href="{{ url_for('recruiter.matched_candidates') }}">Matched Candidates</a></li>
+            <li><a href="{{ url_for('recruiter.recruiter_support') }}">Support</a></li>
+        </ul>
+    </aside>
+    
+    <main class="main-content">
+        <div class="page-header">
+            <h1 style="color: white !important;">Post a New Job</h1>
+        </div>
+        
+        <div class="card">
+            <form method="POST">
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem;">
+                    <div class="form-group">
+                        <label>Job Title</label>
+                        <input type="text" name="title" class="form-control" required placeholder="e.g., Software Developer">
+                    </div>
+                    <div class="form-group">
+                        <label>Company Name</label>
+                        <input type="text" name="company" class="form-control" required>
+                    </div>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem;">
+                    <div class="form-group">
+                        <label>Location</label>
+                        <input type="text" name="location" class="form-control" placeholder="e.g., Bangalore, Remote">
+                    </div>
+                    <div class="form-group">
+                        <label>Work Mode</label>
+                        <select name="work_mode" class="form-control">
+                            <option value="onsite">On-site</option>
+                            <option value="remote">Remote / Work from Home</option>
+                            <option value="hybrid">Hybrid</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem;">
+                    <div class="form-group">
+                        <label>Job Type</label>
+                        <select name="job_type" class="form-control">
+                            <option value="Full-time">Full-time</option>
+                            <option value="Part-time">Part-time</option>
+                            <option value="Internship">Internship</option>
+                            <option value="Contract">Contract</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Stipend (for Internships, ₹/month)</label>
+                        <input type="number" name="stipend" class="form-control" placeholder="Leave empty for full-time jobs">
+                    </div>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem;">
+                    <div class="form-group">
+                        <label>Minimum Salary (₹/year)</label>
+                        <input type="number" name="salary_min" class="form-control" placeholder="e.g., 600000">
+                    </div>
+                    <div class="form-group">
+                        <label>Maximum Salary (₹/year)</label>
+                        <input type="number" name="salary_max" class="form-control" placeholder="e.g., 1200000">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Required Skills (comma-separated)</label>
+                    <input type="text" name="required_skills" class="form-control" placeholder="Python, JavaScript, React, SQL">
+                </div>
+                
+                <div class="form-group">
+                    <label>Preferred Branches</label>
+                    <input type="text" name="branch" class="form-control" placeholder="CSE, IT, ECE">
+                </div>
+                
+                <div class="form-group">
+                    <label>Job Description</label>
+                    <textarea name="description" class="form-control" rows="4"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>Requirements</label>
+                    <textarea name="requirements" class="form-control" rows="4"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>Application Deadline</label>
+                    <input type="date" name="deadline" class="form-control">
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Post Job</button>
+            </form>
+        </div>
+    </main>
+</div>
+{% endblock %}
+

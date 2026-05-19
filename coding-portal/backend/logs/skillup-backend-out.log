@@ -1,0 +1,678 @@
+2026-04-25T14:34:03: Backend running on http://localhost:4000
+2026-04-25T14:34:10: Backend running on http://localhost:4000
+2026-04-25T14:34:28: [0mGET /api/health [32m200[0m 28.194 ms - 15[0m
+2026-04-25T20:56:32: Backend running on http://localhost:4000
+2026-04-25T20:56:35: Backend running on http://localhost:4000
+2026-04-26T00:07:15: Backend running on http://localhost:4000
+2026-04-26T00:07:20: Backend running on http://localhost:4000
+2026-04-26T00:07:23: Backend running on http://localhost:4000
+2026-04-26T00:07:26: Backend running on http://localhost:4000
+2026-04-26T00:07:33: Backend running on http://localhost:4000
+2026-04-26T00:07:36: Backend running on http://localhost:4000
+2026-04-26T00:07:43: Backend running on http://localhost:4000
+2026-04-26T00:07:46: Backend running on http://localhost:4000
+2026-04-26T00:07:48: Backend running on http://localhost:4000
+2026-04-26T00:08:02: Backend running on http://localhost:4000
+2026-04-26T00:08:08: Backend running on http://localhost:4000
+2026-04-26T00:08:31: Backend running on http://localhost:4000
+2026-04-26T00:08:47: Backend running on http://localhost:4000
+2026-04-26T23:25:39: Backend running on http://localhost:4000
+2026-04-26T23:25:48: [0mGET /api/health [32m200[0m 7.588 ms - 15[0m
+2026-04-26T23:32:46: [0mPOST /api/auth/sso [33m401[0m 22.410 ms - 42[0m
+2026-04-26T23:32:46: [0mGET /api/auth/me [33m401[0m 6.192 ms - 26[0m
+2026-04-26T23:32:47: [0mGET /api/problems [32m200[0m 263.184 ms - 54463[0m
+2026-04-26T23:32:59: [0mGET /api/auth/me [33m401[0m 0.951 ms - 26[0m
+2026-04-26T23:32:59: [0mGET /api/problems [36m304[0m 192.464 ms - -[0m
+2026-04-26T23:48:29: [0mGET /api/auth/me [33m401[0m 0.773 ms - 26[0m
+2026-04-26T23:51:41: [0mGET /api/auth/me [33m401[0m 0.623 ms - 26[0m
+2026-04-26T23:51:45: [0mGET /api/problems [36m304[0m 33.731 ms - -[0m
+2026-04-26T23:51:45: [0mGET /api/problems [36m304[0m 37.995 ms - -[0m
+2026-04-26T23:53:10: Backend running on http://localhost:4000
+2026-04-26T23:53:14: [0mGET /api/auth/me [33m401[0m 3.788 ms - 26[0m
+2026-04-26T23:53:14: [0mPOST /api/auth/sso [33m401[0m 2.270 ms - 42[0m
+2026-04-26T23:53:15: [0mGET /api/problems [36m304[0m 12.474 ms - -[0m
+2026-04-26T23:54:53: [0mGET /api/auth/me [33m401[0m 3.887 ms - 26[0m
+2026-04-26T23:54:53: [0mPOST /api/auth/sso [33m401[0m 2.395 ms - 42[0m
+2026-04-26T23:54:54: [0mGET /api/problems [36m304[0m 18.670 ms - -[0m
+2026-04-26T23:54:55: [0mGET /api/problems [36m304[0m 18.769 ms - -[0m
+2026-04-26T23:58:07: [0mPOST /api/auth/sso [33m401[0m 0.973 ms - 42[0m
+2026-04-26T23:58:07: [0mGET /api/auth/me [33m401[0m 1.251 ms - 26[0m
+2026-04-26T23:58:08: [0mPOST /api/auth/sso [33m401[0m 1.483 ms - 42[0m
+2026-04-26T23:58:08: [0mGET /api/problems [36m304[0m 11.430 ms - -[0m
+2026-04-26T23:59:01: [0mGET /api/auth/me [33m401[0m 0.494 ms - 26[0m
+2026-04-26T23:59:01: [0mPOST /api/auth/sso [33m401[0m 0.841 ms - 42[0m
+2026-04-26T23:59:01: [0mGET /api/problems [36m304[0m 14.691 ms - -[0m
+2026-04-26T23:59:10: [0mGET /api/problems [36m304[0m 12.875 ms - -[0m
+2026-04-26T23:59:10: [0mGET /api/problems [36m304[0m 31.938 ms - -[0m
+2026-04-27T00:00:24: Backend running on http://localhost:4000
+2026-04-27T00:01:27: [0mGET /api/auth/me [33m401[0m 15.723 ms - 26[0m
+2026-04-27T00:01:27: [0mPOST /api/auth/sso [33m401[0m 15.402 ms - 61[0m
+2026-04-27T00:01:27: [0mGET /api/problems [36m304[0m 54.928 ms - -[0m
+2026-04-27T00:01:29: [0mGET /api/auth/me [33m401[0m 1.701 ms - 26[0m
+2026-04-27T00:01:29: [0mPOST /api/auth/sso [33m401[0m 6.465 ms - 61[0m
+2026-04-27T00:01:29: [0mGET /api/problems [36m304[0m 17.207 ms - -[0m
+2026-04-27T00:01:48: [0mGET /api/auth/me [33m401[0m 0.724 ms - 26[0m
+2026-04-27T00:01:48: [0mPOST /api/auth/sso [33m401[0m 3.274 ms - 61[0m
+2026-04-27T00:01:58: [0mGET /api/auth/me [33m401[0m 0.582 ms - 26[0m
+2026-04-27T00:01:59: [0mPOST /api/auth/sso [33m401[0m 1.164 ms - 61[0m
+2026-04-27T00:02:02: [0mGET /api/auth/me [33m401[0m 0.577 ms - 26[0m
+2026-04-27T00:02:02: [0mPOST /api/auth/sso [33m401[0m 1.046 ms - 61[0m
+2026-04-27T00:30:46: [0mGET /api/auth/me [33m401[0m 3.321 ms - 26[0m
+2026-04-27T00:30:48: [0mPOST /api/auth/sso [33m401[0m 1.619 ms - 61[0m
+2026-04-27T00:36:22: [0mGET /api/auth/me [33m401[0m 0.882 ms - 26[0m
+2026-04-27T00:36:22: [0mPOST /api/auth/sso [33m401[0m 1.786 ms - 61[0m
+2026-04-27T00:36:33: [0mGET /api/problems [36m304[0m 120.845 ms - -[0m
+2026-04-27T00:36:33: [0mGET /api/problems [36m304[0m 23.917 ms - -[0m
+2026-04-27T00:38:13: [0mGET /api/auth/me [33m401[0m 0.705 ms - 26[0m
+2026-04-27T00:38:13: [0mPOST /api/auth/sso [33m401[0m 1.502 ms - 61[0m
+2026-04-27T00:38:13: [0mGET /api/problems [36m304[0m 31.408 ms - -[0m
+2026-04-27T00:38:53: Backend running on http://localhost:4000
+2026-04-27T00:39:04: Backend running on http://localhost:4000
+2026-04-27T00:39:10: Backend running on http://localhost:4000
+2026-04-27T00:39:24: Backend running on http://localhost:4000
+2026-04-27T09:58:24: Backend running on http://localhost:4000
+2026-04-27T10:07:12: [0mGET /api [33m404[0m 48.825 ms - 29[0m
+2026-04-27T10:07:12: [0mGET /favicon.ico [33m404[0m 0.941 ms - 29[0m
+2026-04-27T10:07:25: [0mGET /api/auth/me [33m401[0m 1.569 ms - 26[0m
+2026-04-27T10:07:26: [0mGET /api/problems [36m304[0m 293.849 ms - -[0m
+2026-04-27T10:18:54: [0mPOST /api/auth/sso [32m200[0m 137.764 ms - 639[0m
+2026-04-27T10:18:54: [0mGET /api/profile/me [32m200[0m 71.231 ms - 1017[0m
+2026-04-27T10:18:54: [0mGET /api/problems [36m304[0m 57.307 ms - -[0m
+2026-04-27T10:19:08: [0mGET /api/profile/me [36m304[0m 30.149 ms - -[0m
+2026-04-27T10:19:09: [0mGET /api/profile/me [36m304[0m 29.864 ms - -[0m
+2026-04-27T10:19:21: [0mGET /api/submissions/me [32m200[0m 10.878 ms - 18[0m
+2026-04-27T10:19:21: [0mGET /api/submissions/me [36m304[0m 4.393 ms - -[0m
+2026-04-27T10:19:24: [0mGET /api/journeys [32m200[0m 22.194 ms - 15451[0m
+2026-04-27T10:19:24: [0mGET /api/journeys [36m304[0m 15.370 ms - -[0m
+2026-04-27T10:19:28: [0mGET /api/profile/me [36m304[0m 21.585 ms - -[0m
+2026-04-27T10:19:28: [0mGET /api/profile/me [36m304[0m 17.420 ms - -[0m
+2026-04-27T10:21:06: [0mGET /api/auth/me [32m200[0m 4.035 ms - 678[0m
+2026-04-27T10:21:06: [0mGET /api/profile/me [36m304[0m 22.857 ms - -[0m
+2026-04-27T10:21:06: [0mGET /api/profile/me [36m304[0m 41.302 ms - -[0m
+2026-04-27T11:54:25: Backend running on http://localhost:4000
+2026-04-27T12:01:29: [0mGET /api/auth/me [33m401[0m 45.477 ms - 26[0m
+2026-04-27T12:01:29: [0mGET /api/problems [36m304[0m 83.140 ms - -[0m
+2026-04-27T12:01:45: [0mGET /api/problems [36m304[0m 20.851 ms - -[0m
+2026-04-27T12:01:45: [0mGET /api/problems [36m304[0m 20.292 ms - -[0m
+2026-04-27T12:26:33: Backend running on http://localhost:4000
+2026-04-27T12:32:38: [0mGET /api/auth/me [33m401[0m 90.485 ms - 26[0m
+2026-04-27T12:32:38: [0mGET /api/problems [36m304[0m 113.577 ms - -[0m
+2026-04-27T12:32:44: [0mGET /api/problems [36m304[0m 94.242 ms - -[0m
+2026-04-27T12:32:45: [0mGET /api/problems [36m304[0m 140.835 ms - -[0m
+2026-04-27T12:59:27: [0mPOST /api/auth/sso [32m200[0m 219.029 ms - 755[0m
+2026-04-27T12:59:27: [0mGET /api/profile/me [33m401[0m 5.021 ms - 26[0m
+2026-04-27T12:59:27: [0mGET /api/problems [36m304[0m 39.351 ms - -[0m
+2026-04-27T12:59:30: [0mGET /api/profile/me [33m401[0m 2.916 ms - 26[0m
+2026-04-27T12:59:30: [0mGET /api/profile/me [33m401[0m 21.221 ms - 26[0m
+2026-04-27T13:00:01: [0mGET /api/profile/me [33m401[0m 3.285 ms - 26[0m
+2026-04-27T13:36:09: [0mGET /api/auth/me [33m401[0m 40.876 ms - 26[0m
+2026-04-27T13:55:57: [0mPOST /api/auth/sso [32m200[0m 338.086 ms - 356[0m
+2026-04-27T13:55:57: [0mGET /api/profile/me [33m401[0m 1.742 ms - 26[0m
+2026-04-27T13:55:57: [0mGET /api/problems [36m304[0m 83.596 ms - -[0m
+2026-04-27T13:56:05: [0mGET /api/problems/array-sum-v1 [32m200[0m 83.938 ms - 1557[0m
+2026-04-27T13:56:05: [0mGET /api/problems/array-sum-v1 [36m304[0m 6.707 ms - -[0m
+2026-04-27T13:58:42: [0mPOST /api/auth/sso [32m200[0m 37.499 ms - 755[0m
+2026-04-27T13:58:42: [0mGET /api/profile/me [33m401[0m 1.072 ms - 26[0m
+2026-04-27T13:58:43: [0mGET /api/problems [36m304[0m 45.869 ms - -[0m
+2026-04-27T13:58:47: [0mGET /api/problems/array-sum-v1 [36m304[0m 13.743 ms - -[0m
+2026-04-27T13:58:47: [0mGET /api/problems/array-sum-v1 [36m304[0m 12.392 ms - -[0m
+2026-04-27T14:31:04: [0mGET /api/auth/me [33m401[0m 49.161 ms - 26[0m
+2026-04-27T14:31:08: [0mGET /api/problems/array-sum-v1 [36m304[0m 101.126 ms - -[0m
+2026-04-27T14:31:13: [0mGET /api/auth/me [33m401[0m 1.659 ms - 26[0m
+2026-04-27T14:40:16: [0mGET /api/problems/array-sum-v1 [36m304[0m 49.675 ms - -[0m
+2026-04-27T14:50:21: [0mGET /api/auth/me [33m401[0m 0.836 ms - 26[0m
+2026-04-27T14:50:22: [0mGET /api/problems/array-sum-v1 [36m304[0m 41.479 ms - -[0m
+2026-04-27T14:53:27: [0mGET /api/auth/me [33m401[0m 0.620 ms - 26[0m
+2026-04-27T14:53:35: [0mGET /api/problems/array-sum-v1 [36m304[0m 6.063 ms - -[0m
+2026-04-27T15:05:14: [0mPOST /api/auth/sso [32m200[0m 40.111 ms - 755[0m
+2026-04-27T15:05:14: [0mGET /api/profile/me [33m401[0m 0.943 ms - 26[0m
+2026-04-27T15:05:14: [0mGET /api/problems [36m304[0m 99.207 ms - -[0m
+2026-04-27T15:05:24: [0mGET /api/problems/array-sum-v1 [36m304[0m 11.755 ms - -[0m
+2026-04-27T15:05:24: [0mGET /api/problems/array-sum-v1 [36m304[0m 17.565 ms - -[0m
+2026-04-27T15:05:47: [0mGET /api/journeys [33m401[0m 3.225 ms - 26[0m
+2026-04-27T15:05:47: [0mGET /api/journeys [33m401[0m 1.199 ms - 26[0m
+2026-04-27T15:05:49: [0mGET /api/submissions/me [33m401[0m 2.925 ms - 26[0m
+2026-04-27T15:05:49: [0mGET /api/submissions/me [33m401[0m 1.050 ms - 26[0m
+2026-04-27T15:05:53: [0mGET /api/profile/me [33m401[0m 0.978 ms - 26[0m
+2026-04-27T15:05:53: [0mGET /api/profile/me [33m401[0m 0.915 ms - 26[0m
+2026-04-27T15:35:10: [0mGET /api/auth/me [33m401[0m 1.586 ms - 26[0m
+2026-04-27T15:35:10: [0mGET /api/auth/me [33m401[0m 2.153 ms - 26[0m
+2026-04-27T15:35:11: [0mGET /api/problems/array-sum-v1 [36m304[0m 2.757 ms - -[0m
+2026-04-27T15:41:14: [0mGET /api/journeys [33m401[0m 51.459 ms - 26[0m
+2026-04-27T15:41:14: [0mGET /api/journeys [33m401[0m 1.825 ms - 26[0m
+2026-04-27T15:41:25: [0mGET /api/submissions/me [33m401[0m 1.029 ms - 26[0m
+2026-04-27T15:41:25: [0mGET /api/submissions/me [33m401[0m 0.997 ms - 26[0m
+2026-04-27T15:41:27: [0mGET /api/profile/me [33m401[0m 1.965 ms - 26[0m
+2026-04-27T15:41:27: [0mGET /api/profile/me [33m401[0m 0.945 ms - 26[0m
+2026-04-27T15:45:25: [0mGET /api/submissions/me [33m401[0m 41.890 ms - 26[0m
+2026-04-27T15:45:25: [0mGET /api/submissions/me [33m401[0m 9.162 ms - 26[0m
+2026-04-27T15:45:27: [0mGET /api/journeys [33m401[0m 0.799 ms - 26[0m
+2026-04-27T15:45:27: [0mGET /api/journeys [33m401[0m 0.722 ms - 26[0m
+2026-04-27T15:45:29: [0mGET /api/problems [36m304[0m 231.940 ms - -[0m
+2026-04-27T15:45:29: [0mGET /api/problems [36m304[0m 34.317 ms - -[0m
+2026-04-27T15:45:35: [0mGET /api/problems/ds-bst-search-v1 [32m200[0m 39.156 ms - 1746[0m
+2026-04-27T15:45:35: [0mGET /api/problems/ds-bst-search-v1 [36m304[0m 6.342 ms - -[0m
+2026-04-27T15:45:38: [0mGET /api/submissions/me [33m401[0m 0.850 ms - 26[0m
+2026-04-27T15:45:38: [0mGET /api/submissions/me [33m401[0m 0.731 ms - 26[0m
+2026-04-27T15:45:48: [0mGET /api/profile/me [33m401[0m 1.563 ms - 26[0m
+2026-04-27T15:45:50: [0mGET /api/submissions/me [33m401[0m 0.694 ms - 26[0m
+2026-04-27T15:45:50: [0mGET /api/submissions/me [33m401[0m 0.687 ms - 26[0m
+2026-04-27T15:45:52: [0mGET /api/profile/me [33m401[0m 1.572 ms - 26[0m
+2026-04-27T15:45:52: [0mGET /api/profile/me [33m401[0m 0.596 ms - 26[0m
+2026-04-27T15:46:57: [0mPOST /api/auth/logout [33m401[0m 1.316 ms - 26[0m
+2026-04-27T15:47:01: [0mGET /api/problems [36m304[0m 20.862 ms - -[0m
+2026-04-27T15:47:01: [0mGET /api/problems [36m304[0m 37.640 ms - -[0m
+2026-04-27T18:08:05: [0mPOST /api/auth/sso [32m200[0m 265.929 ms - 755[0m
+2026-04-27T18:08:05: [0mGET /api/profile/me [33m401[0m 29.537 ms - 26[0m
+2026-04-27T18:08:06: [0mGET /api/problems [36m304[0m 51.911 ms - -[0m
+2026-04-27T18:08:08: [0mGET /api/journeys [33m401[0m 1.245 ms - 26[0m
+2026-04-27T18:08:08: [0mGET /api/journeys [33m401[0m 10.004 ms - 26[0m
+2026-04-27T18:08:20: [0mGET /api/submissions/me [33m401[0m 0.711 ms - 26[0m
+2026-04-27T18:08:20: [0mGET /api/submissions/me [33m401[0m 4.961 ms - 26[0m
+2026-04-27T18:08:22: [0mGET /api/profile/me [33m401[0m 0.724 ms - 26[0m
+2026-04-27T18:08:22: [0mGET /api/profile/me [33m401[0m 0.757 ms - 26[0m
+2026-04-27T19:42:43: [0mGET /api/auth/me [33m401[0m 109.685 ms - 26[0m
+2026-04-27T19:42:50: [0mPOST /api/auth/sso [32m200[0m 174.891 ms - 755[0m
+2026-04-27T19:42:50: [0mGET /api/profile/me [33m401[0m 0.810 ms - 26[0m
+2026-04-27T19:42:50: [0mGET /api/profile/me [33m401[0m 2.034 ms - 26[0m
+2026-04-27T19:42:53: [0mGET /api/journeys [33m401[0m 1.549 ms - 26[0m
+2026-04-27T19:42:53: [0mGET /api/journeys [33m401[0m 1.212 ms - 26[0m
+2026-04-27T19:42:55: [0mGET /api/submissions/me [33m401[0m 0.898 ms - 26[0m
+2026-04-27T19:42:55: [0mGET /api/submissions/me [33m401[0m 0.851 ms - 26[0m
+2026-04-27T19:46:54: [0mGET /api/auth/me [33m401[0m 11.503 ms - 26[0m
+2026-04-27T19:46:55: [0mPOST /api/auth/sso [32m200[0m 117.950 ms - 755[0m
+2026-04-27T19:46:55: [0mGET /api/profile/me [33m401[0m 0.932 ms - 26[0m
+2026-04-27T19:46:55: [0mGET /api/submissions/me [33m401[0m 1.261 ms - 26[0m
+2026-04-27T20:04:04: [0mPOST /api/auth/sso [33m401[0m 106.340 ms - 61[0m
+2026-04-27T20:04:04: [0mGET /api/auth/me [33m401[0m 1.135 ms - 26[0m
+2026-04-27T20:04:05: [0mPOST /api/auth/sso [32m200[0m 162.352 ms - 755[0m
+2026-04-27T20:04:06: [0mGET /api/profile/me [33m401[0m 1.098 ms - 26[0m
+2026-04-27T20:04:06: [0mGET /api/problems [36m304[0m 43.633 ms - -[0m
+2026-04-27T20:04:39: [0mGET /api/journeys [33m401[0m 0.889 ms - 26[0m
+2026-04-27T20:04:39: [0mGET /api/journeys [33m401[0m 2.185 ms - 26[0m
+2026-04-27T20:04:40: [0mGET /api/submissions/me [33m401[0m 1.246 ms - 26[0m
+2026-04-27T20:04:40: [0mGET /api/submissions/me [33m401[0m 1.488 ms - 26[0m
+2026-04-27T20:04:41: [0mGET /api/profile/me [33m401[0m 0.900 ms - 26[0m
+2026-04-27T20:04:41: [0mGET /api/profile/me [33m401[0m 0.820 ms - 26[0m
+2026-04-27T20:08:02: Backend running on http://localhost:4000
+2026-04-27T20:08:03: [0mGET /api/auth/me [33m401[0m 68.585 ms - 26[0m
+2026-04-27T20:08:04: [0mPOST /api/auth/sso [32m200[0m 214.623 ms - 755[0m
+2026-04-27T20:08:04: [0mGET /api/profile/me [32m200[0m 47.618 ms - 1133[0m
+2026-04-27T20:08:04: [0mGET /api/problems [36m304[0m 49.572 ms - -[0m
+2026-04-27T20:08:14: [0mGET /api/journeys [36m304[0m 26.018 ms - -[0m
+2026-04-27T20:08:14: [0mGET /api/journeys [36m304[0m 24.181 ms - -[0m
+2026-04-27T20:08:17: [0mGET /api/submissions/me [36m304[0m 4.606 ms - -[0m
+2026-04-27T20:08:17: [0mGET /api/submissions/me [36m304[0m 5.044 ms - -[0m
+2026-04-27T20:08:20: [0mGET /api/profile/me [36m304[0m 15.902 ms - -[0m
+2026-04-27T20:08:20: [0mGET /api/profile/me [36m304[0m 34.447 ms - -[0m
+2026-04-27T20:08:23: [0mGET /api/journeys [36m304[0m 11.345 ms - -[0m
+2026-04-27T20:08:23: [0mGET /api/journeys [36m304[0m 14.680 ms - -[0m
+2026-04-27T20:13:42: [0mGET /api/auth/me [36m304[0m 2053.017 ms - -[0m
+2026-04-27T20:13:44: [0mGET /api/profile/me [36m304[0m 1401.246 ms - -[0m
+2026-04-27T20:13:45: [0mGET /api/journeys [36m304[0m 1251.477 ms - -[0m
+2026-04-27T20:13:51: [0mGET /api/submissions/me [36m304[0m 255.983 ms - -[0m
+2026-04-27T20:13:51: [0mGET /api/submissions/me [36m304[0m 196.211 ms - -[0m
+2026-04-27T20:14:35: [0mGET /api/journeys [36m304[0m 1165.649 ms - -[0m
+2026-04-27T20:14:36: [0mGET /api/journeys [36m304[0m 765.850 ms - -[0m
+2026-04-27T20:21:40: [0mGET /api/auth/me [36m304[0m 462.015 ms - -[0m
+2026-04-27T20:21:40: [0mGET /api/profile/me [36m304[0m 90.950 ms - -[0m
+2026-04-27T20:21:40: [0mGET /api/journeys [36m304[0m 88.185 ms - -[0m
+2026-04-27T20:29:56: [0mGET /api/auth/me [36m304[0m 1697.918 ms - -[0m
+2026-04-27T20:29:57: [0mGET /api/profile/me [36m304[0m 417.354 ms - -[0m
+2026-04-27T20:29:57: [0mGET /api/journeys [36m304[0m 335.210 ms - -[0m
+2026-04-27T21:35:01: [0mGET /api/auth/me [36m304[0m 1185.094 ms - -[0m
+2026-04-27T21:35:24: [0mGET /api/profile/me [36m304[0m 68.016 ms - -[0m
+2026-04-27T21:35:25: [0mGET /api/journeys [36m304[0m 159.915 ms - -[0m
+2026-04-30T19:30:37: Backend running on http://localhost:4000
+2026-04-30T19:34:09: Backend running on http://localhost:4000
+2026-04-30T19:36:07: Backend running on http://localhost:4000
+2026-04-30T19:37:38: Backend running on http://localhost:4000
+2026-05-02T13:11:53: Backend running on http://localhost:4000
+2026-05-02T13:13:33: Backend running on http://localhost:4000
+2026-05-02T13:14:56: Backend running on http://localhost:4000
+2026-05-02T13:17:16: Backend running on http://localhost:4000
+2026-05-02T13:25:28: Backend running on http://localhost:4000
+2026-05-02T13:36:30: Backend running on http://localhost:4000
+2026-05-02T13:39:02: Backend running on http://localhost:4000
+2026-05-02T13:40:43: Backend running on http://localhost:4000
+2026-05-02T13:49:46: [0mGET /api/auth/me [33m401[0m 16.282 ms - 26[0m
+2026-05-02T13:49:54: [0mGET /api/problems [36m304[0m 151.194 ms - -[0m
+2026-05-02T13:49:59: [0mGET /api/problems/array-sum-v1 [36m304[0m 36.387 ms - -[0m
+2026-05-02T13:49:59: [0mGET /api/problems/array-sum-v1 [36m304[0m 4.127 ms - -[0m
+2026-05-02T16:28:11: Backend running on http://localhost:4000
+2026-05-02T16:34:15: [0mGET /api/problems/array-sum-v1 [36m304[0m 521.090 ms - -[0m
+2026-05-02T21:17:30: Backend running on http://localhost:4000
+2026-05-02T22:38:53: Backend running on http://localhost:4000
+2026-05-02T22:51:10: Backend running on http://localhost:4000
+2026-05-02T23:16:39: Backend running on http://localhost:4000
+2026-05-02T23:25:56: Backend running on http://localhost:4000
+2026-05-02T23:26:06: Backend running on http://localhost:4000
+2026-05-02T23:27:19: Backend running on http://localhost:4000
+2026-05-02T23:32:00: Backend running on http://localhost:4000
+2026-05-02T23:32:06: Backend running on http://localhost:4000
+2026-05-02T23:52:12: Backend running on http://localhost:4000
+2026-05-02T23:52:36: [0mGET / [33m404[0m 491.658 ms - 29[0m
+2026-05-02T23:55:41: [0mGET /api/problems [0m-[0m - ms - -[0m
+2026-05-03T00:03:37: [0mGET /api/auth/me [33m401[0m 2.424 ms - 26[0m
+2026-05-03T00:08:40: [0mPOST /api/auth/sso [32m200[0m 45.206 ms - 771[0m
+2026-05-03T00:08:40: [0mGET /api/profile/me [32m200[0m 59.604 ms - 1149[0m
+2026-05-03T00:08:41: [0mGET /api/problems [36m304[0m 20.544 ms - -[0m
+2026-05-03T00:08:47: [0mPOST /api/auth/logout [32m200[0m 1.395 ms - 24[0m
+2026-05-03T00:08:47: [0mGET /api/problems [36m304[0m 10.715 ms - -[0m
+2026-05-03T00:08:50: [0mGET /api/problems [36m304[0m 13.326 ms - -[0m
+2026-05-03T00:08:51: [0mGET /api/problems [36m304[0m 12.592 ms - -[0m
+2026-05-03T00:09:02: [0mPOST /api/auth/sso [32m200[0m 7.952 ms - 771[0m
+2026-05-03T00:09:03: [0mGET /api/profile/me [36m304[0m 24.615 ms - -[0m
+2026-05-03T00:09:03: [0mGET /api/problems [36m304[0m 18.672 ms - -[0m
+2026-05-03T00:09:14: [0mGET /api/problems/array-sum-v1 [36m304[0m 11.275 ms - -[0m
+2026-05-03T00:09:14: [0mGET /api/problems/array-sum-v1 [36m304[0m 7.440 ms - -[0m
+2026-05-03T00:13:31: [0mGET /api/problems/array-sum-v1 [36m304[0m 77.828 ms - -[0m
+2026-05-03T00:13:32: [0mPOST /api/submissions/execute [32m200[0m 921.859 ms - 440[0m
+2026-05-03T00:13:32: [0mGET /api/problems/array-sum-v1 [32m200[0m 19.285 ms - 1706[0m
+2026-05-03T14:06:58: Backend running on http://localhost:4000
+2026-05-03T14:10:49: [0mPOST /api/auth/sso [32m200[0m 354.328 ms - 771[0m
+2026-05-03T14:10:49: [0mGET /api/profile/me [36m304[0m 194.391 ms - -[0m
+2026-05-03T14:10:49: [0mGET /api/problems [36m304[0m 121.105 ms - -[0m
+2026-05-03T14:10:52: [0mGET /api/journeys [36m304[0m 33.177 ms - -[0m
+2026-05-03T14:10:52: [0mGET /api/journeys [36m304[0m 25.610 ms - -[0m
+2026-05-03T14:10:53: [0mGET /api/submissions/me [32m200[0m 5.098 ms - 832[0m
+2026-05-03T14:10:53: [0mGET /api/submissions/me [36m304[0m 6.278 ms - -[0m
+2026-05-03T14:10:55: [0mGET /api/profile/me [36m304[0m 22.686 ms - -[0m
+2026-05-03T14:10:55: [0mGET /api/profile/me [36m304[0m 18.360 ms - -[0m
+2026-05-03T14:23:35: [0mGET /api/auth/me [32m200[0m 6.982 ms - 694[0m
+2026-05-03T14:23:36: [0mGET /api/profile/me [36m304[0m 81.831 ms - -[0m
+2026-05-03T14:23:36: [0mGET /api/profile/me [36m304[0m 28.945 ms - -[0m
+2026-05-03T14:29:26: [0mGET /api/auth/me [36m304[0m 14.263 ms - -[0m
+2026-05-03T14:29:26: [0mGET /api/profile/me [36m304[0m 39.647 ms - -[0m
+2026-05-03T14:29:26: [0mGET /api/profile/me [36m304[0m 23.337 ms - -[0m
+2026-05-03T14:29:32: [0mPOST /api/auth/sso [32m200[0m 7.646 ms - 771[0m
+2026-05-03T14:29:33: [0mGET /api/profile/me [36m304[0m 30.718 ms - -[0m
+2026-05-03T14:29:33: [0mGET /api/problems [36m304[0m 31.663 ms - -[0m
+2026-05-03T14:29:36: [0mGET /api/profile/me [36m304[0m 46.757 ms - -[0m
+2026-05-03T14:29:36: [0mGET /api/profile/me [36m304[0m 29.446 ms - -[0m
+2026-05-03T14:34:55: [0mGET /api/auth/me [36m304[0m 3.069 ms - -[0m
+2026-05-03T14:34:55: [0mGET /api/profile/me [36m304[0m 15.080 ms - -[0m
+2026-05-03T14:34:55: [0mGET /api/profile/me [36m304[0m 26.559 ms - -[0m
+2026-05-03T14:35:11: [0mGET /api/auth/me [36m304[0m 3.786 ms - -[0m
+2026-05-03T14:35:11: [0mGET /api/profile/me [36m304[0m 10.763 ms - -[0m
+2026-05-03T14:35:11: [0mGET /api/profile/me [36m304[0m 13.755 ms - -[0m
+2026-05-03T14:36:01: [0mPOST /api/auth/logout [32m200[0m 5.657 ms - 24[0m
+2026-05-03T14:36:07: [0mGET /api/problems [36m304[0m 14.335 ms - -[0m
+2026-05-03T14:36:07: [0mGET /api/problems [36m304[0m 11.147 ms - -[0m
+2026-05-03T14:38:48: [0mGET /api/auth/me [33m401[0m 2.834 ms - 26[0m
+2026-05-03T14:38:52: [0mPOST /api/auth/sso [32m200[0m 25.931 ms - 771[0m
+2026-05-03T14:38:52: [0mGET /api/profile/me [36m304[0m 22.741 ms - -[0m
+2026-05-03T14:38:52: [0mGET /api/problems [36m304[0m 33.601 ms - -[0m
+2026-05-03T15:39:36: [0mGET /api/problems/ds-bst-search-v1 [32m200[0m 38.418 ms - 1746[0m
+2026-05-03T15:39:37: [0mGET /api/problems/ds-bst-search-v1 [36m304[0m 7.095 ms - -[0m
+2026-05-03T15:45:38: [0mGET /api/problems/ds-bst-search-v1 [36m304[0m 12.249 ms - -[0m
+2026-05-03T15:45:41: [0mGET /api/problems [36m304[0m 16.380 ms - -[0m
+2026-05-03T15:45:41: [0mGET /api/problems [36m304[0m 17.955 ms - -[0m
+2026-05-03T15:49:29: Backend running on http://localhost:4000
+2026-05-03T15:49:31: Backend running on http://localhost:4000
+2026-05-03T15:49:35: Backend running on http://localhost:4000
+2026-05-03T15:49:41: Backend running on http://localhost:4000
+2026-05-03T16:47:29: [0mGET /api/problems [36m304[0m 205.048 ms - -[0m
+2026-05-03T16:49:20: [0mGET /api/problems/array-sum-v1 [32m200[0m 75.193 ms - 1557[0m
+2026-05-03T16:49:20: [0mGET /api/problems/array-sum-v1 [36m304[0m 11.289 ms - -[0m
+2026-05-03T16:49:22: [0mGET /api/problems/array-sum-v1 [36m304[0m 5.169 ms - -[0m
+2026-05-03T16:49:24: [0mGET /api/problems/array-sum-v1 [36m304[0m 12.825 ms - -[0m
+2026-05-03T16:49:26: [0mGET /api/problems/array-sum-v1 [36m304[0m 13.939 ms - -[0m
+2026-05-03T16:49:28: [0mGET /api/auth/me [33m401[0m 2.777 ms - 26[0m
+2026-05-03T16:49:29: [0mGET /api/problems/array-sum-v1 [36m304[0m 6.817 ms - -[0m
+2026-05-03T17:21:38: [0mGET /api/auth/me [33m401[0m 2.774 ms - 26[0m
+2026-05-03T17:21:39: [0mGET /api/problems [36m304[0m 23.981 ms - -[0m
+2026-05-04T00:45:39: Backend running on http://localhost:4000
+2026-05-11T12:56:38: Backend running on http://localhost:4000
+2026-05-11T22:13:10: Backend running on http://localhost:4000
+2026-05-11T23:24:44: [0mPOST /api/auth/sso [32m200[0m 375.055 ms - 771[0m
+2026-05-11T23:24:44: [0mGET /api/profile/me [32m200[0m 49.715 ms - 1149[0m
+2026-05-11T23:24:44: [0mGET /api/problems [36m304[0m 119.554 ms - -[0m
+2026-05-11T23:25:19: [0mGET /api/problems?language=C [32m200[0m 27.647 ms - 34533[0m
+2026-05-11T23:25:19: [0mGET /api/problems [36m304[0m 24.955 ms - -[0m
+2026-05-11T23:25:27: [0mGET /api/problems?language=C [36m304[0m 12.210 ms - -[0m
+2026-05-11T23:25:27: [0mGET /api/problems [36m304[0m 14.222 ms - -[0m
+2026-05-11T23:25:31: [0mGET /api/problems?language=CPP [32m200[0m 17.013 ms - 34533[0m
+2026-05-11T23:25:31: [0mGET /api/problems [36m304[0m 23.960 ms - -[0m
+2026-05-11T23:25:35: [0mGET /api/problems [36m304[0m 26.734 ms - -[0m
+2026-05-11T23:25:35: [0mGET /api/problems?language=CSS [36m304[0m 26.000 ms - -[0m
+2026-05-11T23:25:42: [0mGET /api/problems [36m304[0m 19.875 ms - -[0m
+2026-05-11T23:25:42: [0mGET /api/problems?language=HTML [36m304[0m 17.447 ms - -[0m
+2026-05-11T23:25:46: [0mGET /api/problems [36m304[0m 21.029 ms - -[0m
+2026-05-11T23:25:46: [0mGET /api/problems?language=JAVASCRIPT [32m200[0m 23.171 ms - 45158[0m
+2026-05-11T23:25:50: [0mGET /api/problems?language=JAVA [32m200[0m 19.253 ms - 40173[0m
+2026-05-11T23:25:50: [0mGET /api/problems [36m304[0m 20.313 ms - -[0m
+2026-05-11T23:25:54: [0mGET /api/problems [36m304[0m 19.884 ms - -[0m
+2026-05-11T23:25:54: [0mGET /api/problems?language=PYTHON [32m200[0m 24.647 ms - 45158[0m
+2026-05-11T23:25:58: [0mGET /api/problems [36m304[0m 21.624 ms - -[0m
+2026-05-11T23:25:58: [0mGET /api/problems?language=CPP [36m304[0m 24.310 ms - -[0m
+2026-05-11T23:26:00: [0mGET /api/problems?language=C [36m304[0m 14.718 ms - -[0m
+2026-05-11T23:26:00: [0mGET /api/problems [36m304[0m 16.134 ms - -[0m
+2026-05-11T23:26:05: [0mGET /api/problems?difficulty=EASY [32m200[0m 7.075 ms - 10863[0m
+2026-05-11T23:26:05: [0mGET /api/problems [36m304[0m 14.914 ms - -[0m
+2026-05-11T23:26:47: [0mGET /api/journeys [32m200[0m 47.036 ms - 15451[0m
+2026-05-11T23:26:47: [0mGET /api/journeys [36m304[0m 16.264 ms - -[0m
+2026-05-11T23:26:49: [0mGET /api/submissions/me [32m200[0m 10.386 ms - 18[0m
+2026-05-11T23:26:49: [0mGET /api/submissions/me [36m304[0m 12.066 ms - -[0m
+2026-05-11T23:26:51: [0mGET /api/profile/me [36m304[0m 22.628 ms - -[0m
+2026-05-11T23:26:51: [0mGET /api/profile/me [36m304[0m 25.653 ms - -[0m
+2026-05-11T23:29:17: Backend running on http://localhost:4000
+2026-05-12T22:20:18: Backend running on http://localhost:4000
+2026-05-12T22:20:34: [0mGET /api/health [32m200[0m 9.363 ms - 15[0m
+2026-05-12T22:20:36: [0mGET /api/health [32m200[0m 1.787 ms - 15[0m
+2026-05-12T22:20:56: [0mPOST /api/auth/sso [33m401[0m 10.919 ms - 67[0m
+2026-05-12T22:26:33: [0mGET /api/auth/me [33m401[0m 3.940 ms - 26[0m
+2026-05-12T22:26:34: [0mPOST /api/auth/sso [32m200[0m 197.670 ms - 431[0m
+2026-05-12T22:26:34: [0mGET /api/profile/me [32m200[0m 54.953 ms - 809[0m
+2026-05-12T22:26:34: [0mGET /api/problems [32m200[0m 34.542 ms - 54463[0m
+2026-05-12T23:39:10: [0mGET /api/auth/me [33m401[0m 8.662 ms - 26[0m
+2026-05-12T23:40:35: [0mGET /api/auth/me [32m200[0m 182.901 ms - 378[0m
+2026-05-12T23:40:35: [0mGET /api/profile/me [36m304[0m 54.894 ms - -[0m
+2026-05-12T23:40:35: [0mGET /api/problems [36m304[0m 59.867 ms - -[0m
+2026-05-12T23:40:43: [0mGET /api/profile/me [36m304[0m 28.052 ms - -[0m
+2026-05-12T23:40:43: [0mGET /api/profile/me [36m304[0m 30.390 ms - -[0m
+2026-05-12T23:41:58: [0mGET /api/problems [36m304[0m 41.944 ms - -[0m
+2026-05-12T23:41:58: [0mGET /api/problems [36m304[0m 20.219 ms - -[0m
+2026-05-12T23:41:59: [0mGET /api/journeys [32m200[0m 40.191 ms - 15451[0m
+2026-05-12T23:41:59: [0mGET /api/journeys [36m304[0m 27.361 ms - -[0m
+2026-05-12T23:42:05: [0mGET /api/submissions/me [32m200[0m 6.360 ms - 18[0m
+2026-05-12T23:42:05: [0mGET /api/submissions/me [36m304[0m 6.882 ms - -[0m
+2026-05-12T23:42:09: [0mGET /api/profile/me [36m304[0m 29.932 ms - -[0m
+2026-05-12T23:42:09: [0mGET /api/profile/me [36m304[0m 31.715 ms - -[0m
+2026-05-13T00:06:27: Backend running on http://localhost:4000
+2026-05-13T00:06:31: Backend running on http://localhost:4000
+2026-05-13T12:33:10: Backend running on http://localhost:4000
+2026-05-13T13:04:13: [0mGET /api/problems [0m-[0m - ms - -[0m
+2026-05-13T13:10:02: Backend running on http://localhost:4000
+2026-05-13T13:22:16: [0mGET /api/health [32m200[0m 13.849 ms - 15[0m
+2026-05-13T13:49:30: [0mGET /api/health [32m200[0m 5.621 ms - 15[0m
+2026-05-13T14:05:22: Backend running on http://localhost:4000
+2026-05-13T14:42:26: [0mGET /api/auth/me [33m401[0m 41.169 ms - 26[0m
+2026-05-13T14:42:29: [0mGET /api/problems [36m304[0m 146.302 ms - -[0m
+2026-05-13T14:42:59: [0mGET /api/auth/me [33m401[0m 7.385 ms - 26[0m
+2026-05-13T14:43:02: [0mGET /api/problems [36m304[0m 22.338 ms - -[0m
+2026-05-13T14:46:58: [0mGET /api/auth/me [33m401[0m 7.637 ms - 26[0m
+2026-05-13T14:46:59: [0mPOST /api/auth/sso [32m200[0m 37.349 ms - 431[0m
+2026-05-13T14:46:59: [0mGET /api/profile/me [32m200[0m 35.404 ms - 809[0m
+2026-05-13T14:47:00: [0mGET /api/problems [36m304[0m 19.127 ms - -[0m
+2026-05-13T14:48:02: [0mGET /api/profile/me [36m304[0m 33.247 ms - -[0m
+2026-05-13T14:48:02: [0mGET /api/profile/me [36m304[0m 30.177 ms - -[0m
+2026-05-13T14:48:24: [0mGET /api/submissions/me [32m200[0m 5.490 ms - 18[0m
+2026-05-13T14:48:24: [0mGET /api/submissions/me [36m304[0m 4.413 ms - -[0m
+2026-05-13T14:48:28: [0mGET /api/submissions/me?language=C [32m200[0m 4.139 ms - 18[0m
+2026-05-13T14:48:30: [0mGET /api/submissions/me?language=CPP [32m200[0m 2.020 ms - 18[0m
+2026-05-13T14:48:32: [0mGET /api/submissions/me [36m304[0m 2.114 ms - -[0m
+2026-05-13T14:48:33: [0mGET /api/problems [36m304[0m 20.443 ms - -[0m
+2026-05-13T14:48:33: [0mGET /api/problems [36m304[0m 19.746 ms - -[0m
+2026-05-13T14:48:37: [0mGET /api/profile/me [36m304[0m 40.350 ms - -[0m
+2026-05-13T14:48:37: [0mGET /api/profile/me [36m304[0m 17.920 ms - -[0m
+2026-05-13T14:55:47: [0mGET /api/auth/me [32m200[0m 15.814 ms - 378[0m
+2026-05-13T14:55:47: [0mGET /api/profile/me [36m304[0m 17.154 ms - -[0m
+2026-05-13T14:55:47: [0mGET /api/profile/me [36m304[0m 41.254 ms - -[0m
+2026-05-13T14:56:00: [0mGET /api/auth/me [36m304[0m 3.563 ms - -[0m
+2026-05-13T14:56:01: [0mGET /api/profile/me [36m304[0m 16.934 ms - -[0m
+2026-05-13T14:56:01: [0mGET /api/profile/me [36m304[0m 47.387 ms - -[0m
+2026-05-13T14:56:56: [0mGET /api/auth/me [36m304[0m 3.000 ms - -[0m
+2026-05-13T14:56:56: [0mGET /api/profile/me [36m304[0m 17.401 ms - -[0m
+2026-05-13T14:56:56: [0mGET /api/profile/me [36m304[0m 33.869 ms - -[0m
+2026-05-13T14:57:21: [0mGET /api/auth/me [36m304[0m 3.552 ms - -[0m
+2026-05-13T14:57:21: [0mGET /api/profile/me [36m304[0m 12.648 ms - -[0m
+2026-05-13T14:57:21: [0mGET /api/problems [36m304[0m 99.820 ms - -[0m
+2026-05-13T14:57:23: [0mGET /api/profile/me [36m304[0m 30.847 ms - -[0m
+2026-05-13T14:57:23: [0mGET /api/profile/me [36m304[0m 27.777 ms - -[0m
+2026-05-13T14:57:25: [0mGET /api/auth/me [36m304[0m 3.989 ms - -[0m
+2026-05-13T14:57:26: [0mGET /api/profile/me [36m304[0m 18.662 ms - -[0m
+2026-05-13T14:57:26: [0mGET /api/profile/me [36m304[0m 33.576 ms - -[0m
+2026-05-13T14:58:43: Backend running on http://localhost:4000
+2026-05-13T14:59:15: [0mGET /api/auth/me [33m401[0m 11.899 ms - 26[0m
+2026-05-13T14:59:15: [0mPOST /api/auth/sso [32m200[0m 48.694 ms - 771[0m
+2026-05-13T14:59:15: [0mGET /api/profile/me [32m200[0m 38.646 ms - 1149[0m
+2026-05-13T14:59:16: [0mGET /api/profile/me [36m304[0m 42.764 ms - -[0m
+2026-05-13T20:07:11: Backend running on http://localhost:4000
+2026-05-14T20:57:15: Backend running on http://localhost:4000
+2026-05-14T21:08:47: [0mGET /api/auth/me [33m401[0m 43.511 ms - 26[0m
+2026-05-14T21:08:47: [0mPOST /api/auth/sso [32m200[0m 239.132 ms - 771[0m
+2026-05-14T21:08:47: [0mGET /api/profile/me [36m304[0m 49.135 ms - -[0m
+2026-05-14T21:08:47: [0mGET /api/problems [36m304[0m 82.154 ms - -[0m
+2026-05-14T23:03:59: [0mGET /api/problems [36m304[0m 716.481 ms - -[0m
+2026-05-15T01:21:58: [0mGET /api/auth/me [32m200[0m 761.448 ms - 810[0m
+2026-05-15T01:21:58: [0mGET /api/profile/me [36m304[0m 122.031 ms - -[0m
+2026-05-15T01:21:58: [0mGET /api/problems [36m304[0m 97.400 ms - -[0m
+2026-05-15T01:22:55: [0mGET /api/auth/me [36m304[0m 32.635 ms - -[0m
+2026-05-15T01:22:55: [0mGET /api/profile/me [36m304[0m 83.175 ms - -[0m
+2026-05-15T01:22:55: [0mGET /api/problems [36m304[0m 72.183 ms - -[0m
+2026-05-15T01:24:51: [0mGET /api/auth/me [36m304[0m 11.370 ms - -[0m
+2026-05-15T01:24:56: [0mGET /api/profile/me [36m304[0m 15.174 ms - -[0m
+2026-05-15T01:24:56: [0mGET /api/problems [36m304[0m 35.163 ms - -[0m
+2026-05-15T01:29:22: [0mGET /api/problems/array-sum-v1 [32m200[0m 40.177 ms - 1557[0m
+2026-05-15T01:29:22: [0mGET /api/problems/array-sum-v1 [36m304[0m 5.846 ms - -[0m
+2026-05-15T01:29:58: [0mGET /api/problems/array-sum-v1 [36m304[0m 37.924 ms - -[0m
+2026-05-15T01:29:59: [0mPOST /api/submissions/execute [32m200[0m 1909.632 ms - 440[0m
+2026-05-15T01:29:59: [0mGET /api/problems/array-sum-v1 [32m200[0m 10.328 ms - 1706[0m
+2026-05-15T01:30:34: [0mGET /api/problems/array-sum-v1 [36m304[0m 43.389 ms - -[0m
+2026-05-15T01:30:34: [0mPOST /api/submissions/execute [32m200[0m 894.769 ms - 574[0m
+2026-05-15T01:30:34: [0mGET /api/problems/array-sum-v1 [32m200[0m 13.333 ms - 1859[0m
+2026-05-15T01:30:40: [0mGET /api/submissions/me [32m200[0m 6.081 ms - 1784[0m
+2026-05-15T01:30:40: [0mGET /api/submissions/me [36m304[0m 2.774 ms - -[0m
+2026-05-15T01:30:43: [0mGET /api/journeys [32m200[0m 48.221 ms - 15451[0m
+2026-05-15T01:30:43: [0mGET /api/journeys [36m304[0m 35.457 ms - -[0m
+2026-05-15T01:30:51: [0mGET /api/problems [32m200[0m 18.122 ms - 54462[0m
+2026-05-15T01:30:51: [0mGET /api/problems [36m304[0m 13.493 ms - -[0m
+2026-05-15T01:30:53: [0mGET /api/problems/ds-bst-search-v1 [32m200[0m 8.077 ms - 1746[0m
+2026-05-15T01:30:53: [0mGET /api/problems/ds-bst-search-v1 [36m304[0m 5.962 ms - -[0m
+2026-05-15T01:31:39: [0mGET /api/problems/ds-bst-search-v1 [36m304[0m 13.974 ms - -[0m
+2026-05-15T01:31:40: [0mPOST /api/submissions/execute [32m200[0m 860.126 ms - 456[0m
+2026-05-15T01:31:40: [0mGET /api/problems/ds-bst-search-v1 [32m200[0m 12.829 ms - 1895[0m
+2026-05-15T01:31:54: [0mGET /api/problems/ds-bst-search-v1 [36m304[0m 11.935 ms - -[0m
+2026-05-15T01:31:55: [0mPOST /api/submissions/execute [32m200[0m 547.561 ms - 590[0m
+2026-05-15T01:31:55: [0mGET /api/problems/ds-bst-search-v1 [32m200[0m 4.051 ms - 2048[0m
+2026-05-15T01:31:56: [0mGET /api/journeys [32m200[0m 13.785 ms - 15451[0m
+2026-05-15T01:31:56: [0mGET /api/journeys [36m304[0m 12.422 ms - -[0m
+2026-05-15T01:32:00: [0mGET /api/submissions/me [32m200[0m 4.674 ms - 5059[0m
+2026-05-15T01:32:00: [0mGET /api/submissions/me [36m304[0m 4.427 ms - -[0m
+2026-05-15T01:32:02: [0mGET /api/profile/me [32m200[0m 29.376 ms - 1149[0m
+2026-05-15T01:32:02: [0mGET /api/profile/me [36m304[0m 25.753 ms - -[0m
+2026-05-15T01:32:06: [0mGET /api/problems [32m200[0m 39.546 ms - 54461[0m
+2026-05-15T01:32:06: [0mGET /api/problems [36m304[0m 27.572 ms - -[0m
+2026-05-15T01:32:09: [0mGET /api/problems/balanced-brackets-v1 [32m200[0m 6.835 ms - 1478[0m
+2026-05-15T01:32:09: [0mGET /api/problems/balanced-brackets-v1 [36m304[0m 7.022 ms - -[0m
+2026-05-15T01:33:00: [0mGET /api/problems/balanced-brackets-v1 [36m304[0m 32.286 ms - -[0m
+2026-05-15T01:33:00: [0mPOST /api/submissions/execute [32m200[0m 329.118 ms - 468[0m
+2026-05-15T01:33:00: [0mGET /api/problems/balanced-brackets-v1 [32m200[0m 7.445 ms - 1632[0m
+2026-05-15T01:33:07: [0mGET /api/problems/balanced-brackets-v1 [36m304[0m 11.512 ms - -[0m
+2026-05-15T01:33:08: [0mPOST /api/submissions/execute [32m200[0m 765.919 ms - 438[0m
+2026-05-15T01:33:08: [0mGET /api/problems/balanced-brackets-v1 [32m200[0m 13.256 ms - 1782[0m
+2026-05-15T01:33:21: [0mGET /api/problems/balanced-brackets-v1 [36m304[0m 6.990 ms - -[0m
+2026-05-15T01:33:21: [0mPOST /api/submissions/execute [32m200[0m 579.412 ms - 572[0m
+2026-05-15T01:33:21: [0mGET /api/problems/balanced-brackets-v1 [32m200[0m 5.449 ms - 1935[0m
+2026-05-15T01:33:23: [0mGET /api/submissions/me [32m200[0m 8.331 ms - 8354[0m
+2026-05-15T01:33:23: [0mGET /api/submissions/me [36m304[0m 4.687 ms - -[0m
+2026-05-15T01:33:28: [0mGET /api/journeys [32m200[0m 12.855 ms - 15451[0m
+2026-05-15T01:33:28: [0mGET /api/journeys [36m304[0m 10.712 ms - -[0m
+2026-05-15T01:33:39: [0mGET /api/problems [32m200[0m 11.713 ms - 54460[0m
+2026-05-15T01:33:39: [0mGET /api/problems [36m304[0m 14.034 ms - -[0m
+2026-05-15T01:33:45: [0mGET /api/problems/css-flexbox-v1 [32m200[0m 5.853 ms - 1233[0m
+2026-05-15T01:33:45: [0mGET /api/problems/css-flexbox-v1 [36m304[0m 6.390 ms - -[0m
+2026-05-15T01:34:20: [0mGET /api/problems/css-flexbox-v1 [36m304[0m 16.567 ms - -[0m
+2026-05-15T01:34:20: [0mPOST /api/submissions/execute [31m500[0m 50.160 ms - 81[0m
+2026-05-15T01:34:20: [0mGET /api/problems/css-flexbox-v1 [36m304[0m 4.898 ms - -[0m
+2026-05-15T01:34:28: [0mGET /api/problems/css-flexbox-v1 [36m304[0m 12.025 ms - -[0m
+2026-05-15T01:34:28: [0mPOST /api/submissions/execute [31m500[0m 27.553 ms - 81[0m
+2026-05-15T01:34:28: [0mGET /api/problems/css-flexbox-v1 [36m304[0m 4.653 ms - -[0m
+2026-05-15T01:34:41: [0mGET /api/problems/css-flexbox-v1 [36m304[0m 23.351 ms - -[0m
+2026-05-15T01:34:41: [0mPOST /api/submissions/execute [31m500[0m 26.215 ms - 81[0m
+2026-05-15T01:34:41: [0mGET /api/problems/css-flexbox-v1 [36m304[0m 4.311 ms - -[0m
+2026-05-15T01:34:51: [0mGET /api/auth/me [36m304[0m 5.251 ms - -[0m
+2026-05-15T01:34:51: [0mGET /api/profile/me [32m200[0m 40.465 ms - 1149[0m
+2026-05-15T01:34:51: [0mGET /api/problems/css-flexbox-v1 [36m304[0m 12.418 ms - -[0m
+2026-05-15T01:35:17: [0mGET /api/problems/css-flexbox-v1 [36m304[0m 11.762 ms - -[0m
+2026-05-15T01:35:17: [0mPOST /api/submissions/execute [31m500[0m 21.175 ms - 81[0m
+2026-05-15T01:35:17: [0mGET /api/problems/css-flexbox-v1 [36m304[0m 4.903 ms - -[0m
+2026-05-15T01:36:40: [0mGET /api/problems/css-flexbox-v1 [36m304[0m 8.196 ms - -[0m
+2026-05-15T01:36:40: [0mPOST /api/submissions/execute [31m500[0m 19.253 ms - 81[0m
+2026-05-15T01:36:40: [0mGET /api/problems/css-flexbox-v1 [36m304[0m 4.760 ms - -[0m
+2026-05-15T01:36:46: [0mGET /api/problems [36m304[0m 12.920 ms - -[0m
+2026-05-15T01:36:46: [0mGET /api/problems [36m304[0m 10.296 ms - -[0m
+2026-05-15T01:36:51: [0mGET /api/problems/ds-binary-tree-height-v1 [32m200[0m 5.992 ms - 1720[0m
+2026-05-15T01:36:51: [0mGET /api/problems/ds-binary-tree-height-v1 [36m304[0m 6.581 ms - -[0m
+2026-05-16T09:28:42: Backend running on http://localhost:4000
+2026-05-16T11:17:55: Backend running on http://localhost:4000
+2026-05-17T01:23:51: Backend running on http://localhost:4000
+2026-05-17T02:26:37: Backend running on http://localhost:4000
+2026-05-17T02:26:39: Backend running on http://localhost:4000
+2026-05-17T12:20:34: Backend running on http://localhost:4000
+2026-05-17T12:21:53: [0mHEAD / [33m404[0m 8.197 ms - 29[0m
+2026-05-17T12:22:45: [0mHEAD / [33m404[0m 0.989 ms - 29[0m
+2026-05-17T12:39:44: [0mGET /api/auth/me [33m401[0m 6.572 ms - 26[0m
+2026-05-17T12:39:45: [0mGET /api/problems [32m200[0m 146.869 ms - 54463[0m
+2026-05-17T12:39:59: [0mGET /api/problems [36m304[0m 18.979 ms - -[0m
+2026-05-17T12:39:59: [0mGET /api/problems [36m304[0m 17.347 ms - -[0m
+2026-05-17T12:40:56: [0mGET /api/problems [36m304[0m 14.700 ms - -[0m
+2026-05-17T12:40:56: [0mGET /api/problems [36m304[0m 14.758 ms - -[0m
+2026-05-17T12:51:30: [0mGET /api/auth/me [33m401[0m 1.048 ms - 26[0m
+2026-05-17T12:51:31: [0mGET /api/problems [36m304[0m 28.834 ms - -[0m
+2026-05-17T12:51:49: [0mGET /api/problems [36m304[0m 12.012 ms - -[0m
+2026-05-17T12:51:49: [0mGET /api/problems [36m304[0m 10.283 ms - -[0m
+2026-05-17T12:51:52: [0mGET /api/auth/me [33m401[0m 0.567 ms - 26[0m
+2026-05-17T12:51:54: [0mGET /api/problems [36m304[0m 11.722 ms - -[0m
+2026-05-17T12:51:54: [0mGET /api/problems [36m304[0m 10.561 ms - -[0m
+2026-05-17T12:51:56: [0mGET /api/auth/me [33m401[0m 0.782 ms - 26[0m
+2026-05-17T12:51:57: [0mGET /api/problems [36m304[0m 13.575 ms - -[0m
+2026-05-17T12:51:57: [0mGET /api/auth/me [33m401[0m 0.798 ms - 26[0m
+2026-05-17T12:51:57: [0mGET /api/problems [32m200[0m 13.482 ms - 54463[0m
+2026-05-17T12:51:59: [0mGET /api/auth/me [33m401[0m 0.523 ms - 26[0m
+2026-05-17T12:52:00: [0mGET /api/problems [36m304[0m 13.464 ms - -[0m
+2026-05-17T12:52:02: [0mGET /api/auth/me [33m401[0m 0.472 ms - 26[0m
+2026-05-17T12:52:03: [0mGET /api/problems [36m304[0m 24.987 ms - -[0m
+2026-05-17T12:53:57: [0mGET /api/problems [36m304[0m 13.234 ms - -[0m
+2026-05-17T12:53:57: [0mGET /api/problems [36m304[0m 11.817 ms - -[0m
+2026-05-17T12:54:01: [0mGET /api/problems [36m304[0m 13.440 ms - -[0m
+2026-05-17T12:54:02: [0mGET /api/problems [36m304[0m 19.855 ms - -[0m
+2026-05-17T12:54:05: [0mGET /api/auth/me [33m401[0m 0.642 ms - 26[0m
+2026-05-17T12:54:06: [0mGET /api/problems [36m304[0m 17.542 ms - -[0m
+2026-05-17T12:54:53: [0mGET /api/auth/me [33m401[0m 0.651 ms - 26[0m
+2026-05-17T12:54:54: [0mGET /api/problems [36m304[0m 9.343 ms - -[0m
+2026-05-17T12:55:19: [0mGET /api/auth/me [33m401[0m 0.575 ms - 26[0m
+2026-05-17T12:55:20: [0mGET /api/problems [36m304[0m 13.670 ms - -[0m
+2026-05-17T12:55:29: [0mGET /api/auth/me [33m401[0m 0.599 ms - 26[0m
+2026-05-17T12:55:30: [0mGET /api/problems [36m304[0m 10.975 ms - -[0m
+2026-05-17T12:56:52: [0mGET /api/auth/me [33m401[0m 0.462 ms - 26[0m
+2026-05-17T13:00:00: [0mGET /api/auth/me [33m401[0m 0.666 ms - 26[0m
+2026-05-17T13:00:01: [0mGET /api/problems [36m304[0m 12.114 ms - -[0m
+2026-05-17T13:00:11: [0mGET /api/auth/me [33m401[0m 0.591 ms - 26[0m
+2026-05-17T13:00:11: [0mGET /api/problems [36m304[0m 11.566 ms - -[0m
+2026-05-17T13:39:39: [0mGET /api/auth/me [33m401[0m 1.169 ms - 26[0m
+2026-05-17T13:39:40: [0mGET /api/problems [36m304[0m 16.083 ms - -[0m
+2026-05-17T13:42:05: [0mGET /api/auth/me [33m401[0m 0.420 ms - 26[0m
+2026-05-17T13:46:31: [0mGET /api/auth/me [33m401[0m 0.710 ms - 26[0m
+2026-05-17T13:46:32: [0mGET /api/problems [36m304[0m 14.815 ms - -[0m
+2026-05-18T09:22:54: Backend running on http://localhost:4000
+2026-05-18T09:23:07: [0mGET / [33m404[0m 37.587 ms - 29[0m
+2026-05-18T09:23:38: [0mGET /api/health [32m200[0m 1.563 ms - 15[0m
+2026-05-18T09:38:19: [0mGET /api/auth/me [33m401[0m 20.697 ms - 26[0m
+2026-05-18T09:38:20: [0mPOST /api/auth/sso [32m200[0m 103.974 ms - 771[0m
+2026-05-18T09:38:20: [0mGET /api/profile/me [36m304[0m 36.899 ms - -[0m
+2026-05-18T09:38:20: [0mGET /api/problems [32m200[0m 47.510 ms - 54460[0m
+2026-05-18T09:38:27: [0mGET /api/journeys [36m304[0m 16.765 ms - -[0m
+2026-05-18T09:38:28: [0mGET /api/journeys [36m304[0m 11.315 ms - -[0m
+2026-05-18T09:38:29: [0mGET /api/submissions/me [36m304[0m 4.689 ms - -[0m
+2026-05-18T09:38:29: [0mGET /api/submissions/me [36m304[0m 3.800 ms - -[0m
+2026-05-18T09:38:30: [0mGET /api/profile/me [36m304[0m 21.419 ms - -[0m
+2026-05-18T09:38:30: [0mGET /api/profile/me [36m304[0m 14.744 ms - -[0m
+2026-05-18T09:38:33: [0mGET /api/problems [36m304[0m 13.191 ms - -[0m
+2026-05-18T09:38:33: [0mGET /api/problems [36m304[0m 13.619 ms - -[0m
+2026-05-18T09:38:40: [0mGET /api/problems?difficulty=EASY [32m200[0m 7.873 ms - 10860[0m
+2026-05-18T09:38:40: [0mGET /api/problems [36m304[0m 15.512 ms - -[0m
+2026-05-18T09:38:53: [0mGET /api/problems?difficulty=EASY [36m304[0m 10.673 ms - -[0m
+2026-05-18T09:38:53: [0mGET /api/problems [36m304[0m 20.547 ms - -[0m
+2026-05-18T09:39:05: [0mGET /api/problems?tag=h [32m200[0m 11.167 ms - 14725[0m
+2026-05-18T09:39:05: [0mGET /api/problems?tag=h [36m304[0m 13.875 ms - -[0m
+2026-05-18T09:39:08: [0mGET /api/problems?tag=ht [32m200[0m 15.478 ms - 4654[0m
+2026-05-18T09:39:08: [0mGET /api/problems?tag=ht [36m304[0m 11.473 ms - -[0m
+2026-05-18T09:39:11: [0mGET /api/problems?tag=htm [32m200[0m 22.735 ms - 4654[0m
+2026-05-18T09:39:11: [0mGET /api/problems?tag=htm [36m304[0m 12.001 ms - -[0m
+2026-05-18T09:39:14: [0mGET /api/problems?tag=html [32m200[0m 12.350 ms - 4654[0m
+2026-05-18T09:39:14: [0mGET /api/problems?tag=html [36m304[0m 14.143 ms - -[0m
+2026-05-18T09:39:24: [0mGET /api/problems?tag=html&language=PYTHON [32m200[0m 33.225 ms - 15[0m
+2026-05-18T09:39:24: [0mGET /api/problems [36m304[0m 37.290 ms - -[0m
+2026-05-18T09:39:40: [0mGET /api/problems?language=CSS [32m200[0m 23.644 ms - 4679[0m
+2026-05-18T09:39:40: [0mGET /api/problems [36m304[0m 21.032 ms - -[0m
+2026-05-18T09:39:49: [0mGET /api/problems?language=CSS [36m304[0m 22.246 ms - -[0m
+2026-05-18T09:39:49: [0mGET /api/problems [36m304[0m 22.897 ms - -[0m
+2026-05-18T12:17:39: [0mGET /api/auth/me [36m304[0m 158.740 ms - -[0m
+2026-05-18T12:17:40: [0mGET /api/profile/me [36m304[0m 34.680 ms - -[0m
+2026-05-18T12:17:40: [0mGET /api/problems [36m304[0m 24.067 ms - -[0m
+2026-05-18T12:17:45: [0mGET /api/auth/me [36m304[0m 6.758 ms - -[0m
+2026-05-18T12:17:45: [0mGET /api/profile/me [36m304[0m 30.754 ms - -[0m
+2026-05-18T12:17:46: [0mGET /api/problems [36m304[0m 15.906 ms - -[0m
+2026-05-18T12:37:24: [0mGET /api/auth/me [36m304[0m 193.411 ms - -[0m
+2026-05-18T12:37:28: [0mGET /api/profile/me [36m304[0m 45.790 ms - -[0m
+2026-05-18T12:37:28: [0mGET /api/problems [36m304[0m 36.733 ms - -[0m
+2026-05-18T12:42:43: [0mGET /api/auth/me [36m304[0m 14.110 ms - -[0m
+2026-05-18T12:43:59: [0mGET /api/profile/me [36m304[0m 40.592 ms - -[0m
+2026-05-18T12:44:09: [0mGET /api/problems [36m304[0m 35.877 ms - -[0m
+2026-05-18T13:57:12: [0mGET /api/auth/me [36m304[0m 136.503 ms - -[0m
+2026-05-18T13:57:12: [0mGET /api/profile/me [36m304[0m 25.110 ms - -[0m
+2026-05-18T13:57:13: [0mGET /api/problems [36m304[0m 53.955 ms - -[0m
+2026-05-18T14:01:14: [0mGET /api/auth/me [36m304[0m 8.829 ms - -[0m
+2026-05-18T15:17:57: [0mGET /api/profile/me [36m304[0m 18.598 ms - -[0m
+2026-05-18T15:17:58: [0mGET /api/problems [36m304[0m 41.428 ms - -[0m
+2026-05-18T15:17:59: [0mGET /api/auth/me [36m304[0m 11.691 ms - -[0m
+2026-05-18T15:18:07: [0mGET /api/profile/me [36m304[0m 39.366 ms - -[0m
+2026-05-18T15:18:13: [0mGET /api/problems [36m304[0m 17.089 ms - -[0m
+2026-05-18T15:36:20: [0mGET /api/auth/me [36m304[0m 11.649 ms - -[0m
+2026-05-18T15:36:24: [0mGET /api/profile/me [36m304[0m 10.344 ms - -[0m
+2026-05-18T15:36:25: [0mGET /api/problems [36m304[0m 21.790 ms - -[0m
+2026-05-18T15:59:27: [0mGET /api/problems [36m304[0m 94.292 ms - -[0m
+2026-05-18T16:09:12: [0mGET /api/auth/me [36m304[0m 8.091 ms - -[0m
+2026-05-18T16:09:12: [0mGET /api/profile/me [36m304[0m 27.793 ms - -[0m
+2026-05-18T16:09:12: [0mGET /api/problems [36m304[0m 29.474 ms - -[0m
+2026-05-18T18:31:47: [0mGET /api/auth/me [36m304[0m 234.130 ms - -[0m
+2026-05-18T18:31:47: [0mGET /api/profile/me [36m304[0m 73.605 ms - -[0m
+2026-05-18T18:31:47: [0mGET /api/problems [36m304[0m 74.590 ms - -[0m
+2026-05-18T18:32:02: [0mGET /api/auth/me [36m304[0m 3.481 ms - -[0m
+2026-05-18T18:32:02: [0mGET /api/profile/me [36m304[0m 41.495 ms - -[0m
+2026-05-18T18:32:02: [0mGET /api/problems [36m304[0m 46.469 ms - -[0m
+2026-05-18T18:33:08: [0mGET /api/journeys [36m304[0m 32.546 ms - -[0m
+2026-05-18T18:33:08: [0mGET /api/journeys [36m304[0m 18.440 ms - -[0m
+2026-05-18T18:33:13: [0mGET /api/submissions/me [36m304[0m 11.684 ms - -[0m
+2026-05-18T18:33:13: [0mGET /api/submissions/me [36m304[0m 6.659 ms - -[0m
+2026-05-18T18:33:17: [0mGET /api/problems [36m304[0m 15.646 ms - -[0m
+2026-05-18T18:33:17: [0mGET /api/problems [36m304[0m 29.708 ms - -[0m
+2026-05-18T18:33:41: [0mGET /api/problems [36m304[0m 20.335 ms - -[0m
+2026-05-18T18:34:06: [0mGET /api/problems [36m304[0m 12.232 ms - -[0m
+2026-05-18T18:34:08: [0mGET /api/profile/me [36m304[0m 24.278 ms - -[0m
+2026-05-18T18:34:09: [0mGET /api/profile/me [36m304[0m 42.815 ms - -[0m
+2026-05-18T18:56:55: Backend running on http://localhost:4000
+2026-05-19T00:06:39: Backend running on http://localhost:4000
+2026-05-19T00:06:41: Backend running on http://localhost:4000
+2026-05-19T06:02:28: Backend running on http://localhost:4000
+2026-05-19T06:04:48: [0mGET /api/auth/me [33m401[0m 38.326 ms - 26[0m
+2026-05-19T06:04:48: [0mPOST /api/auth/sso [32m200[0m 246.441 ms - 644[0m
+2026-05-19T06:04:48: [0mGET /api/profile/me [32m200[0m 88.354 ms - 1022[0m
+2026-05-19T06:04:48: [0mGET /api/problems [32m200[0m 127.816 ms - 54463[0m
+2026-05-19T06:04:56: [0mGET /api/profile/me [36m304[0m 67.958 ms - -[0m
+2026-05-19T06:04:56: [0mGET /api/profile/me [36m304[0m 33.392 ms - -[0m
+2026-05-19T06:05:00: [0mGET /api/problems [36m304[0m 42.616 ms - -[0m
+2026-05-19T06:05:00: [0mGET /api/problems [36m304[0m 50.721 ms - -[0m
+2026-05-19T06:05:37: [0mGET /api/profile/me [36m304[0m 485.093 ms - -[0m
+2026-05-19T06:05:37: [0mGET /api/profile/me [36m304[0m 582.684 ms - -[0m
+2026-05-19T06:14:40: [0mGET /api/problems [36m304[0m 272.938 ms - -[0m
+2026-05-19T06:14:40: [0mGET /api/problems [36m304[0m 82.610 ms - -[0m
+2026-05-19T06:14:46: [0mGET /api/problems [36m304[0m 109.657 ms - -[0m
+2026-05-19T06:15:05: [0mGET /api/profile/me [36m304[0m 183.484 ms - -[0m
+2026-05-19T06:15:05: [0mGET /api/profile/me [36m304[0m 414.448 ms - -[0m
+2026-05-19T10:56:53: [0mGET /api/auth/me [32m200[0m 179.343 ms - 683[0m
+2026-05-19T10:56:53: [0mGET /api/profile/me [36m304[0m 36.044 ms - -[0m
+2026-05-19T10:56:53: [0mGET /api/profile/me [36m304[0m 33.227 ms - -[0m
+2026-05-19T13:30:00: Backend running on http://localhost:4000
+2026-05-19T14:51:36: [0mGET /api/auth/me [33m401[0m 90.281 ms - 26[0m
+2026-05-19T14:51:37: [0mPOST /api/auth/sso [32m200[0m 192.702 ms - 771[0m
+2026-05-19T14:51:37: [0mGET /api/profile/me [32m200[0m 47.233 ms - 1149[0m
+2026-05-19T14:51:37: [0mGET /api/problems [32m200[0m 83.255 ms - 54460[0m
+2026-05-19T14:51:58: [0mGET /api/profile/me [36m304[0m 17.953 ms - -[0m
+2026-05-19T14:51:58: [0mGET /api/profile/me [36m304[0m 13.312 ms - -[0m
+2026-05-19T14:52:03: [0mGET /api/submissions/me [32m200[0m 12.617 ms - 8354[0m
+2026-05-19T14:52:03: [0mGET /api/submissions/me [36m304[0m 4.897 ms - -[0m
+2026-05-19T14:52:06: [0mGET /api/journeys [32m200[0m 18.884 ms - 15451[0m
+2026-05-19T14:52:06: [0mGET /api/journeys [36m304[0m 9.152 ms - -[0m

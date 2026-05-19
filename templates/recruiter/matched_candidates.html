@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="dashboard">
+    <aside class="sidebar">
+        <ul class="sidebar-menu">
+            <li><a href="{{ url_for('recruiter.dashboard') }}">Dashboard</a></li>
+            <li><a href="{{ url_for('recruiter.profile') }}">Profile</a></li>
+            <li><a href="{{ url_for('recruiter.manage_jobs') }}">Manage Jobs</a></li>
+            <li><a href="{{ url_for('recruiter.post_job') }}">Post Job</a></li>
+            <li><a href="{{ url_for('recruiter.view_applications') }}">Applications</a></li>
+            <li><a href="{{ url_for('recruiter.matched_candidates') }}" class="active">Matched Candidates</a></li>
+            <li><a href="{{ url_for('recruiter.recruiter_support') }}">Support</a></li>
+        </ul>
+    </aside>
+    
+    <main class="main-content">
+        <div class="page-header">
+            <h1 style="color: white !important;">Matched Candidates</h1>
+            <p style="color: var(--gray);">Candidates whose skills match your job requirements</p>
+        </div>
+        
+        {% if candidates %}
+            {% for candidate in candidates %}
+                <div class="job-card">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <h3>{{ candidate.profile.first_name }} {{ candidate.profile.last_name }}</h3>
+                            <p style="color: var(--gray);">{{ candidate.profile.college }}</p>
+                        </div>
+                        <div class="match-indicator">{{ candidate.match_score }}% Match</div>
+                    </div>
+                    <div style="margin-top: 1rem;">
+                        <strong>Applied for:</strong> {{ candidate.job.title }}
+                    </div>
+                    <div style="margin-top: 0.5rem;">
+                        {% if candidate.profile.skills %}
+                            {% for skill in candidate.profile.skills.split(',')[:5] %}
+                                <span class="skill-tag">{{ skill.strip() }}</span>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    <div style="margin-top: 0.5rem;">
+                        {% if candidate.application_status %}
+                            <span class="badge badge-{{ candidate.application_status }}">Status: {{ candidate.application_status|title }}</span>
+                        {% endif %}
+                    </div>
+                    <div style="margin-top: 1rem; display: flex; gap: 1rem;">
+                        <a href="{{ url_for('recruiter.view_student_profile', student_id=candidate.profile.user_id) }}" class="btn btn-sm btn-outline">View Profile</a>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="card" style="text-align: center; padding: 3rem;">
+                <h3>No matched candidates</h3>
+                <p style="color: var(--gray);">Post more jobs to see matched candidates.</p>
+            </div>
+        {% endif %}
+    </main>
+</div>
+{% endblock %}

@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Signup - BUILD UP PILOT</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        .auth-container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .auth-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .step {
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        
+        .step.active {
+            border-color: #007bff;
+            background: #f8f9ff;
+        }
+        
+        .step-number {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            border-radius: 50%;
+            background: #007bff;
+            color: white;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        
+        .form-group input:focus, .form-group select:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+        
+        .btn {
+            background: #007bff;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+        }
+        
+        .btn:hover {
+            background: #0056b3;
+        }
+        
+        .btn:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+        }
+        
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .alert-danger {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .verification-status {
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+        }
+        
+        .verification-status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .verification-status.pending {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+        
+        .verification-status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .text-center {
+            text-align: center;
+        }
+        
+        .mb-3 {
+            margin-bottom: 15px;
+        }
+        
+        @media (max-width: 768px) {
+            .auth-container {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-header">
+            <h1>Secure Signup</h1>
+            <p>Create your account with identity verification</p>
+        </div>
+        
+        <!-- Progress Steps -->
+        <div class="step active" id="step1">
+            <div class="step-number">1</div>
+            <h3>Basic Information</h3>
+            <p>Enter your basic details to get started</p>
+        </div>
+        
+        <div class="step" id="step2">
+            <div class="step-number">2</div>
+            <h3>Aadhaar Verification</h3>
+            <p>Verify your identity using Aadhaar</p>
+        </div>
+        
+        {% if role == 'recruiter' %}
+        <div class="step" id="step3">
+            <div class="step-number">3</div>
+            <h3>Company ID Verification</h3>
+            <p>Verify your company credentials</p>
+        </div>
+        {% endif %}
+        
+        <!-- Basic Information Form -->
+        <div id="basicInfo" class="step-content">
+            <form id="signupForm" method="POST">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="mobile">Mobile Number</label>
+                    <input type="tel" id="mobile" name="mobile" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="role">Account Type</label>
+                    <select id="role" name="role" required>
+                        <option value="student">Student/Fresher</option>
+                        <option value="recruiter">Recruiter</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <button type="submit" class="btn">Continue to Aadhaar Verification</button>
+                </div>
+            </form>
+        </div>
+        
+        <!-- Aadhaar Verification Form -->
+        <div id="aadhaarVerification" class="step-content hidden">
+            <h3>Step 2: Aadhaar Verification</h3>
+            <p>Please verify your identity using one of the methods below</p>
+            
+            <!-- Verification Method Tabs -->
+            <div class="mb-3">
+                <button class="btn" onclick="showOTPMethod()">OTP Verification</button>
+                <button class="btn btn-secondary" onclick="showQRMethod()">QR Code/XML</button>
+            </div>
+            
+            <!-- OTP Verification Method -->
+            <div id="otpMethod" class="verification-method hidden">
+                <h4>OTP Verification</h4>
+                <p>Enter your 12-digit Aadhaar number to receive an OTP</p>
+                
+                <form id="otpForm">
+                    <div class="form-group">
+                        <label for="aadhaarNumber">Aadhaar Number</label>
+                        <input type="text" id="aadhaarNumber" name="aadhaar_number" 
+                               placeholder="Enter 12-digit Aadhaar number" 
+                               maxlength="12" pattern="[0-9]{12}" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <button type="submit" class="btn">Send OTP</button>
+                    </div>
+                </form>
+                
+                <!-- OTP Input Section -->
+                <div id="otpSection" class="hidden">
+                    <h4>Enter OTP</h4>
+                    <p>Enter the 6-digit OTP sent to your registered mobile number</p>
+                    
+                    <form id="verifyForm">
+                        <div class="form-group">
+                            <label for="otp">OTP</label>
+                            <input type="text" id="otp" name="otp" 
+                                   placeholder="Enter 6-digit OTP" 
+                                   maxlength="6" pattern="[0-9]{6}" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <button type="submit" class="btn">Verify OTP</button>
+                            <button type="button" class="btn btn-secondary" onclick="resetOTP()">Resend OTP</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- QR Code/XML Method -->
+            <div id="qrMethod" class="verification-method hidden">
+                <h4>QR Code/XML Verification</h4>
+                <p>Upload your Aadhaar QR code or XML file for verification</p>
+                
+                <form id="qrForm">
+                    <div class="form-group">
+                        <label for="xmlData">XML Data</label>
+                        <textarea id="xmlData" name="xml_data" 
+                                  placeholder="Paste your Aadhaar XML data here..." 
+                                  rows="6" required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <button type="submit" class="btn">Verify XML</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Company ID Verification Form (Recruiters Only) -->
+        {% if role == 'recruiter' %}
+        <div id="companyVerification" class="step-content hidden">
+            <h3>Step 3: Company ID Verification</h3>
+            <p>Please verify your company credentials</p>
+            
+            <form id="companyForm">
+                <div class="form-group">
+                    <label for="companyId">Company ID Number</label>
+                    <input type="text" id="companyId" name="company_id" 
+                           placeholder="Enter your company ID number" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="companyImage">Company ID Document (Optional)</label>
+                    <input type="file" id="companyImage" name="company_image" 
+                           accept="image/*,.pdf">
+                </div>
+                
+                <div class="form-group">
+                    <button type="submit" class="btn">Verify Company ID</button>
+                </div>
+            </form>
+        </div>
+        {% endif %}
+        
+        <!-- Status Messages -->
+        <div id="statusMessage" class="hidden"></div>
+        
+        <!-- Loading Indicator -->
+        <div id="loadingIndicator" class="hidden text-center">
+            <p>Processing verification...</p>
+        </div>
+        
+        <!-- Success Message -->
+        <div id="successMessage" class="hidden">
+            <div class="alert alert-success">
+                <h4>Registration Successful!</h4>
+                <p>Your account has been created successfully.</p>
+                <p><a href="{{ url_for('auth.login') }}" class="btn">Continue to Login</a></p>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let currentStep = 1;
+        let userData = {
+            name: '',
+            email: '',
+            mobile: '',
+            password: '',
+            role: 'student',
+            aadhaarVerified: false,
+            companyVerified: false
+        };
+        
+        // Basic Information Form submission
+        document.getElementById('signupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            userData.name = document.getElementById('name').value;
+            userData.email = document.getElementById('email').value;
+            userData.mobile = document.getElementById('mobile').value;
+            userData.password = document.getElementById('password').value;
+            userData.role = document.getElementById('role').value;
+            
+            // Validate basic information
+            if (!userData.name || !userData.email || !userData.mobile || !userData.password) {
+                showStatus('error', 'Please fill in all required fields');
+                return;
+            }
+            
+            // Store basic data and move to next step
+            submitBasicInfo();
+        });
+        
+        // Submit basic information
+        function submitBasicInfo() {
+            showLoading(true);
+            
+            fetch('/auth/signup_basic', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(userData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                showLoading(false);
+                
+                if (data.success) {
+                    // Move to Aadhaar verification step
+                    currentStep = 2;
+                    updateStepProgress();
+                    showAadhaarVerification();
+                } else {
+                    showStatus('error', data.error || 'Failed to save basic information');
+                }
+            })
+            .catch(error => {
+                showLoading(false);
+                showStatus('error', 'Network error. Please try again.');
+            });
+        }
+        
+        // Show Aadhaar verification
+        function showAadhaarVerification() {
+            document.getElementById('basicInfo').classList.add('hidden');
+            document.getElementById('aadhaarVerification').classList.remove('hidden');
+            document.getElementById('step1').classList.remove('active');
+            document.getElementById('step2').classList.add('active');
+        }
+        
+        // Show OTP method
+        function showOTPMethod() {
+            document.getElementById('otpMethod').classList.remove('hidden');
+            document.getElementById('qrMethod').classList.add('hidden');
+        }
+        
+        // Show QR method
+        function showQRMethod() {
+            document.getElementById('qrMethod').classList.remove('hidden');
+            document.getElementById('otpMethod').classList.add('hidden');
+        }
+        
+        // OTP Form submission
+        document.getElementById('otpForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const aadhaarNumber = document.getElementById('aadhaarNumber').value;
+            
+            if (!aadhaarNumber || aadhaarNumber.length !== 12) {
+                showStatus('error', 'Please enter a valid 12-digit Aadhaar number');
+                return;
+            }
+            
+            sendOTP(aadhaarNumber);
+        });
+        
+        // OTP Verification form submission
+        document.getElementById('verifyForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const otp = document.getElementById('otp').value;
+            
+            if (!otp || otp.length !== 6) {
+                showStatus('error', 'Please enter a valid 6-digit OTP');
+                return;
+            }
+            
+            verifyOTP(aadhaarNumber, otp);
+        });
+        
+        // QR/XML Form submission
+        document.getElementById('qrForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const xmlData = document.getElementById('xmlData').value;
+            
+            if (!xmlData || xmlData.trim().length === 0) {
+                showStatus('error', 'Please enter valid XML data');
+                return;
+            }
+            
+            verifyXML(xmlData);
+        });
+        
+        // Company ID Form submission (Recruiters only)
+        {% if role == 'recruiter' %}
+        document.getElementById('companyForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const companyId = document.getElementById('companyId').value;
+            const companyImage = document.getElementById('companyImage').files[0];
+            
+            if (!companyId) {
+                showStatus('error', 'Please enter your company ID');
+                return;
+            }
+            
+            verifyCompanyID(companyId, companyImage);
+        });
+        {% endif %}
+        
+        // Send OTP function
+        function sendOTP(aadhaarNumber) {
+            showLoading(true);
+            
+            fetch('/auth/send_aadhaar_otp', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    aadhaar_number: aadhaarNumber
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                showLoading(false);
+                
+                if (data.success) {
+                    showStatus('success', 'OTP sent successfully! Please check your mobile.');
+                    document.getElementById('otpSection').classList.remove('hidden');
+                    document.getElementById('otp').focus();
+                } else {
+                    showStatus('error', data.error || 'Failed to send OTP');
+                }
+            })
+            .catch(error => {
+                showLoading(false);
+                showStatus('error', 'Network error. Please try again.');
+            });
+        }
+        
+        // Verify OTP function
+        function verifyOTP(aadhaarNumber, otp) {
+            showLoading(true);
+            
+            fetch('/auth/verify_aadhaar_otp', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    aadhaar_number: aadhaarNumber,
+                    otp: otp
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                showLoading(false);
+                
+                if (data.success) {
+                    userData.aadhaarVerified = true;
+                    showStatus('success', 'Aadhaar verification successful!');
+                    
+                    {% if role == 'recruiter' %}
+                    // Move to company verification step
+                    currentStep = 3;
+                    updateStepProgress();
+                    showCompanyVerification();
+                    {% else %}
+                    // Complete registration for students
+                    completeRegistration();
+                    {% endif %}
+                } else {
+                    showStatus('error', data.error || 'OTP verification failed');
+                }
+            })
+            .catch(error => {
+                showLoading(false);
+                showStatus('error', 'Network error. Please try again.');
+            });
+        }
+        
+        // Verify XML function
+        function verifyXML(xmlData) {
+            showLoading(true);
+            
+            fetch('/auth/verify_aadhaar_xml', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    xml_data: xmlData
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                showLoading(false);
+                
+                if (data.success) {
+                    userData.aadhaarVerified = true;
+                    showStatus('success', 'Aadhaar verification successful!');
+                    
+                    {% if role == 'recruiter' %}
+                    // Move to company verification step
+                    currentStep = 3;
+                    updateStepProgress();
+                    showCompanyVerification();
+                    {% else %}
+                    // Complete registration for students
+                    completeRegistration();
+                    {% endif %}
+                } else {
+                    showStatus('error', data.error || 'XML verification failed');
+                }
+            })
+            .catch(error => {
+                showLoading(false);
+                showStatus('error', 'Network error. Please try again.');
+            });
+        }
+        
+        // Verify Company ID function (Recruiters only)
+        {% if role == 'recruiter' %}
+        function verifyCompanyID(companyId, companyImage) {
+            showLoading(true);
+            
+            const formData = new FormData();
+            formData.append('company_id', companyId);
+            
+            if (companyImage) {
+                formData.append('company_image', companyImage);
+            }
+            
+            fetch('/auth/verify_company_id', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                showLoading(false);
+                
+                if (data.success) {
+                    userData.companyVerified = true;
+                    showStatus('success', 'Company ID verification successful!');
+                    completeRegistration();
+                } else {
+                    showStatus('error', data.error || 'Company ID verification failed');
+                }
+            })
+            .catch(error => {
+                showLoading(false);
+                showStatus('error', 'Network error. Please try again.');
+            });
+        }
+        {% endif %}
+        
+        // Reset OTP function
+        function resetOTP() {
+            const aadhaarNumber = document.getElementById('aadhaarNumber').value;
+            if (aadhaarNumber) {
+                sendOTP(aadhaarNumber);
+            }
+        }
+        
+        // Update step progress
+        function updateStepProgress() {
+            document.querySelectorAll('.step').forEach(step => step.classList.remove('active'));
+            document.getElementById('step' + currentStep).classList.add('active');
+        }
+        
+        // Show status message
+        function showStatus(type, message) {
+            const statusDiv = document.getElementById('statusMessage');
+            statusDiv.className = 'verification-status ' + type;
+            statusDiv.textContent = message;
+            statusDiv.classList.remove('hidden');
+        }
+        
+        // Show loading indicator
+        function showLoading(show) {
+            const loadingDiv = document.getElementById('loadingIndicator');
+            if (show) {
+                loadingDiv.classList.remove('hidden');
+            } else {
+                loadingDiv.classList.add('hidden');
+            }
+        }
+        
+        // Complete registration
+        function completeRegistration() {
+            const successDiv = document.getElementById('successMessage');
+            successDiv.classList.remove('hidden');
+            
+            // Hide all verification forms
+            document.getElementById('basicInfo').classList.add('hidden');
+            document.getElementById('aadhaarVerification').classList.add('hidden');
+            {% if role == 'recruiter' %}
+            document.getElementById('companyVerification').classList.add('hidden');
+            {% endif %}
+            
+            // Show completion message
+            showStatus('success', 'Registration completed! Your account is now pending verification.');
+        }
+    </script>
+</body>
+</html>

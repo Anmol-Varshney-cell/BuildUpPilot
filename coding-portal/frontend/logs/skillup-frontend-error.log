@@ -1,0 +1,111 @@
+2026-04-25T13:48:10: C:\PROGRAM FILES\NODEJS\NPM.CMD:1
+2026-04-25T13:48:10: :: Created by npm, please don't edit manually.
+2026-04-25T13:48:10: ^
+2026-04-25T13:48:10: 
+2026-04-25T13:48:10: SyntaxError: Unexpected token ':'
+2026-04-25T13:48:10:     at wrapSafe (node:internal/modules/cjs/loader:1735:18)
+2026-04-25T13:48:10:     at Module._compile (node:internal/modules/cjs/loader:1778:20)
+2026-04-25T13:48:10:     at Object..js (node:internal/modules/cjs/loader:1936:10)
+2026-04-25T13:48:10:     at Module.load (node:internal/modules/cjs/loader:1525:32)
+2026-04-25T13:48:10:     at Module._load (node:internal/modules/cjs/loader:1327:12)
+2026-04-25T13:48:10:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+2026-04-25T13:48:10:     at wrapModuleLoad (node:internal/modules/cjs/loader:245:24)
+2026-04-25T13:48:10:     at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)
+2026-04-25T13:48:10:     at node:internal/main/run_main_module:33:47
+2026-04-25T13:48:10: 
+2026-04-25T13:48:10: Node.js v24.13.1
+2026-04-25T13:48:11: C:\PROGRAM FILES\NODEJS\NPM.CMD:1
+2026-04-25T13:48:11: :: Created by npm, please don't edit manually.
+2026-04-25T13:48:11: ^
+2026-04-25T13:48:11: 
+2026-04-25T13:48:11: SyntaxError: Unexpected token ':'
+2026-04-25T13:48:11:     at wrapSafe (node:internal/modules/cjs/loader:1735:18)
+2026-04-25T13:48:11:     at Module._compile (node:internal/modules/cjs/loader:1778:20)
+2026-04-25T13:48:11:     at Object..js (node:internal/modules/cjs/loader:1936:10)
+2026-04-25T13:48:11:     at Module.load (node:internal/modules/cjs/loader:1525:32)
+2026-04-25T13:48:11:     at Module._load (node:internal/modules/cjs/loader:1327:12)
+2026-04-25T13:48:11:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+2026-04-25T13:48:11:     at wrapModuleLoad (node:internal/modules/cjs/loader:245:24)
+2026-04-25T13:48:11:     at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)
+2026-04-25T13:48:11:     at node:internal/main/run_main_module:33:47
+2026-04-25T13:48:11: 
+2026-04-25T13:48:11: Node.js v24.13.1
+2026-04-25T13:48:11: C:\PROGRAM FILES\NODEJS\NPM.CMD:1
+2026-04-25T13:48:11: :: Created by npm, please don't edit manually.
+2026-04-25T13:48:11: ^
+2026-04-25T13:48:11: 
+2026-04-25T13:48:11: SyntaxError: Unexpected token ':'
+2026-04-25T13:48:11:     at wrapSafe (node:internal/modules/cjs/loader:1735:18)
+2026-04-25T13:48:11:     at Module._compile (node:internal/modules/cjs/loader:1778:20)
+2026-04-25T13:48:11:     at Object..js (node:internal/modules/cjs/loader:1936:10)
+2026-04-25T13:48:11:     at Module.load (node:internal/modules/cjs/loader:1525:32)
+2026-04-25T13:48:11:     at Module._load (node:internal/modules/cjs/loader:1327:12)
+2026-04-25T13:48:11:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+2026-04-25T13:48:11:     at wrapModuleLoad (node:internal/modules/cjs/loader:245:24)
+2026-04-25T13:48:11:     at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)
+2026-04-25T13:48:11:     at node:internal/main/run_main_module:33:47
+2026-04-25T13:48:11: 
+2026-04-25T13:48:11: Node.js v24.13.1
+2026-04-25T13:48:11: C:\PROGRAM FILES\NODEJS\NPM.CMD:1
+2026-04-25T13:48:11: :: Created by npm, please don't edit manually.
+2026-04-25T13:48:11: ^
+2026-04-25T13:48:11: 
+2026-04-25T13:48:11: SyntaxError: Unexpected token ':'
+2026-04-25T13:48:11:     at wrapSafe (node:internal/modules/cjs/loader:1735:18)
+2026-04-25T13:48:11:     at Module._compile (node:internal/modules/cjs/loader:1778:20)
+2026-04-25T13:48:11:     at Object..js (node:internal/modules/cjs/loader:1936:10)
+2026-04-25T13:48:11:     at Module.load (node:internal/modules/cjs/loader:1525:32)
+2026-04-25T13:48:11:     at Module._load (node:internal/modules/cjs/loader:1327:12)
+2026-04-25T13:48:11:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+2026-04-25T13:48:11:     at wrapModuleLoad (node:internal/modules/cjs/loader:245:24)
+2026-04-25T13:48:11:     at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)
+2026-04-25T13:48:11:     at node:internal/main/run_main_module:33:47
+2026-04-25T13:48:11: 
+2026-04-25T13:48:11: Node.js v24.13.1
+2026-04-25T13:48:12: C:\PROGRAM FILES\NODEJS\NPM.CMD:1
+2026-04-25T13:48:12: :: Created by npm, please don't edit manually.
+2026-04-25T13:48:12: ^
+2026-04-25T13:48:12: 
+2026-04-25T13:48:12: SyntaxError: Unexpected token ':'
+2026-04-25T13:48:12:     at wrapSafe (node:internal/modules/cjs/loader:1735:18)
+2026-04-25T13:48:12:     at Module._compile (node:internal/modules/cjs/loader:1778:20)
+2026-04-25T13:48:12:     at Object..js (node:internal/modules/cjs/loader:1936:10)
+2026-04-25T13:48:12:     at Module.load (node:internal/modules/cjs/loader:1525:32)
+2026-04-25T13:48:12:     at Module._load (node:internal/modules/cjs/loader:1327:12)
+2026-04-25T13:48:12:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+2026-04-25T13:48:12:     at wrapModuleLoad (node:internal/modules/cjs/loader:245:24)
+2026-04-25T13:48:12:     at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)
+2026-04-25T13:48:12:     at node:internal/main/run_main_module:33:47
+2026-04-25T13:48:12: 
+2026-04-25T13:48:12: Node.js v24.13.1
+2026-04-25T13:48:12: C:\PROGRAM FILES\NODEJS\NPM.CMD:1
+2026-04-25T13:48:12: :: Created by npm, please don't edit manually.
+2026-04-25T13:48:12: ^
+2026-04-25T13:48:12: 
+2026-04-25T13:48:12: SyntaxError: Unexpected token ':'
+2026-04-25T13:48:12:     at wrapSafe (node:internal/modules/cjs/loader:1735:18)
+2026-04-25T13:48:12:     at Module._compile (node:internal/modules/cjs/loader:1778:20)
+2026-04-25T13:48:12:     at Object..js (node:internal/modules/cjs/loader:1936:10)
+2026-04-25T13:48:12:     at Module.load (node:internal/modules/cjs/loader:1525:32)
+2026-04-25T13:48:12:     at Module._load (node:internal/modules/cjs/loader:1327:12)
+2026-04-25T13:48:12:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+2026-04-25T13:48:12:     at wrapModuleLoad (node:internal/modules/cjs/loader:245:24)
+2026-04-25T13:48:12:     at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)
+2026-04-25T13:48:12:     at node:internal/main/run_main_module:33:47
+2026-04-25T13:48:12: 
+2026-04-25T13:48:12: Node.js v24.13.1
+2026-04-25T14:02:41: ^C
+2026-04-27T19:45:14: [31mfailed to load config from C:\Users\Anmol\OneDrive\Desktop\B\coding-portal\frontend\vite.config.ts[39m
+2026-04-27T19:45:14: [2m7:45:14 pm[22m [31m[1m[vite][22m[39m defineConfig is not defined
+2026-04-27T19:45:14: [2m7:45:14 pm[22m [31m[1m[vite][22m[39m server restart failed
+2026-04-27T19:46:27: X [ERROR] Expected ";" but found ":"
+2026-04-27T19:46:27: 
+2026-04-27T19:46:27:     vite.config.ts:6:8:
+2026-04-27T19:46:27:       6 │     host: '0.0.0.0'
+2026-04-27T19:46:27:         │         ^
+2026-04-27T19:46:27:         ╵         ;
+2026-04-27T19:46:27: 
+2026-04-27T19:46:27: [31mfailed to load config from C:\Users\Anmol\OneDrive\Desktop\B\coding-portal\frontend\vite.config.ts[39m
+2026-04-27T19:46:27: [2m7:46:27 pm[22m [31m[1m[vite][22m[39m Build failed with 1 error:
+2026-04-27T19:46:27: vite.config.ts:6:8: ERROR: Expected ";" but found ":"
+2026-04-27T19:46:27: [2m7:46:27 pm[22m [31m[1m[vite][22m[39m server restart failed

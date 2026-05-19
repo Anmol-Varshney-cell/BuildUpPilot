@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="dashboard">
+    <aside class="sidebar">
+        <ul class="sidebar-menu">
+            <li><a href="{{ url_for('student.dashboard') }}">Dashboard</a></li>
+            <li><a href="{{ url_for('student.profile') }}">Profile</a></li>
+            <li><a href="{{ url_for('student.tests') }}">Skill Tests</a></li>
+            <li><a href="{{ url_for('student.readiness') }}">Readiness Meter</a></li>
+            <li><a href="{{ url_for('student.applications') }}">Job Applications</a></li>
+            <li><a href="{{ url_for('student.mock_interview') }}" class="active">Mock Interview</a></li>
+            <li><a href="{{ url_for('student.roadmap') }}">Learning Roadmap</a></li>
+            <li><a href="{{ url_for('student.certificates') }}">Certificates</a></li>
+            <li><a href="{{ url_for('student.discussions') }}">Discussions</a></li>
+            <li><a href="{{ url_for('student.support') }}">Support</a></li>
+        </ul>
+    </aside>
+    
+    <main class="main-content">
+        <div class="page-header">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <h1 class="portal-heading">Mock Interview</h1>
+                    <p class="portal-subheading">Practice with AI-free, human-verified interviews</p>
+                </div>
+            </div>
+        </div>
+        
+        {% if not has_resume %}
+        <div class="card" style="text-align: center; padding: 3rem; border: 2px solid var(--warning);">
+            <div style="font-size: 4rem; margin-bottom: 1rem;">📄</div>
+            <h1 class="portal-heading">Resume Required</h1>
+            <p style="color: var(--gray); max-width: 500px; margin: 1rem auto;">
+                Please upload your resume before starting a mock interview. This helps us generate personalized questions based on your experience and skills.
+            </p>
+            <a href="{{ url_for('student.profile') }}#resume" class="btn btn-primary">Upload Resume</a>
+        </div>
+        {% else %}
+        <div class="card" style="text-align: center; padding: 3rem;">
+            <div style="font-size: 4rem; margin-bottom: 1rem;">🎤</div>
+            <h1 class="portal-heading">Start Your Mock Interview</h1>
+            <p style="color: var(--gray); max-width: 500px; margin: 1rem auto;">
+                Select your target role and we'll generate personalized questions based on the requirements. Your resume has been uploaded successfully.
+            </p>
+            
+            <form method="POST" style="max-width: 400px; margin: 2rem auto;">
+                <div class="form-group">
+                    <label>Target Job Role</label>
+                    <select name="job_role" class="form-control" required>
+                        <option value="">Select a role...</option>
+                        <optgroup label="Development">
+                            <option value="frontend">Frontend Developer</option>
+                            <option value="backend">Backend Developer</option>
+                            <option value="fullstack">Full Stack Developer</option>
+                        </optgroup>
+                        <optgroup label="Data & AI">
+                            <option value="data">Data Analyst/Scientist</option>
+                        </optgroup>
+                        <optgroup label="Operations">
+                            <option value="devops">DevOps Engineer</option>
+                        </optgroup>
+                        <optgroup label="General">
+                            <option value="default">General Interview</option>
+                        </optgroup>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Start Interview</button>
+            </form>
+        </div>
+        {% endif %}
+        
+        <div class="card">
+            <h3 style="margin-bottom: 1rem;">How It Works</h3>
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;">
+                <div style="text-align: center;">
+                    <div style="font-size: 2rem; margin-bottom: 0.5rem;">1️⃣</div>
+                    <strong>Upload Resume</strong>
+                    <p style="color: var(--gray); font-size: 0.875rem;">Upload your resume first</p>
+                </div>
+                <div style="text-align: center;">
+                    <div style="font-size: 2rem; margin-bottom: 0.5rem;">2️⃣</div>
+                    <strong>Select Role</strong>
+                    <p style="color: var(--gray); font-size: 0.875rem;">Choose your target position</p>
+                </div>
+                <div style="text-align: center;">
+                    <div style="font-size: 2rem; margin-bottom: 0.5rem;">3️⃣</div>
+                    <strong>Answer Questions</strong>
+                    <p style="color: var(--gray); font-size: 0.875rem;">Write your own answers</p>
+                </div>
+                <div style="text-align: center;">
+                    <div style="font-size: 2rem; margin-bottom: 0.5rem;">4️⃣</div>
+                    <strong>Get Feedback</strong>
+                    <p style="color: var(--gray); font-size: 0.875rem;">Receive detailed scoring</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card" style="margin-top: 1.5rem; background: linear-gradient(135deg, #fef3c7 0%, #fef9c3 100%); border: 1px solid var(--warning);">
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <div style="font-size: 2rem;">⚠️</div>
+                <div>
+                    <h4 style="color: var(--warning); margin: 0 0 0.25rem 0;">Important: Human-Only Responses</h4>
+                    <p style="color: var(--dark); margin: 0; font-size: 0.875rem;">
+                        All answers must be written by you personally. Our system detects AI-generated content. 
+                        Responses that appear to be AI-written will not be accepted and may result in disqualification from earning certificates.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+{% endblock %}

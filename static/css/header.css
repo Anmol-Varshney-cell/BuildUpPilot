@@ -1,0 +1,76 @@
+/* App Header Styles */
+.app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background: rgba(var(--bg-rgb), 0.95);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(var(--border-rgb), 0.3);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+}
+
+.header-left .logo img {
+    height: 40px;
+    width: auto;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.theme-toggle-btn {
+    background: none;
+    border: 1px solid rgba(var(--border-rgb), 0.3);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--text);
+    transition: all 0.2s ease;
+    font-size: 1.1rem;
+}
+
+.theme-toggle-btn:hover {
+    background: rgba(var(--primary-rgb), 0.1);
+    border-color: var(--primary);
+}
+
+.student-id-chip {
+    background: var(--primary);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.btn-sm {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+}
+
+@media (max-width: 768px) {
+    .app-header {
+        padding: 1rem;
+    }
+    
+    .header-right {
+        gap: 0.5rem;
+    }
+    
+    .student-id-chip {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.8rem;
+    }
+}

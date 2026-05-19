@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container" style="padding-top: 3rem;">
+    <div style="max-width: 1200px; margin: 0 auto;">
+        <div class="card fade-in">
+            <h2 style="text-align: center; margin-bottom: 2rem;">Recruiter Verification</h2>
+            <p style="text-align: center; color: var(--gray); margin-bottom: 2rem;">
+                Review Gmail-verified recruiter requests and approve or decline access to BUILD UP PILOT.
+            </p>
+            
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            <div class="verification-requests">
+                {% for recruiter in verification_requests %}
+                <div class="verification-card" style="border: 1px solid #dee2e6; padding: 1.5rem; margin-bottom: 1.5rem; border-radius: 8px;">
+                    <div class="recruiter-info">
+                        <h4>{{ recruiter.first_name or recruiter.email }} {{ recruiter.last_name or '' }}</h4>
+                        <p><strong>Login Email:</strong> {{ recruiter.email }}</p>
+                        <p><strong>Recruiter Gmail:</strong> {{ recruiter.recruiter_request_email or recruiter.email }}</p>
+                        <p><strong>Company Name:</strong> {{ recruiter.company_name or 'Not provided' }}</p>
+                        <p><strong>Company ID:</strong> {{ recruiter.company_id or 'Not provided' }}</p>
+                        <p><strong>Mobile:</strong> {{ recruiter.mobile }}</p>
+                        <p><strong>Applied:</strong> {{ recruiter.created_at.strftime('%d %B %Y') }}</p>
+                        {% if recruiter.recruiter_request_last_notification %}
+                            <p><strong>Notification:</strong> {{ recruiter.recruiter_request_last_notification }}</p>
+                        {% endif %}
+                        <p><strong>Status:</strong> 
+                            <span class="status-{{ recruiter.company_id_status }}">
+                                {{ (recruiter.company_id_status or 'pending').replace('_', ' ').title() }}
+                            </span>
+                        </p>
+                    </div>
+                    <div class="verification-actions" style="margin-top: 1rem;">
+                        {% if recruiter.company_id_status in ['pending_admin', 'pending_verification'] %}
+                            <form method="POST" action="{{ url_for('admin.approve_company_id', recruiter_id=recruiter.id) }}" style="display: inline;">
+                                <button type="submit" class="btn btn-success">Approve</button>
+                            </form>
+                            <form method="POST" action="{{ url_for('admin.reject_company_id', recruiter_id=recruiter.id) }}" style="display: inline; margin-left: 0.5rem;">
+                                <button type="submit" class="btn btn-danger">Reject</button>
+                            </form>
+                        {% endif %}
+                        {% if recruiter.company_id_image_path %}
+                            <a href="{{ url_for('admin.view_company_id_image', recruiter_id=recruiter.id) }}" 
+                               class="btn btn-outline" style="margin-left: 0.5rem;">View ID</a>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="dashboard">
+    <aside class="sidebar">
+        <ul class="sidebar-menu">
+            <li><a href="{{ url_for('admin.dashboard') }}">Dashboard</a></li>
+            <li><a href="{{ url_for('admin.code_spirit_monitoring') }}">Skill Up</a></li>
+            <li><a href="{{ url_for('admin.manage_users') }}">Manage Users</a></li>
+            <li><a href="{{ url_for('admin.manage_jobs') }}" class="active">Manage Jobs</a></li>
+            <li><a href="{{ url_for('admin.manage_tickets') }}">Support Tickets</a></li>
+            <li><a href="{{ url_for('admin.analytics') }}">Analytics</a></li>
+        </ul>
+    </aside>
+    
+    <main class="main-content">
+        <div class="page-header">
+            <h1 style="color: white !important;">Manage Jobs</h1>
+            <a href="{{ url_for('admin.add_job') }}" class="btn btn-primary">Add New Job</a>
+        </div>
+        
+        <div class="card">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Job Title</th>
+                        <th>Company</th>
+                        <th>Location</th>
+                        <th>Status</th>
+                        <th>Posted</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for job in jobs %}
+                        <tr>
+                            <td>{{ job.title }}</td>
+                            <td>{{ job.company }}</td>
+                            <td>{{ job.location }}</td>
+                            <td><span class="badge badge-{{ 'offered' if job.is_active else 'rejected' }}">{{ 'Active' if job.is_active else 'Inactive' }}</span></td>
+                            <td>{{ job.posted_label }}</td>
+                            <td class="actions-inline">
+                                <button class="btn btn-sm btn-outline" onclick="editJob({{ job.id }})">Edit</button>
+                                <button
+                                    class="btn btn-sm {{ 'btn-outline' if job.is_active else 'btn-primary' }}"
+                                    onclick="toggleJobStatus({{ job.id }}, {{ 'true' if job.is_active else 'false' }})"
+                                >
+                                    {{ 'Deactivate' if job.is_active else 'Activate' }}
+                                </button>
+                                <button class="btn btn-sm btn-danger" onclick="deleteJob({{ job.id }})">Delete</button>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </main>
+</div>
+<script>
+function editJob(jobId) {
+    window.location.href = `{{ url_for('admin.edit_job', job_id=0) }}`.replace('0', jobId);
+}
+
+function toggleJobStatus(jobId, isActive) {
+    const nextAction = isActive ? 'deactivate' : 'activate';
+    if (!confirm(`Are you sure you want to ${nextAction} this job?`)) return;
+
+    fetch(`{{ url_for('admin.toggle_admin_job_status', job_id=0) }}`.replace('0', jobId), {
+        method: 'POST'
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            location.reload();
+        } else {
+            alert(data.message || 'Failed to update job status');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error updating job status');
+    });
+}
+
+function deleteJob(jobId) {
+    if (confirm('Are you sure you want to delete this job?')) {
+        fetch(`{{ url_for('admin.delete_job', job_id=0) }}`.replace('0', jobId), {
+            method: 'DELETE'
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Job deleted successfully');
+                location.reload();
+            } else {
+                alert(data.message || 'Failed to delete job');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error deleting job');
+        });
+    }
+}
+</script>
+{% endblock %}

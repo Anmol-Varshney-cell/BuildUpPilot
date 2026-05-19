@@ -1,0 +1,355 @@
+2026-04-25T14:34:03:  * Serving Flask app 'app.py'
+2026-04-25T14:34:03:  * Debug mode: off
+2026-04-25T14:48:52:  * Serving Flask app 'app.py'
+2026-04-25T14:48:52:  * Debug mode: off
+2026-04-25T14:57:09:  * Serving Flask app 'app.py'
+2026-04-25T14:57:09:  * Debug mode: off
+2026-04-25T15:33:14:  * Serving Flask app 'app.py'
+2026-04-25T15:33:14:  * Debug mode: off
+2026-04-25T16:18:09:  * Serving Flask app 'app.py'
+2026-04-25T16:18:09:  * Debug mode: off
+2026-04-25T16:33:30:  * Serving Flask app 'app.py'
+2026-04-25T16:33:30:  * Debug mode: off
+2026-04-25T17:00:49:  * Serving Flask app 'app.py'
+2026-04-25T17:00:49:  * Debug mode: off
+2026-04-25T17:01:50:  * Serving Flask app 'app.py'
+2026-04-25T17:01:50:  * Debug mode: off
+2026-04-25T17:05:27:  * Serving Flask app 'app.py'
+2026-04-25T17:05:27:  * Debug mode: off
+2026-04-25T17:07:44:  * Serving Flask app 'app.py'
+2026-04-25T17:07:44:  * Debug mode: off
+2026-04-25T17:23:05:  * Serving Flask app 'app.py'
+2026-04-25T17:23:05:  * Debug mode: off
+2026-04-25T18:23:48:  * Serving Flask app 'app.py'
+2026-04-25T18:23:48:  * Debug mode: off
+2026-04-25T20:47:27:  * Serving Flask app 'app.py'
+2026-04-25T20:47:27:  * Debug mode: off
+2026-04-25T20:50:48:  * Serving Flask app 'app.py'
+2026-04-25T20:50:48:  * Debug mode: off
+2026-04-25T20:56:29:  * Serving Flask app 'app.py'
+2026-04-25T20:56:29:  * Debug mode: off
+2026-04-25T21:39:34:  * Serving Flask app 'app.py'
+2026-04-25T21:39:34:  * Debug mode: off
+2026-04-26T00:07:15:  * Serving Flask app 'app.py'
+2026-04-26T00:07:15:  * Debug mode: off
+2026-04-26T00:07:24:  * Serving Flask app 'app.py'
+2026-04-26T00:07:24:  * Debug mode: off
+2026-04-26T00:07:28:  * Serving Flask app 'app.py'
+2026-04-26T00:07:28:  * Debug mode: off
+2026-04-26T00:07:30:  * Serving Flask app 'app.py'
+2026-04-26T00:07:30:  * Debug mode: off
+2026-04-26T00:07:34:  * Serving Flask app 'app.py'
+2026-04-26T00:07:34:  * Debug mode: off
+2026-04-26T00:07:41:  * Serving Flask app 'app.py'
+2026-04-26T00:07:41:  * Debug mode: off
+2026-04-26T00:07:48:  * Serving Flask app 'app.py'
+2026-04-26T00:07:48:  * Debug mode: off
+2026-04-26T00:08:02:  * Serving Flask app 'app.py'
+2026-04-26T00:08:02:  * Debug mode: off
+2026-04-26T00:08:09:  * Serving Flask app 'app.py'
+2026-04-26T00:08:09:  * Debug mode: off
+2026-04-26T00:08:44:  * Serving Flask app 'app.py'
+2026-04-26T00:08:44:  * Debug mode: off
+2026-04-26T00:08:48:  * Serving Flask app 'app.py'
+2026-04-26T00:08:48:  * Debug mode: off
+2026-04-26T23:25:39:  * Serving Flask app 'app.py'
+2026-04-26T23:25:39:  * Debug mode: off
+2026-04-26T23:53:09:  * Serving Flask app 'app.py'
+2026-04-26T23:53:09:  * Debug mode: off
+2026-04-27T09:58:25:  * Serving Flask app 'app.py'
+2026-04-27T09:58:25:  * Debug mode: off
+2026-04-27T11:54:25:  * Serving Flask app 'app.py'
+2026-04-27T11:54:25:  * Debug mode: off
+2026-04-27T12:26:34:  * Serving Flask app 'app.py'
+2026-04-27T12:26:34:  * Debug mode: off
+2026-04-27T12:52:15:  * Serving Flask app 'app.py'
+2026-04-27T12:52:15:  * Debug mode: off
+2026-04-27T12:57:40:  * Serving Flask app 'app.py'
+2026-04-27T12:57:40:  * Debug mode: off
+2026-05-02T13:43:03:  * Serving Flask app 'app.py'
+2026-05-02T13:43:03:  * Debug mode: off
+2026-05-02T13:44:02:  * Serving Flask app 'app.py'
+2026-05-02T13:44:02:  * Debug mode: off
+2026-05-02T13:54:47: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using cookie-based sessions instead
+2026-05-02T13:54:51: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using cookie-based sessions instead
+2026-05-02T13:54:56: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using cookie-based sessions instead
+2026-05-02T13:55:02: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using cookie-based sessions instead
+2026-05-02T13:55:06: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using cookie-based sessions instead
+2026-05-02T13:55:11: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using cookie-based sessions instead
+2026-05-02T13:55:16: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using cookie-based sessions instead
+2026-05-02T13:55:21: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using cookie-based sessions instead
+2026-05-02T13:55:25: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using cookie-based sessions instead
+2026-05-02T13:55:30: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using cookie-based sessions instead
+2026-05-02T13:55:35: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using cookie-based sessions instead
+2026-05-02T13:55:39: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using cookie-based sessions instead
+2026-05-02T13:55:45: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using cookie-based sessions instead
+2026-05-02T13:55:50: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using null session store instead
+2026-05-02T13:56:05: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using null session store instead
+2026-05-02T13:56:10: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using null session store instead
+2026-05-02T13:56:15: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using null session store instead
+2026-05-02T13:56:20: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using null session store instead
+2026-05-02T13:56:25: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using null session store instead
+2026-05-02T13:56:30: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using null session store instead
+2026-05-02T13:56:35: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using null session store instead
+2026-05-02T13:56:40: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using null session store instead
+2026-05-02T13:56:44: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using null session store instead
+2026-05-02T13:56:50: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using null session store instead
+2026-05-02T13:56:55: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using null session store instead
+2026-05-02T13:57:00: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using null session store instead
+2026-05-02T13:57:06: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using null session store instead
+2026-05-02T13:57:10: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using signed cookie sessions instead
+2026-05-02T13:57:19: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using signed cookie sessions instead
+2026-05-02T13:57:24: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using signed cookie sessions instead
+2026-05-02T13:57:29: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using signed cookie sessions instead
+2026-05-02T13:57:35: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using signed cookie sessions instead
+2026-05-02T13:57:40: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using signed cookie sessions instead
+2026-05-02T13:57:46: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using signed cookie sessions instead
+2026-05-02T13:58:14: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using signed cookie sessions instead
+2026-05-02T13:58:19: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-02T13:58:19:  * Serving Flask app 'app.py'
+2026-05-02T13:58:19:  * Debug mode: off
+2026-05-02T13:58:27: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-02T13:58:27:  * Serving Flask app 'app.py'
+2026-05-02T13:58:27:  * Debug mode: off
+2026-05-02T14:24:44: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-02T14:24:44:  * Serving Flask app 'app.py'
+2026-05-02T14:24:44:  * Debug mode: off
+2026-05-02T23:54:52: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-02T23:54:52:  * Serving Flask app 'app.py'
+2026-05-02T23:54:52:  * Debug mode: off
+2026-05-02T23:55:21: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-02T23:55:21:  * Serving Flask app 'app.py'
+2026-05-02T23:55:21:  * Debug mode: off
+2026-05-02T23:55:47: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-02T23:55:47:  * Serving Flask app 'app.py'
+2026-05-02T23:55:47:  * Debug mode: off
+2026-05-03T00:03:20: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-03T00:03:20:  * Serving Flask app 'app.py'
+2026-05-03T00:03:20:  * Debug mode: off
+2026-05-03T00:14:54: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-03T00:14:54:  * Serving Flask app 'app.py'
+2026-05-03T00:14:54:  * Debug mode: off
+2026-05-03T00:20:25: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-03T00:20:25:  * Serving Flask app 'app.py'
+2026-05-03T00:20:25:  * Debug mode: off
+2026-05-03T14:07:06: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-03T14:07:06:  * Serving Flask app 'app.py'
+2026-05-03T14:07:06:  * Debug mode: off
+2026-05-03T14:59:40: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-03T14:59:40:  * Serving Flask app 'app.py'
+2026-05-03T14:59:40:  * Debug mode: off
+2026-05-03T15:07:14: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-03T15:07:14:  * Serving Flask app 'app.py'
+2026-05-03T15:07:14:  * Debug mode: off
+2026-05-03T15:08:17: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-03T15:08:17:  * Serving Flask app 'app.py'
+2026-05-03T15:08:17:  * Debug mode: off
+2026-05-03T15:15:08: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-03T15:15:08:  * Serving Flask app 'app.py'
+2026-05-03T15:15:08:  * Debug mode: off
+2026-05-03T15:24:02: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-03T15:24:02:  * Serving Flask app 'app.py'
+2026-05-03T15:24:02:  * Debug mode: off
+2026-05-03T15:33:56: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-03T15:33:56:  * Serving Flask app 'app.py'
+2026-05-03T15:33:56:  * Debug mode: off
+2026-05-03T15:49:46: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-03T15:49:46:  * Serving Flask app 'app.py'
+2026-05-03T15:49:46:  * Debug mode: off
+2026-05-04T00:45:40: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-04T00:45:40:  * Serving Flask app 'app.py'
+2026-05-04T00:45:40:  * Debug mode: off
+2026-05-11T00:05:55: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-11T00:05:55:  * Serving Flask app 'app.py'
+2026-05-11T00:05:55:  * Debug mode: off
+2026-05-11T00:45:46: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-11T00:45:46:  * Serving Flask app 'app.py'
+2026-05-11T00:45:46:  * Debug mode: off
+2026-05-11T01:41:20: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-11T01:41:20:  * Serving Flask app 'app.py'
+2026-05-11T01:41:20:  * Debug mode: off
+2026-05-11T01:55:17: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-11T01:55:17:  * Serving Flask app 'app.py'
+2026-05-11T01:55:17:  * Debug mode: off
+2026-05-11T12:56:42: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-11T12:56:42:  * Serving Flask app 'app.py'
+2026-05-11T12:56:42:  * Debug mode: off
+2026-05-11T13:02:42: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-11T13:02:42:  * Serving Flask app 'app.py'
+2026-05-11T13:02:42:  * Debug mode: off
+2026-05-11T13:14:02: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-11T13:14:02:  * Serving Flask app 'app.py'
+2026-05-11T13:14:02:  * Debug mode: off
+2026-05-11T13:36:13: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-11T13:36:13:  * Serving Flask app 'app.py'
+2026-05-11T13:36:13:  * Debug mode: off
+2026-05-11T13:37:18: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-11T13:37:18:  * Serving Flask app 'app.py'
+2026-05-11T13:37:18:  * Debug mode: off
+2026-05-11T14:02:02: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-11T14:02:02:  * Serving Flask app 'app.py'
+2026-05-11T14:02:02:  * Debug mode: off
+2026-05-11T14:03:50: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-11T14:03:50:  * Serving Flask app 'app.py'
+2026-05-11T14:03:50:  * Debug mode: off
+2026-05-11T14:04:33: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-11T14:04:33:  * Serving Flask app 'app.py'
+2026-05-11T14:04:33:  * Debug mode: off
+2026-05-11T14:05:20: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-11T14:05:20:  * Serving Flask app 'app.py'
+2026-05-11T14:05:20:  * Debug mode: off
+2026-05-11T14:15:18: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-11T14:15:18:  * Serving Flask app 'app.py'
+2026-05-11T14:15:18:  * Debug mode: off
+2026-05-11T14:15:53: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-11T14:15:53:  * Serving Flask app 'app.py'
+2026-05-11T14:15:53:  * Debug mode: off
+2026-05-11T14:22:23: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-11T14:22:23:  * Serving Flask app 'app.py'
+2026-05-11T14:22:23:  * Debug mode: off
+2026-05-11T14:22:41: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-11T14:22:41:  * Serving Flask app 'app.py'
+2026-05-11T14:22:41:  * Debug mode: off
+2026-05-11T14:43:37: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-11T14:43:37:  * Serving Flask app 'app.py'
+2026-05-11T14:43:37:  * Debug mode: off
+2026-05-11T14:44:01: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-11T14:44:01:  * Serving Flask app 'app.py'
+2026-05-11T14:44:01:  * Debug mode: off
+2026-05-11T22:13:15: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-11T22:13:15:  * Serving Flask app 'app.py'
+2026-05-11T22:13:15:  * Debug mode: off
+2026-05-11T23:29:56: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-11T23:29:56:  * Serving Flask app 'app.py'
+2026-05-11T23:29:56:  * Debug mode: off
+2026-05-12T22:20:23: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-12T22:20:23:  * Serving Flask app 'app.py'
+2026-05-12T22:20:23:  * Debug mode: off
+2026-05-13T12:33:16: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-13T12:33:16:  * Serving Flask app 'app.py'
+2026-05-13T12:33:16:  * Debug mode: off
+2026-05-13T12:33:30: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-13T12:33:30:  * Serving Flask app 'app.py'
+2026-05-13T12:33:30:  * Debug mode: off
+2026-05-13T13:12:41: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-13T13:12:41:  * Serving Flask app 'app.py'
+2026-05-13T13:12:41:  * Debug mode: off
+2026-05-13T13:12:53: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-13T13:12:53:  * Serving Flask app 'app.py'
+2026-05-13T13:12:53:  * Debug mode: off
+2026-05-13T13:47:51: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-13T13:47:51:  * Serving Flask app 'app.py'
+2026-05-13T13:47:51:  * Debug mode: off
+2026-05-13T13:52:07: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-13T13:52:07:  * Serving Flask app 'app.py'
+2026-05-13T13:52:07:  * Debug mode: off
+2026-05-13T13:52:16: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-13T13:52:16:  * Serving Flask app 'app.py'
+2026-05-13T13:52:16:  * Debug mode: off
+2026-05-13T14:05:29: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-13T14:05:29:  * Serving Flask app 'app.py'
+2026-05-13T14:05:29:  * Debug mode: off
+2026-05-13T14:09:49: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-13T14:09:49:  * Serving Flask app 'app.py'
+2026-05-13T14:09:49:  * Debug mode: off
+2026-05-13T14:28:49: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-13T14:28:49:  * Serving Flask app 'app.py'
+2026-05-13T14:28:49:  * Debug mode: off
+2026-05-13T14:28:59: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-13T14:28:59:  * Serving Flask app 'app.py'
+2026-05-13T14:28:59:  * Debug mode: off
+2026-05-13T14:58:47: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-13T14:58:47:  * Serving Flask app 'app.py'
+2026-05-13T14:58:47:  * Debug mode: off
+2026-05-13T16:29:48: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-13T16:29:48:  * Serving Flask app 'app.py'
+2026-05-13T16:29:48:  * Debug mode: off
+2026-05-13T22:01:21: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-13T22:01:21:  * Serving Flask app 'app.py'
+2026-05-13T22:01:21:  * Debug mode: off
+2026-05-13T22:03:17: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-13T22:03:17:  * Serving Flask app 'app.py'
+2026-05-13T22:03:17:  * Debug mode: off
+2026-05-14T20:57:21: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-14T20:57:21:  * Serving Flask app 'app.py'
+2026-05-14T20:57:21:  * Debug mode: off
+2026-05-14T23:33:04: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-14T23:33:04:  * Serving Flask app 'app.py'
+2026-05-14T23:33:04:  * Debug mode: off
+2026-05-14T23:38:17: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-14T23:38:17:  * Serving Flask app 'app.py'
+2026-05-14T23:38:17:  * Debug mode: off
+2026-05-15T00:30:37: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-15T00:30:37:  * Serving Flask app 'app.py'
+2026-05-15T00:30:37:  * Debug mode: off
+2026-05-15T01:19:01: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-15T01:19:01:  * Serving Flask app 'app.py'
+2026-05-15T01:19:01:  * Debug mode: off
+2026-05-15T01:59:42: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-15T01:59:42:  * Serving Flask app 'app.py'
+2026-05-15T01:59:42:  * Debug mode: off
+2026-05-16T09:28:48: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-16T09:28:48:  * Serving Flask app 'app.py'
+2026-05-16T09:28:48:  * Debug mode: off
+2026-05-16T11:18:01: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-16T11:18:01:  * Serving Flask app 'app.py'
+2026-05-16T11:18:01:  * Debug mode: off
+2026-05-16T23:07:48: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-16T23:07:48:  * Serving Flask app 'app.py'
+2026-05-16T23:07:48:  * Debug mode: off
+2026-05-17T01:23:55: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-17T01:23:55:  * Serving Flask app 'app.py'
+2026-05-17T01:23:55:  * Debug mode: off
+2026-05-17T01:38:25: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-17T01:38:25:  * Serving Flask app 'app.py'
+2026-05-17T01:38:25:  * Debug mode: off
+2026-05-17T01:53:13: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-17T01:53:13:  * Serving Flask app 'app.py'
+2026-05-17T01:53:13:  * Debug mode: off
+2026-05-17T01:53:30: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-17T01:53:30:  * Serving Flask app 'app.py'
+2026-05-17T01:53:30:  * Debug mode: off
+2026-05-17T01:56:06: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-17T01:56:11: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-17T01:56:16: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-17T01:56:22: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-17T01:56:28: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-17T01:56:33: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-17T01:56:39: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-17T01:56:44: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-17T01:56:50: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-17T01:56:55: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-17T01:57:01: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-17T01:57:07: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-17T01:57:07:  * Serving Flask app 'app.py'
+2026-05-17T01:57:07:  * Debug mode: off
+2026-05-17T02:08:57: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-17T02:08:57:  * Serving Flask app 'app.py'
+2026-05-17T02:08:57:  * Debug mode: off
+2026-05-17T12:20:42: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-17T12:20:42:  * Serving Flask app 'app.py'
+2026-05-17T12:20:42:  * Debug mode: off
+2026-05-18T09:22:59: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-18T09:22:59:  * Serving Flask app 'app.py'
+2026-05-18T09:22:59:  * Debug mode: off
+2026-05-18T09:50:09: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-18T09:50:09:  * Serving Flask app 'app.py'
+2026-05-18T09:50:09:  * Debug mode: off
+2026-05-18T10:20:25: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-18T10:20:25:  * Serving Flask app 'app.py'
+2026-05-18T10:20:25:  * Debug mode: off
+2026-05-18T12:02:14: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-18T12:02:14:  * Serving Flask app 'app.py'
+2026-05-18T12:02:14:  * Debug mode: off
+2026-05-18T13:55:49: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-18T13:55:49:  * Serving Flask app 'app.py'
+2026-05-18T13:55:49:  * Debug mode: off
+2026-05-18T18:56:59: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-18T18:56:59:  * Serving Flask app 'app.py'
+2026-05-18T18:56:59:  * Debug mode: off
+2026-05-19T06:02:32: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-19T06:02:32:  * Serving Flask app 'app.py'
+2026-05-19T06:02:32:  * Debug mode: off
+2026-05-19T13:30:10: [WARN] Redis unavailable (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.), using built-in signed cookie sessions instead
+2026-05-19T13:30:10:  * Serving Flask app 'app.py'
+2026-05-19T13:30:10:  * Debug mode: off

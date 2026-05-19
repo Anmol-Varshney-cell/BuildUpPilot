@@ -1,0 +1,24 @@
+[build]
+  base = "/"
+  command = "sudo apt-get update && sudo apt-get install -y libpq-dev build-essential gcc && pip install -r requirements.txt"
+  publish = "static"
+  functions = "netlify/functions"
+
+[build.environment]
+  FLASK_ENV = "production"
+  PYTHON_VERSION = "3.11"
+
+[dev]
+  command = "python app.py"
+  port = 5002
+
+# Production deployment configuration
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 404

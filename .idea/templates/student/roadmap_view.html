@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="dashboard">
+    <aside class="sidebar">
+        <ul class="sidebar-menu">
+            <li><a href="{{ url_for('student.dashboard') }}">Dashboard</a></li>
+            <li><a href="{{ url_for('student.profile') }}">Profile</a></li>
+            <li><a href="{{ url_for('student.tests') }}">Skill Tests</a></li>
+            <li><a href="{{ url_for('student.readiness') }}">Readiness Meter</a></li>
+            <li><a href="{{ url_for('student.applications') }}">Job Applications</a></li>
+            <li><a href="{{ url_for('student.mock_interview') }}">Mock Interview</a></li>
+            <li><a href="{{ url_for('student.roadmap') }}" class="active">Learning Roadmap</a></li>
+            <li><a href="{{ url_for('student.certificates') }}">Certificates</a></li>
+            <li><a href="{{ url_for('student.discussions') }}">Discussions</a></li>
+            <li><a href="{{ url_for('student.support') }}">Support</a></li>
+        </ul>
+    </aside>
+    
+    <main class="main-content">
+        <div class="page-header">
+            <h1 style="color: #0f172a !important;">{{ target_role|title }} Developer Roadmap</h1>
+            <p style="color: var(--gray);">You can personalized your learning path based on your needs</p>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <span class="card-title">{{ roadmap.title }}</span>
+                <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+                    <a href="{{ url_for('student.roadmap', new=1) }}" class="btn btn-sm btn-primary">Generate Another</a>
+                    <a href="{{ url_for('student.roadmap') }}" class="btn btn-sm btn-outline">← Back</a>
+                </div>
+            </div>
+            <div class="roadmap-timeline" style="margin-top: 2rem;">
+                {% for week in roadmap.weeks %}
+                    <div class="roadmap-week">
+                        <div class="roadmap-week-card">
+                            <h1 style="color: #0f172a !important;">Week {{ week.week }}: {{ week.title }}</h1>
+                            <ul>
+                                {% for task in week.tasks %}
+                                    <li>{{ task }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </main>
+</div>
+{% endblock %}

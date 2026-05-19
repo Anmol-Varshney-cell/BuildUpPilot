@@ -1,0 +1,220 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="dashboard">
+    <aside class="sidebar">
+        <div style="text-align: center; margin-bottom: 2rem;">
+            {% if profile and profile.profile_image_path %}
+            <img src="{{ url_for('static', filename='uploads/' + profile.profile_image_path) }}" alt="Profile Photo" class="profile-avatar">
+            {% else %}
+            <div style="width: 80px; height: 80px; background: var(--primary); border-radius: 50%; margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem; font-weight: 600;">
+                {{ profile.first_name[0] if profile and profile.first_name else 'S' }}{{ profile.last_name[0] if profile and profile.last_name else '' }}
+            </div>
+            {% endif %}
+            <h4>{{ profile.first_name }} {{ profile.last_name if profile else '' }}</h4>
+            <p style="color: var(--primary); font-size: 0.875rem; font-weight: 600;">
+                {{ profile.profession if profile and profile.profession else 'Student' }}
+            </p>
+        </div>
+        
+        <ul class="sidebar-menu">
+            <li><a href="{{ url_for('student.dashboard') }}" class="active">Dashboard</a></li>
+            <li><a href="{{ url_for('student.profile') }}">Profile</a></li>
+            <li><a href="{{ url_for('student.tests') }}">Skill Tests</a></li>
+            <li><a href="{{ url_for('student.readiness') }}">Readiness Meter</a></li>
+            <li><a href="{{ url_for('student.applications') }}">Job Applications</a></li>
+            <li><a href="{{ url_for('student.mock_interview') }}">Mock Interview</a></li>
+            <li><a href="{{ url_for('student.roadmap') }}">Learning Roadmap</a></li>
+            <li><a href="{{ url_for('student.certificates') }}">Certificates</a></li>
+            <li><a href="{{ url_for('student.discussions') }}">Discussions</a></li>
+            <li><a href="{{ url_for('student.support') }}">Support</a></li>
+        </ul>
+    </aside>
+    
+    <main class="main-content">
+        <div class="page-header">
+            <h1 class="portal-heading">Welcome back, {{ profile.first_name if profile else 'Student' }}!</h1>
+            <p class="portal-subheading">Here's your placement preparation overview</p>
+        </div>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value">{{ stats.available_jobs }}</div>
+                <div class="stat-label">Available Jobs</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">{{ stats.total_applications }}</div>
+                <div class="stat-label">Total Applications</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">{{ stats.pending_applications }}</div>
+                <div class="stat-label">Pending Applications</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">{{ stats.interviews }}</div>
+                <div class="stat-label">Interviews Scheduled</div>
+            </div>
+        </div>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value">{{ stats.tests_taken }}</div>
+                <div class="stat-label">Tests Completed</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">{{ "%.0f"|format(stats.avg_score) }}%</div>
+                <div class="stat-label">Average Score</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">{{ profile.resume_score if profile else 0 }}</div>
+                <div class="stat-label">Resume Score</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">{{ stats.tests_taken * 10 if stats.tests_taken else 0 }}</div>
+                <div class="stat-label">Skill Points</div>
+            </div>
+        </div>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 1.5rem;">
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">Quick Actions</span>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;">
+                    <a href="{{ url_for('student.tests') }}" class="btn btn-outline">Take Skill Test</a>
+                    <a href="{{ url_for('student.mock_interview') }}" class="btn btn-outline">Start Mock Interview</a>
+                    <a href="{{ url_for('student.applications') }}" class="btn btn-outline">Job Applications</a>
+                    <a href="{{ url_for('student.roadmap') }}" class="btn btn-outline">Generate Roadmap</a>
+                    <a href="{{ url_for('student.discussions') }}" class="btn btn-outline">Join Discussion</a>
+                    <a href="{{ url_for('student.coding_portal') }}" class="btn btn-outline" target="_blank">Skill Up</a>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">Your Skills</span>
+                </div>
+                {% if profile and profile.skills %}
+                    {% for skill in profile.skills.split(',')[:6] %}
+                        <span class="skill-tag">{{ skill.strip() }}</span>
+                    {% endfor %}
+                    {% if profile.skills.split(',')|length > 6 %}
+                        <p style="color: var(--gray); margin-top: 0.5rem;">+{{ profile.skills.split(',')|length - 6 }} more skills</p>
+                    {% endif %}
+                {% else %}
+                    <p style="color: var(--gray);">No skills added yet. <a href="{{ url_for('student.profile') }}">Update profile</a></p>
+                {% endif %}
+                
+                {% if profile and profile.weak_areas %}
+                <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border);">
+                    <strong style="color: var(--warning);">Areas to Improve:</strong>
+                    <div style="margin-top: 0.5rem;">
+                        {% for topic, count in profile.weak_areas.items() %}
+                            <span class="weak-area-tag">{{ topic }} ({{ count }})</span>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        
+        <div class="card" style="margin-top: 1.5rem;">
+            <div class="card-header">
+                <span class="card-title">Recent Applications</span>
+                <a href="{{ url_for('student.applications') }}" class="btn btn-sm btn-outline">View All</a>
+            </div>
+            {% if applications %}
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Company</th>
+                            <th>Position</th>
+                            <th>Status</th>
+                            <th>Applied</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for app in applications[:5] %}
+                            <tr>
+                                <td>{{ app.job.company }}</td>
+                                <td>{{ app.job.title }}</td>
+                                <td><span class="badge badge-{{ app.status }}">{{ app.status|title }}</span></td>
+                                <td>{{ app.applied_at.strftime('%b %d, %Y') }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p style="color: var(--gray); text-align: center; padding: 2rem;">No applications yet. Check the <a href="{{ url_for('student.applications') }}">Job Applications</a> portal to browse and apply for jobs!</p>
+            {% endif %}
+        </div>
+        
+        <div class="card" style="margin-top: 1.5rem;">
+            <div class="card-header">
+                <span class="card-title">Support Tickets</span>
+                <a href="{{ url_for('student.support') }}" class="btn btn-sm btn-outline">View All</a>
+            </div>
+            {% if tickets %}
+                <div style="display: grid; gap: 1rem;">
+                    {% for ticket in tickets[:3] %}
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: var(--light); border-radius: 8px;">
+                            <div>
+                                <strong>{{ ticket.subject }}</strong>
+                                <p style="color: var(--gray); font-size: 0.875rem;">{{ ticket.category }} • {{ ticket.created_at.strftime('%b %d, %Y') }}</p>
+                            </div>
+                            <span class="badge badge-{{ ticket.status }}">{{ ticket.status|title }}</span>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p style="color: var(--gray); text-align: center; padding: 2rem;">No support tickets. Need help? <a href="{{ url_for('student.support') }}">Create a ticket</a></p>
+            {% endif %}
+        </div>
+
+        <div class="card" style="margin-top: 1.5rem;">
+            <div class="card-header">
+                <span class="card-title">Mock Interview Proctoring Report</span>
+                <a href="{{ url_for('student.mock_interview') }}" class="btn btn-sm btn-outline">Start Interview</a>
+            </div>
+            {% if recent_interviews %}
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Role</th>
+                            <th>Status</th>
+                            <th>Violations</th>
+                            <th>Result</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in recent_interviews %}
+                            {% set p = item.proctoring_logs or {} %}
+                            {% set v = p.get('violation_count', 0) %}
+                            {% set invalid = p.get('interview_invalid', false) %}
+                            <tr>
+                                <td>{{ item.scheduled_time.strftime('%b %d, %Y') if item.scheduled_time else '-' }}</td>
+                                <td>{{ item.job_role|title if item.job_role else 'General' }}</td>
+                                <td><span class="badge badge-{{ 'success' if item.status == 'completed' else 'warning' }}">{{ item.status|title if item.status else 'Pending' }}</span></td>
+                                <td><span class="badge badge-{{ 'danger' if v >= 3 else 'secondary' }}">{{ v }}</span></td>
+                                <td>
+                                    {% if invalid %}
+                                        <span class="badge badge-danger">Flagged</span>
+                                    {% elif item.score %}
+                                        <span class="badge badge-success">{{ item.score }}%</span>
+                                    {% else %}
+                                        <span class="badge badge-secondary">-</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p style="color: var(--gray); text-align: center; padding: 2rem;">No interview attempts yet. Start a mock interview to see your proctoring report.</p>
+            {% endif %}
+        </div>
+    </main>
+</div>
+{% endblock %}

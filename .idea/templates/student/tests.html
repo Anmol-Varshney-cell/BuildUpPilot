@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="dashboard">
+    <aside class="sidebar">
+        <ul class="sidebar-menu">
+            <li><a href="{{ url_for('student.dashboard') }}">Dashboard</a></li>
+            <li><a href="{{ url_for('student.profile') }}">Profile</a></li>
+            <li><a href="{{ url_for('student.tests') }}" class="active">Skill Tests</a></li>
+            <li><a href="{{ url_for('student.readiness') }}">Readiness Meter</a></li>
+            <li><a href="{{ url_for('student.applications') }}">Job Applications</a></li>
+            <li><a href="{{ url_for('student.mock_interview') }}">Mock Interview</a></li>
+            <li><a href="{{ url_for('student.roadmap') }}">Learning Roadmap</a></li>
+            <li><a href="{{ url_for('student.certificates') }}">Certificates</a></li>
+            <li><a href="{{ url_for('student.discussions') }}">Discussions</a></li>
+            <li><a href="{{ url_for('student.support') }}">Support</a></li>
+        </ul>
+    </aside>
+    
+    <main class="main-content">
+        <div class="page-header">
+            <h1 class="portal-heading">Skill Assessment Tests</h1>
+            <p class="portal-subheading">Test your knowledge and track your progress | 25 questions per test</p>
+        </div>
+        
+        <div class="stats-grid" style="grid-template-columns: repeat(4, 1fr);">
+            <div class="stat-card" style="cursor: pointer;" onclick="window.location.href='{{ url_for('student.take_test', test_type='dsa') }}'">
+                <div style="font-size: 2rem; margin-bottom: 0.5rem;">📊</div>
+                <div class="stat-label" style="font-weight: 600;">DSA</div>
+                <div style="font-size: 0.75rem; color: var(--gray); margin-top: 0.5rem;">Arrays, Trees, Graphs</div>
+            </div>
+            <div class="stat-card" style="cursor: pointer;" onclick="window.location.href='{{ url_for('student.take_test', test_type='aptitude') }}'">
+                <div style="font-size: 2rem; margin-bottom: 0.5rem;">🧠</div>
+                <div class="stat-label" style="font-weight: 600;">Aptitude</div>
+                <div style="font-size: 0.75rem; color: var(--gray); margin-top: 0.5rem;">Quantitative, Logical</div>
+            </div>
+            <div class="stat-card" style="cursor: pointer;" onclick="window.location.href='{{ url_for('student.coding_portal') }}'">
+                <div style="font-size: 2rem; margin-bottom: 0.5rem;">💻</div>
+                <div class="stat-label" style="font-weight: 600;">Coding</div>
+                <div style="font-size: 0.75rem; color: var(--gray); margin-top: 0.5rem;">Python, JS, Java</div>
+            </div>
+            <div class="stat-card" style="cursor: pointer;" onclick="window.location.href='{{ url_for('student.take_test', test_type='core') }}'">
+                <div style="font-size: 2rem; margin-bottom: 0.5rem;">⚙️</div>
+                <div class="stat-label" style="font-weight: 600;">Core Subjects</div>
+                <div style="font-size: 0.75rem; color: var(--gray); margin-top: 0.5rem;">OS, DB, Networking</div>
+            </div>
+        </div>
+
+        <div class="card" style="margin-top: 1.5rem;">
+            <div class="card-header">
+                <span class="card-title">Interactive Skill Up Portal</span>
+            </div>
+            <p style="margin-bottom: 1rem; color: var(--gray);">
+                Practice problem-statement-based coding for DSA, C, C++, Python, Java, JavaScript, HTML, CSS, DBMS with in-browser editor, run, submit, and verdict tracking.
+            </p>
+            <a class="btn btn-primary" href="{{ url_for('student.coding_portal') }}" target="_blank" rel="noopener noreferrer">
+                Open Skill Up
+            </a>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <span class="card-title">Previous Test Results</span>
+            </div>
+            {% if tests %}
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Test Type</th>
+                            <th>Score</th>
+                            <th>Correct/Wrong</th>
+                            <th>Date</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for test in tests %}
+                            <tr>
+                                <td style="text-transform: capitalize;">{{ test.test_type }}</td>
+                                <td>
+                                    <span class="badge badge-{{ 'offered' if test.score >= 80 else 'applied' }}">
+                                        {{ test.score }}%
+                                    </span>
+                                </td>
+                                <td>{{ test.correct_answers or test.score }}/{{ test.total_questions }}</td>
+                                <td>{{ test.attempted_at.strftime('%b %d, %Y') }}</td>
+                                <td>
+                                    <a href="{{ url_for('student.test_result', test_id=test.id) }}" class="btn btn-sm btn-outline">View</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p style="color: var(--gray); text-align: center; padding: 2rem;">
+                    No tests taken yet. Start by clicking on a test category above!
+                </p>
+            {% endif %}
+        </div>
+        
+        <div class="card" style="margin-top: 1.5rem; background: linear-gradient(135deg, #dbeafe 0%, #e0e7ff 100%);">
+            <h3 style="margin-bottom: 0.5rem;">📚 Test Guidelines</h3>
+            <ul style="color: var(--gray); font-size: 0.875rem; margin-left: 1.5rem;">
+                <li>Each test contains 25 questions from various topics</li>
+                <li>Time limit: 25 minutes</li>
+                <li>Score 80% or higher to earn a certificate</li>
+                <li>Questions are shuffled on retake to ensure fair assessment</li>
+                <li>Tab switching is monitored - excessive switching may affect your score</li>
+                <li>Answers that appear to be AI-generated will be flagged</li>
+                <li>Review your weak areas after each test to improve</li>
+            </ul>
+        </div>
+    </main>
+</div>
+{% endblock %}

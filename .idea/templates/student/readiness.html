@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- Removed duplicate navbar -->
+
+<div class="dashboard">
+    <aside class="sidebar">
+        <ul class="sidebar-menu">
+            <li><a href="{{ url_for('student.dashboard') }}">Dashboard</a></li>
+            <li><a href="{{ url_for('student.profile') }}">Profile</a></li>
+            <li><a href="{{ url_for('student.tests') }}">Skill Tests</a></li>
+            <li><a href="{{ url_for('student.readiness') }}" class="active">Readiness Meter</a></li>
+            <li><a href="{{ url_for('student.applications') }}">Job Applications</a></li>
+            <li><a href="{{ url_for('student.mock_interview') }}">Mock Interview</a></li>
+            <li><a href="{{ url_for('student.roadmap') }}">Learning Roadmap</a></li>
+            <li><a href="{{ url_for('student.certificates') }}">Certificates</a></li>
+            <li><a href="{{ url_for('student.discussions') }}">Discussions</a></li>
+            <li><a href="{{ url_for('student.support') }}">Support</a></li>
+        </ul>
+    </aside>
+    
+    <main class="main-content">
+        <div class="page-header">
+            <h1 class="portal-heading">Interview Readiness Meter</h1>
+            <p class="portal-subheading">Track your preparation across different areas</p>
+        </div>
+        
+        {% if readiness %}
+            <div style="display: grid; grid-template-columns: 300px 1fr; gap: 2rem;">
+                <div class="card" style="text-align: center;">
+                    <h3 style="margin-bottom: 1rem;">Overall Score</h3>
+                    <div class="score-circle" style="background: conic-gradient(var(--primary) {{ readiness.overall_score }}%, var(--border) 0%);">
+                        <div class="score-circle-inner">
+                            <div class="score-value">{{ readiness.overall_score }}%</div>
+                            <div style="color: var(--gray); font-size: 0.875rem;">Readiness</div>
+                        </div>
+                    </div>
+                    <p style="margin-top: 1rem; color: var(--gray);">
+                        Last updated: {{ readiness.last_updated.strftime('%b %d, %Y') }}
+                    </p>
+                </div>
+                
+                <div class="card">
+                    <h3 style="margin-bottom: 1.5rem;">Detailed Breakdown</h3>
+                    <div class="readiness-meter">
+                        <div class="skill-meter" style="cursor: pointer;" onclick="location.href='{{ url_for('student.communication_hub') }}'">
+                            <div class="skill-meter-header">
+                                <span><strong>Communication Skills 🎤</strong> <small style="color: var(--primary);">(Click to speak practice)</small></span>
+                                <span>{{ readiness.communication_score }}%</span>
+                                <button id="micButton" class="btn btn-sm btn-info" style="margin-left: 1rem;">🎤 Start Speaking</button>
+                            </div>
+                            <script>
+                            if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+                                const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+                                recognition.continuous = false;
+                                recognition.interimResults = false;
+                                recognition.lang = 'en-US';
+                                document.getElementById('micButton').onclick = () => {
+                                    recognition.start();
+                                    recognition.onresult = (event) => {
+                                        const transcript = event.results[0][0].transcript;
+                                        alert('You said: ' + transcript);
+                                        // TODO: send to backend for scoring
+                                    };
+                                    recognition.onerror = (event) => console.error('Speech error:', event.error);
+                                };
+                            } else {
+                                document.getElementById('micButton').textContent = '🎤 Mic not supported';
+                            }
+                            </script>
+                            <div class="skill-meter-bar">
+                                <div class="skill-meter-fill" style="width: {{ readiness.communication_score }}%; background: var(--info);"></div>
+                            </div>
+                            <div style="margin-top: 0.85rem;">
+                                <a href="{{ url_for('student.communication_hub') }}" class="btn btn-sm btn-primary">Open Mic Practice</a>
+                            </div>
+                        </div>
+                        
+                        <div class="skill-meter">
+                            <div class="skill-meter-header">
+                                <span><strong>DSA & Problem Solving</strong></span>
+                                <span>{{ readiness.dsa_score }}%</span>
+                            </div>
+                            <div class="skill-meter-bar">
+                                <div class="skill-meter-fill" style="width: {{ readiness.dsa_score }}%; background: var(--primary);"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="skill-meter">
+                            <div class="skill-meter-header">
+                                <span><strong>Aptitude & Reasoning</strong></span>
+                                <span>{{ readiness.aptitude_score }}%</span>
+                            </div>
+                            <div class="skill-meter-bar">
+                                <div class="skill-meter-fill" style="width: {{ readiness.aptitude_score }}%; background: var(--secondary);"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="skill-meter">
+                            <div class="skill-meter-header">
+                                <span><strong>Projects & Portfolio</strong></span>
+                                <span>{{ readiness.projects_score }}%</span>
+                            </div>
+                            <div class="skill-meter-bar">
+                                <div class="skill-meter-fill" style="width: {{ readiness.projects_score }}%; background: var(--warning);"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="skill-meter">
+                            <div class="skill-meter-header">
+                                <span><strong>Core Subjects</strong></span>
+                                <span>{{ readiness.core_subjects_score }}%</span>
+                            </div>
+                            <div class="skill-meter-bar">
+                                <div class="skill-meter-fill" style="width: {{ readiness.core_subjects_score }}%; background: var(--danger);"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="card" style="text-align: center; padding: 3rem;">
+                <h3 style="color: var(--warning); margin-bottom: 1rem;">No readiness data yet</h3>
+                <p style="color: var(--gray); margin: 1rem 0;">Take some skill tests to see your readiness scores!</p>
+                <a href="{{ url_for('student.tests') }}" class="btn btn-primary">Take Tests</a>
+            </div>
+        {% endif %}
+        
+        <div class="card" style="margin-top: 1.5rem;">
+            <h3 style="margin-bottom: 1rem;">Improve Your Readiness</h3>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;">
+                <a href="{{ url_for('student.tests', test_type='dsa') }}" class="btn btn-outline">
+                    📊 Practice DSA
+                </a>
+                <a href="{{ url_for('student.tests', test_type='aptitude') }}" class="btn btn-outline">
+                    🧠 Improve Aptitude
+                </a>
+                <a href="{{ url_for('student.mock_interview') }}" class="btn btn-outline">
+                    🎤 Practice Interviews
+                </a>
+            </div>
+        </div>
+    </main>
+</div>
+{% endblock %}
