@@ -99,4 +99,5 @@ app.register_blueprint(api)
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5002))
-    app.run(debug=True, port=port)
+    # Disable reloader and debug signals for compatibility with cloud threads/containers
+    app.run(debug=False, use_reloader=False, host='0.0.0.0', port=port)
