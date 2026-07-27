@@ -172,6 +172,12 @@ app.register_blueprint(admin)
 app.register_blueprint(recruiter)
 from flask import send_from_directory
 
+@app.route('/assets/<path:path>')
+@app.route('/skillup/assets/<path:path>')
+def serve_skillup_assets(path):
+    assets_dir = os.path.join(app.root_path, 'coding-portal', 'frontend', 'dist', 'assets')
+    return send_from_directory(assets_dir, path)
+
 @app.route('/skillup')
 @app.route('/skillup/')
 @app.route('/skillup/<path:path>')
