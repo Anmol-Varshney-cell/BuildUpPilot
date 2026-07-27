@@ -2,7 +2,7 @@ import os
 import shutil
 from dotenv import load_dotenv
 
-SECRET_KEY = os.environ.get('SECRET_KEY') or 'your-secret-key'
+SECRET_KEY = os.environ.get('SECRET_KEY') or 'build-up-sso-secret-key-2024-change-in-production'
 
 db_filename = 'buildup.db'
 if os.environ.get('VERCEL'):
@@ -27,7 +27,7 @@ class Config:
     MAX_STUDENT_ACCOUNTS = MAX_STUDENT_ACCOUNTS
     SQLALCHEMY_DATABASE_URI = DATABASE_URL
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    SESSION_TYPE = 'redis'
-    SESSION_PERMANENT = False
+    SESSION_TYPE = None
+    SESSION_PERMANENT = True
     SESSION_USE_SIGNER = True
-    PERMANENT_SESSION_LIFETIME = 3600  # 1 hour
+    PERMANENT_SESSION_LIFETIME = 604800  # 7 days in seconds
