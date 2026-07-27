@@ -1165,8 +1165,9 @@ def login():
                 if (user.email or '').strip().lower() == 'admin@buildup.com':
                     if user.student_id != 'BUPA00':
                         user.student_id = 'BUPA00'
-                        db.session.commit()
                 elif not user.student_id or not user.student_id.startswith('BUPA'):
+                    user.student_id = _generate_admin_id()
+                    db.session.commit()
             remember_me = bool(request.form.get('remember')) or True
             session.permanent = remember_me
             login_user(user, remember=remember_me)
