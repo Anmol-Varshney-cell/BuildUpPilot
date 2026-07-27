@@ -27,7 +27,7 @@ pm2 start ecosystem.config.cjs
 Write-Host "`n========================================" -ForegroundColor Green
 Write-Host "  All Services Started!" -ForegroundColor Green
 Write-Host "========================================" -ForegroundColor Green
-Write-Host "`nBUILD UP:     http://localhost:5000" -ForegroundColor Cyan
+Write-Host "`nBUILD UP:     http://localhost:5002" -ForegroundColor Cyan
 Write-Host "BACKEND:      http://localhost:4000" -ForegroundColor Cyan
 Write-Host "JUDGE:        http://localhost:5001" -ForegroundColor Cyan
 Write-Host "SKILL UP:     http://localhost:5173" -ForegroundColor Cyan

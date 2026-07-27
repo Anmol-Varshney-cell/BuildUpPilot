@@ -1,0 +1,27 @@
+# Python Virtual Environments & Cache
+.venv/
+.venv-1/
+__pycache__/
+*.pyc
+*.pyo
+
+# Node Modules
+node_modules/
+**/node_modules/
+
+# Database files
+*.db
+*.sqlite
+instance/
+
+# Logs & IDE
+logs/
+*.log
+.vscode/
+.idea/
+.claude/
+.env
+
+# Build outputs
+dist/
+build/

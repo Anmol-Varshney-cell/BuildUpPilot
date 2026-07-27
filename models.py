@@ -356,3 +356,17 @@ class RoadMap(db.Model):
     
     def __repr__(self):
         return f'<RoadMap {self.target_role}>'
+
+class DailyBadge(db.Model):
+    __tablename__ = 'daily_badges'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    test_id = db.Column(db.Integer, db.ForeignKey('skill_tests.id'))
+    earned_date = db.Column(db.Date, nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    
+    __table_args__ = (db.UniqueConstraint('user_id', 'earned_date', name='uq_user_daily_badge'),)
+    
+    def __repr__(self):
+        return f'<DailyBadge user:{self.user_id} date:{self.earned_date}>'

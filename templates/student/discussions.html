@@ -62,7 +62,7 @@
                         {% if discussion.comments %}
                             {% for comment in discussion.comments %}
                             <div style="padding: 0.9rem 1rem; border-radius: 0.9rem; background: var(--light);">
-<strong>Student {{ comment.user_id }}</strong>
+<strong>Student {{ comment.comment_student_id }} • {{ comment.comment_display_name }}</strong>
                                 <p style="margin: 0.35rem 0 0 0;">{{ comment.content }}</p>
                                 <small>{{ comment.created_at.strftime('%b %d, %Y %I:%M %p') }}</small>
                             </div>

@@ -20,7 +20,7 @@ from extensions import db, bcrypt
 from flask import current_app as app
 from models import (User, StudentProfile, SkillTest, TestQuestion, InterviewReadiness, Job, Application,
                    MockInterview, SupportTicket, TicketResponse, Certificate,
-                   Discussion, DiscussionComment, RoadMap)
+                   Discussion, DiscussionComment, RoadMap, DailyBadge)
 
 from recruiter_email_otp_demo import generate_demo_email_otp
 
@@ -34,22 +34,25 @@ recruiter = Blueprint('recruiter', __name__, url_prefix='/recruiter')
 api = Blueprint('api', __name__, url_prefix='/api')
 
 def _generate_student_id():
+    """Generate student ids like BUPS00..BUPS10000 based on existing student_id values."""
     next_seq = 0
+
     student_ids = (
         User.query
         .with_entities(User.student_id)
-        .filter(User.role == 'student', User.student_id.like('BUP%'))
+        .filter(User.role == 'student', User.student_id.like('BUPS%'))
         .all()
     )
 
-    for (student_id,) in student_ids:
-        if not student_id or student_id.startswith(('BUPR', 'BUPA')):
+    for (sid,) in student_ids:
+        if not sid:
             continue
-        suffix = student_id[3:]
+        # Expected: BUPS<digits>
+        suffix = sid[4:]
         if suffix.isdigit():
             next_seq = max(next_seq, int(suffix) + 1)
 
-    return f"BUP{next_seq:05d}"
+    return f"BUPS{next_seq:02d}" if next_seq < 100 else f"BUPS{next_seq}"
 
 
 def _generate_recruiter_id():
@@ -1132,8 +1135,10 @@ def login():
 
             if user.role == 'student':
                 if (user.email or '').strip().lower() == 'student@buildup.com':
-                    if user.student_id != 'BUP000':
-                        user.student_id = 'BUP000'
+                    # Ensure template displays match BUPS{n:02d} style.
+                    # Don't force legacy BUP000.
+                    if not user.student_id or not str(user.student_id).startswith('BUPS'):
+                        user.student_id = _generate_student_id()
                         db.session.commit()
                 elif not user.student_id or user.student_id.startswith('BUPR') or user.student_id.startswith('BUPA'):
                     user.student_id = _generate_student_id()
@@ -1458,13 +1463,14 @@ def auth_me():
     try:
         # For demo purposes, return a demo user
         # In production, this would validate session/cookie
+        # Keep studentId in the BUPS{n:02d}/BUPS{n:05d} format for consistency.
         user_data = {
             'email': 'student@buildup.com',
             'name': 'Anmol Varshney',
             'firstName': 'Anmol',
             'lastName': 'Varshney',
             'uid': 3,
-            'studentId': 'BUP000',
+            'studentId': 'BUPS01',
             'profileImage': 'http://localhost:5002/static/uploads/profile_images/dp_3_1778326463.jpg',
             'totalProblemsSolved': 5,
             'createdAt': '2024-05-12T00:00:00Z'
@@ -1522,7 +1528,7 @@ def auth_sso():
             'firstName': 'Anmol',
             'lastName': 'Varshney',
             'uid': 3,
-            'studentId': 'BUP000',
+            'studentId': 'BUPS01',
             'profileImage': 'http://localhost:5002/static/uploads/profile_images/dp_3_1778326463.jpg',
             'totalProblemsSolved': 5,
             'createdAt': '2024-05-12T00:00:00Z'
@@ -1618,47 +1624,50 @@ def submit_test():
         db.session.commit()
         
         if test.score >= 50 and not ai_detected:
-            # Generate certificate for students scoring 50% or above
-            profile = StudentProfile.query.filter_by(user_id=current_user.id).first()
-            first = profile.first_name if profile else ''
-            last = profile.last_name if profile else ''
-            roll_number = current_user.student_id if current_user.student_id else 'N/A'
-
-            if test.score >= 80:
-                cert_name = 'Code Spirit Certification' if test.test_type == 'coding' else f"{test.test_type.title()} Certification"
+            # 30-Day Streak logic
+            today_date = datetime.utcnow().date()
+            existing_badge = DailyBadge.query.filter_by(user_id=current_user.id, earned_date=today_date).first()
+            if not existing_badge:
+                badge = DailyBadge(user_id=current_user.id, test_id=test.id, earned_date=today_date)
+                db.session.add(badge)
+                db.session.commit()
+            
+            # Calculate streak
+            badges = DailyBadge.query.filter_by(user_id=current_user.id).order_by(DailyBadge.earned_date.desc()).all()
+            streak = 0
+            expected_date = today_date
+            for b in badges:
+                if b.earned_date == expected_date:
+                    streak += 1
+                    expected_date -= timedelta(days=1)
+                else:
+                    break
+            
+            # Award certificate for every 30 days of streak
+            if streak > 0 and streak % 30 == 0 and not existing_badge:
+                profile = StudentProfile.query.filter_by(user_id=current_user.id).first()
+                first = profile.first_name if profile else ''
+                last = profile.last_name if profile else ''
+                roll_number = current_user.student_id if current_user.student_id else 'N/A'
+                
+                cert_name = '30-Day Streak Certification'
                 cert_description = (
-                    f"This certificate is proudly awarded to {first} {last} (Roll No: {roll_number}) "
-                    f"for achieving {test.score}% in {test.test_type.title()} test, demonstrating excellent proficiency."
+                    f"Congratulations On completing 30 days streaks And it's the time to "
+                    f"turn your badges into a certificate Once again congratulations from the authority."
                 )
-            else:
-                cert_name = 'Code Spirit Certification' if test.test_type == 'coding' else f"{test.test_type.title()} Achievement"
-                cert_description = (
-                    f"This certificate is awarded to {first} {last} (Roll No: {roll_number}) "
-                    f"for achieving {test.score}% in {test.test_type.title()} test. "
-                    f"Keep working hard to improve your score and aim for 80%+!"
-                )
-
-            # Check if certificate already exists for this test_category -> auto-update
-            existing_cert = Certificate.query.filter_by(user_id=current_user.id, test_category=test.test_type).first()
-            if existing_cert:
-                existing_cert.score = test.score
-                existing_cert.name = cert_name
-                existing_cert.description = cert_description
-                existing_cert.earned_at = datetime.utcnow()
-                existing_cert.validity_date = datetime.utcnow() + timedelta(days=365)
-            else:
+                
                 cert = Certificate(
                     user_id=current_user.id,
                     name=cert_name,
                     description=cert_description,
-                    test_category=test.test_type,
-                    score=test.score,
-                    certificate_id=f"CRT-{test.id:06d}",
+                    test_category='streak',
+                    score=None,
+                    certificate_id=f"CRT-STRK-{current_user.id}-{streak}",
                     validity_date=datetime.utcnow() + timedelta(days=365),
                     badge_icon='Image/logo.png'
                 )
                 db.session.add(cert)
-            db.session.commit()
+                db.session.commit()
         
         if weak_topics:
             existing_weak = profile.weak_areas or {}
@@ -2389,6 +2398,41 @@ def create_anonymous_ticket():
 @login_required
 def discussions():
     discussions_list = Discussion.query.order_by(Discussion.created_at.desc()).all()
+
+    # Attach author/comment display info for templates
+    users = {
+        u.id: u
+        for u in (
+            User.query.filter(User.role == 'student', User.id.in_(
+                [d.user_id for d in discussions_list] + [c.user_id for d in discussions_list for c in (d.comments or [])]
+            )).all()
+        )
+    } if discussions_list else {}
+
+    # Ensure comments are loaded and build helper fields
+    for d in discussions_list:
+        d.comments = (
+            DiscussionComment.query
+            .filter_by(discussion_id=d.id)
+            .order_by(DiscussionComment.created_at.asc())
+            .all()
+        )
+        d.author_display_name = (
+            f"{users.get(d.user_id).first_name} {users.get(d.user_id).last_name}".strip()
+            if users.get(d.user_id) and (users.get(d.user_id).first_name or users.get(d.user_id).last_name)
+            else (users.get(d.user_id).email.split('@')[0] if users.get(d.user_id) and users.get(d.user_id).email else f"User {d.user_id}")
+        )
+        d.author_student_id = users.get(d.user_id).student_id if users.get(d.user_id) else None
+
+        for c in d.comments:
+            cu = users.get(c.user_id)
+            c.comment_display_name = (
+                f"{cu.first_name} {cu.last_name}".strip()
+                if cu and (cu.first_name or cu.last_name)
+                else (cu.email.split('@')[0] if cu and cu.email else f"User {c.user_id}")
+            )
+            c.comment_student_id = cu.student_id if cu else None
+
     return render_template('student/discussions.html', discussions=discussions_list)
 
 @student.route('/create-discussion', methods=['POST'])
@@ -2411,6 +2455,7 @@ def create_discussion():
     return redirect(url_for('student.discussions'))
 
 @student.route('/discussion/<int:discussion_id>/comment', methods=['POST'])
+def add_discussion_comment(discussion_id):
     discussion = Discussion.query.get_or_404(discussion_id)
     content = (request.form.get('content') or '').strip()
 
@@ -3439,6 +3484,118 @@ def delete_ticket_permanently(ticket_id):
     except Exception as e:
         db.session.rollback()
         return jsonify({'success': False, 'message': 'Failed to delete ticket'}), 500
+
+@admin.route('/discussions-moderation')
+@login_required
+@role_required('admin')
+def discussions_moderation():
+    discussions_list = (
+        Discussion.query
+        .order_by(Discussion.created_at.desc())
+        .all()
+    )
+
+    # Load comments + enrich with student name/id
+    for discussion in discussions_list:
+        discussion.comments = (
+            DiscussionComment.query
+            .filter_by(discussion_id=discussion.id)
+            .order_by(DiscussionComment.created_at.asc())
+            .all()
+        )
+
+    all_user_ids = set()
+    for d in discussions_list:
+        all_user_ids.add(d.user_id)
+        for c in d.comments:
+            all_user_ids.add(c.user_id)
+
+    users_by_id = {u.id: u for u in User.query.filter(User.id.in_(all_user_ids)).all()} if all_user_ids else {}
+
+    def _format_bups_student_id(raw_student_id):
+        """Normalize student_id to BUPS00..BUPS10000 for admin display.
+
+        - Always return BUPS{n:02d} where n is numeric part.
+        - If raw is already BUPS{...}, use its numeric part.
+        - If it's not BUPS at all, still extract trailing digits and format them; otherwise return raw.
+        """
+        if not raw_student_id:
+            return None
+
+        sid = str(raw_student_id).strip().upper()
+
+        # Extract numeric part (from BUPS.... or any other pattern)
+        digits = ''.join(ch for ch in sid if ch.isdigit())
+        if not digits:
+            return sid
+
+        n = int(digits)
+        # Requirement: BUPS00..BUPS10000 in series (infinite-safe)
+        if n < 100:
+            return f'BUPS{n:02d}'
+        return f'BUPS{n:05d}' if n <= 10000 else f'BUPS{n}'
+
+    for d in discussions_list:
+        du = users_by_id.get(d.user_id)
+        d.author_student_id = _format_bups_student_id(du.student_id if du else None)
+        d.author_display_name = (
+            f"{du.first_name} {du.last_name}".strip()
+            if du and (du.first_name or du.last_name)
+            else (du.email.split('@')[0] if du and du.email else f"User {d.user_id}")
+        )
+
+        for c in d.comments:
+            cu = users_by_id.get(c.user_id)
+            c.comment_student_id = _format_bups_student_id(cu.student_id if cu else None)
+            c.comment_display_name = (
+                f"{cu.first_name} {cu.last_name}".strip()
+                if cu and (cu.first_name or cu.last_name)
+                else (cu.email.split('@')[0] if cu and cu.email else f"User {c.user_id}")
+            )
+
+    return render_template('admin/discussions_moderation.html', discussions=discussions_list)
+
+
+
+@admin.route('/discussions-moderation/<int:discussion_id>/message', methods=['POST'])
+@login_required
+@role_required('admin')
+def admin_message_discussion(discussion_id: int):
+    discussion = Discussion.query.get_or_404(discussion_id)
+
+    content = (request.form.get('content') or '').strip()
+    if not content:
+        flash('Message cannot be empty.', 'warning')
+        return redirect(url_for('admin.discussions_moderation'))
+
+    comment = DiscussionComment(
+        discussion_id=discussion.id,
+        user_id=current_user.id,
+        content=content
+    )
+    db.session.add(comment)
+    db.session.commit()
+    flash('Message added to discussion.', 'success')
+    return redirect(url_for('admin.discussions_moderation'))
+
+
+@admin.route('/discussions-moderation/<int:discussion_id>/delete', methods=['POST'])
+@login_required
+@role_required('admin')
+def admin_delete_discussion(discussion_id: int):
+    discussion = Discussion.query.get_or_404(discussion_id)
+    try:
+        DiscussionComment.query.filter_by(discussion_id=discussion.id).delete(synchronize_session=False)
+        db.session.delete(discussion)
+        db.session.commit()
+        flash('Discussion deleted successfully.', 'success')
+    except Exception:
+        db.session.rollback()
+        flash('Could not delete discussion.', 'danger')
+
+    return redirect(url_for('admin.discussions_moderation'))
+
+
 
 @admin.route('/analytics')
 @login_required

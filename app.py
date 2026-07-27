@@ -14,7 +14,7 @@ app.secret_key = Config.SECRET_KEY
 # Initialize Redis session store (required for up to 10000 student users)
 # Fallback to simple signed cookie sessions if Redis is unavailable
 try:
-    redis_client = redis.from_url(Config.REDIS_URL)
+    redis_client = redis.from_url(Config.REDIS_URL, socket_connect_timeout=1, socket_timeout=1)
     redis_client.ping()  # Test connection
     app.config['SESSION_REDIS'] = redis_client
     try:
@@ -23,7 +23,7 @@ try:
         print("✓ Redis session store initialized")
     except ImportError:
         print("[WARN] flask_session module issue, using built-in signed cookie sessions")
-except redis.ConnectionError as e:
+except Exception as e:
     print(f"[WARN] Redis unavailable ({e}), using built-in signed cookie sessions instead")
 
 # Configure CORS
