@@ -42,11 +42,8 @@ except Exception as e:
     app.config['SESSION_TYPE'] = None
     print(f"[WARN] Redis unavailable ({e}), using built-in signed cookie sessions instead")
 
-# Configure CORS
-CORS(app, origins=[
-    'http://localhost:5173', 'http://127.0.0.1:5173',
-    'http://localhost:5174', 'http://127.0.0.1:5174'
-], supports_credentials=True)
+# Configure CORS for all local and cloud origins
+CORS(app, resources={r"/api/*": {"origins": "*"}}, supports_credentials=True)
 
 from extensions import db, bcrypt
 db.init_app(app)
