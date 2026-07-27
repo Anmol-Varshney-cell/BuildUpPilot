@@ -1464,26 +1464,11 @@ def _get_skillup_base_url():
 @login_required
 @role_required('student')
 def coding_portal():
-    skillup_env = os.getenv('SKILLUP_URL')
-    host = request.host.lower() if request else ''
-
-    if skillup_env:
-        try:
-            sso_token = _build_skillup_sso_token()
-            return redirect(f"{skillup_env.rstrip('/')}?sso={sso_token}")
-        except Exception:
-            return redirect(skillup_env.rstrip('/'))
-    
-    if ('localhost:5173' in host or '127.0.0.1:5173' in host) or ('localhost:5174' in host):
-        try:
-            sso_token = _build_skillup_sso_token()
-            return redirect(f"http://localhost:5173?sso={sso_token}")
-        except Exception:
-            return redirect("http://localhost:5173")
-
-    # Serve full interactive Skill Up Portal directly inside Build Up Pilot
-    profile = StudentProfile.query.filter_by(user_id=current_user.id).first()
-    return render_template('student/skillup_portal.html', profile=profile)
+    sso_token = _build_skillup_sso_token()
+    skillup_url = os.getenv('SKILLUP_URL', 'http://localhost:5173')
+    if sso_token and '.' in sso_token:
+        return redirect(f"{skillup_url.rstrip('/')}?sso={sso_token}")
+    return redirect(skillup_url)
 
 @api.route('/skillup/sso-token', methods=['GET'])
 @login_required
