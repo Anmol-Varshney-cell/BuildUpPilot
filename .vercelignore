@@ -1,0 +1,21 @@
+# Exclude Python venvs and caches
+.venv/
+.venv-1/
+__pycache__/
+*.pyc
+
+# Exclude all heavy node_modules (Vercel cloud installer handles dependencies)
+node_modules/
+**/node_modules/
+coding-portal/
+
+# Exclude database files, logs, and IDE caches
+*.db
+*.sqlite
+instance/
+logs/
+.git/
+.vscode/
+.idea/
+.claude/
+.vercel/
