@@ -13,6 +13,8 @@ node_modules/
 *.db
 *.sqlite
 instance/
+coding-portal/backend/prisma/dev.db
+coding-portal/backend/prisma/dev.db-journal
 
 # Logs & IDE
 logs/
