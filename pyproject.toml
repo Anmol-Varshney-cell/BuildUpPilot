@@ -1,0 +1,19 @@
+[project]
+name = "buildup-pilot"
+version = "0.1.0"
+description = "BUILD UP PILOT Flask Web Application"
+requires-python = ">=3.11,<3.13"
+dependencies = [
+    "flask",
+    "flask-sqlalchemy",
+    "flask-login",
+    "flask-bcrypt",
+    "flask-cors",
+    "flask-session",
+    "redis",
+    "gunicorn",
+    "werkzeug",
+    "PyMuPDF",
+    "requests",
+    "python-dotenv",
+]
