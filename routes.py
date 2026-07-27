@@ -1167,9 +1167,9 @@ def login():
                         user.student_id = 'BUPA00'
                         db.session.commit()
                 elif not user.student_id or not user.student_id.startswith('BUPA'):
-                    user.student_id = _generate_admin_id()
-            session.permanent = True
-            login_user(user, remember=True)
+            remember_me = bool(request.form.get('remember')) or True
+            session.permanent = remember_me
+            login_user(user, remember=remember_me)
             next_page = request.args.get('next')
             flash(f'Welcome back, {user.email}!', 'success')
             

@@ -11,11 +11,19 @@ app.config.from_object(Config)
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 from datetime import timedelta
 
+is_production = bool(os.environ.get('VERCEL') or os.environ.get('FLASK_ENV') == 'production')
+
 app.secret_key = Config.SECRET_KEY
-app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=7)
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=30)
 app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
 app.config['SESSION_COOKIE_HTTPONLY'] = True
-app.config['SESSION_COOKIE_SECURE'] = False
+app.config['SESSION_COOKIE_SECURE'] = is_production
+
+# Remember Me Cookie configuration for browser saved credentials
+app.config['REMEMBER_COOKIE_DURATION'] = timedelta(days=30)
+app.config['REMEMBER_COOKIE_HTTPONLY'] = True
+app.config['REMEMBER_COOKIE_SAMESITE'] = 'Lax'
+app.config['REMEMBER_COOKIE_SECURE'] = is_production
 
 # Initialize Redis session store if available, otherwise use secure signed cookie sessions
 try:
