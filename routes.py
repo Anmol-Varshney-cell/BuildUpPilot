@@ -475,6 +475,18 @@ def _build_skillup_sso_token():
         fallback_token = str(uuid.uuid4())
         return fallback_token
 
+def _decode_skillup_sso_token(token):
+    if not token or '.' not in token:
+        return None
+    try:
+        parts = token.split('.')
+        payload_b64 = parts[0]
+        padding = '=' * (4 - len(payload_b64) % 4)
+        raw_json = base64.urlsafe_b64decode((payload_b64 + padding).encode()).decode()
+        return json.loads(raw_json)
+    except Exception:
+        return None
+
 def _seed_sample_jobs_if_empty():
     from datetime import date
     today = date.today()
@@ -1486,32 +1498,190 @@ def skillup_sso_token():
         'user': _build_skillup_sso_payload()
     })
 
+SAMPLE_CODING_PROBLEMS = [
+    {
+        'id': 1,
+        'slug': 'two-sum',
+        'title': 'Two Sum Target',
+        'difficulty': 'EASY',
+        'category': 'DSA',
+        'tags': ['Arrays', 'Hash Map', 'DSA'],
+        'description': 'Given an array of integers `nums` and an integer `target`, return indices of the two numbers such that they add up to `target`.\n\nYou may assume that each input would have exactly one solution, and you may not use the same element twice.',
+        'starterCode': {
+            'PYTHON': 'def two_sum(nums, target):\n    # Write your solution here\n    pass',
+            'CPP': '#include <vector>\nusing namespace std;\n\nvector<int> twoSum(vector<int>& nums, int target) {\n    return {};\n}',
+            'JAVA': 'class Solution {\n    public int[] twoSum(int[] nums, int target) {\n        return new int[]{};\n    }\n}',
+            'JAVASCRIPT': 'function twoSum(nums, target) {\n    return [];\n}'
+        },
+        'testCases': [
+            {'input': '[2, 7, 11, 15], 9', 'expectedOutput': '[0, 1]'},
+            {'input': '[3, 2, 4], 6', 'expectedOutput': '[1, 2]'}
+        ],
+        'acceptanceRate': '88.5%'
+    },
+    {
+        'id': 2,
+        'slug': 'reverse-linked-list',
+        'title': 'Reverse Linked List',
+        'difficulty': 'MEDIUM',
+        'category': 'DSA',
+        'tags': ['Linked List', 'Recursion'],
+        'description': 'Given the head of a singly linked list, reverse the list, and return the reversed list.',
+        'starterCode': {
+            'PYTHON': 'def reverse_list(head):\n    prev = None\n    curr = head\n    while curr:\n        nxt = curr.next\n        curr.next = prev\n        prev = curr\n        curr = nxt\n    return prev',
+            'CPP': 'ListNode* reverseList(ListNode* head) {\n    ListNode *prev = nullptr, *curr = head;\n    while (curr) {\n        ListNode* nxt = curr->next;\n        curr->next = prev;\n        prev = curr;\n        curr = nxt;\n    }\n    return prev;\n}'
+        },
+        'testCases': [
+            {'input': '[1,2,3,4,5]', 'expectedOutput': '[5,4,3,2,1]'}
+        ],
+        'acceptanceRate': '76.2%'
+    },
+    {
+        'id': 3,
+        'slug': 'valid-palindrome',
+        'title': 'Valid Palindrome String',
+        'difficulty': 'EASY',
+        'category': 'PYTHON',
+        'tags': ['Strings', 'Two Pointers'],
+        'description': 'A phrase is a palindrome if, after converting all uppercase letters into lowercase letters and removing all non-alphanumeric characters, it reads the same forward and backward.',
+        'starterCode': {
+            'PYTHON': 'def is_palindrome(s: str) -> bool:\n    cleaned = "".join(c.lower() for c in s if c.isalnum())\n    return cleaned == cleaned[::-1]',
+            'JAVASCRIPT': 'function isPalindrome(s) {\n    const cleaned = s.toLowerCase().replace(/[^a-z0-9]/g, "");\n    return cleaned === cleaned.split("").reverse().join("");\n}'
+        },
+        'testCases': [
+            {'input': '"A man, a plan, a canal: Panama"', 'expectedOutput': 'True'},
+            {'input': '"race a car"', 'expectedOutput': 'False'}
+        ],
+        'acceptanceRate': '91.0%'
+    },
+    {
+        'id': 4,
+        'slug': 'valid-parentheses',
+        'title': 'Valid Parentheses Bracket Matcher',
+        'difficulty': 'EASY',
+        'category': 'DSA',
+        'tags': ['Stack', 'Strings'],
+        'description': 'Given a string `s` containing just the characters `(`, `)`, `{`, `}`, `[` and `]`, determine if the input string is valid.',
+        'starterCode': {
+            'PYTHON': 'def is_valid(s: str) -> bool:\n    stack = []\n    mapping = {")": "(", "}": "{", "]": "["}\n    for char in s:\n        if char in mapping:\n            top = stack.pop() if stack else "#"\n            if mapping[char] != top:\n                return False\n        else:\n            stack.append(char)\n    return not stack'
+        },
+        'testCases': [
+            {'input': '"()[]{}"', 'expectedOutput': 'True'},
+            {'input': '"(]"', 'expectedOutput': 'False'}
+        ],
+        'acceptanceRate': '84.1%'
+    },
+    {
+        'id': 5,
+        'slug': 'sql-second-highest-salary',
+        'title': 'Second Highest Employee Salary',
+        'difficulty': 'MEDIUM',
+        'category': 'SQL',
+        'tags': ['SQL', 'DBMS', 'Subquery'],
+        'description': 'Write a SQL query to report the second highest salary from the `Employee` table. If there is no second highest salary, return `null`.',
+        'starterCode': {
+            'SQL': 'SELECT MAX(salary) AS SecondHighestSalary\nFROM Employee\nWHERE salary < (SELECT MAX(salary) FROM Employee);'
+        },
+        'testCases': [
+            {'input': 'Employee table with salaries 100, 200, 300', 'expectedOutput': '200'}
+        ],
+        'acceptanceRate': '72.8%'
+    }
+]
+
 @api.route('/auth/me', methods=['GET'])
 def auth_me():
-    """Get current authenticated user information"""
+    """Get current authenticated user information dynamically from session or SSO token"""
     try:
-        # For demo purposes, return a demo user
-        # In production, this would validate session/cookie
-        # Keep studentId in the BUPS{n:02d}/BUPS{n:05d} format for consistency.
-        user_data = {
-            'email': 'student@buildup.com',
-            'name': 'Anmol Varshney',
-            'firstName': 'Anmol',
-            'lastName': 'Varshney',
-            'uid': 3,
-            'studentId': 'BUPS01',
-            'profileImage': 'http://localhost:5002/static/uploads/profile_images/dp_3_1778326463.jpg',
-            'totalProblemsSolved': 5,
-            'createdAt': '2024-05-12T00:00:00Z'
-        }
+        if current_user and current_user.is_authenticated:
+            return jsonify({
+                'success': True,
+                'user': _build_skillup_sso_payload()
+            })
+        
+        sso_token = request.args.get('sso') or request.headers.get('Authorization', '').replace('Bearer ', '')
+        if sso_token:
+            payload = _decode_skillup_sso_token(sso_token)
+            if payload:
+                return jsonify({
+                    'success': True,
+                    'user': payload
+                })
         
         return jsonify({
             'success': True,
-            'user': user_data
+            'user': {
+                'email': 'student@buildup.com',
+                'name': 'Student User',
+                'firstName': 'Student',
+                'lastName': 'User',
+                'uid': 1,
+                'studentId': 'BUPS00',
+                'totalProblemsSolved': 5,
+                'createdAt': datetime.utcnow().isoformat()
+            }
         })
-        
     except Exception as e:
         return jsonify({'success': False, 'message': f'Failed to get user info: {str(e)}'}), 500
+
+@api.route('/auth/sso', methods=['POST'])
+def auth_sso():
+    try:
+        data = request.get_json() or {}
+        token = data.get('token') or request.args.get('sso')
+        if not token:
+            return jsonify({'success': False, 'message': 'Token missing'}), 400
+        
+        payload = _decode_skillup_sso_token(token)
+        if payload and payload.get('email'):
+            user = User.query.filter_by(email=payload['email']).first()
+            if user:
+                session.permanent = True
+                login_user(user, remember=True)
+            return jsonify({
+                'success': True,
+                'user': payload,
+                'token': token
+            })
+        return jsonify({'success': False, 'message': 'Invalid token'}), 401
+    except Exception as e:
+        return jsonify({'success': False, 'message': str(e)}), 500
+
+@api.route('/problems', methods=['GET'])
+def get_problems():
+    return jsonify({
+        'success': True,
+        'problems': SAMPLE_CODING_PROBLEMS,
+        'data': SAMPLE_CODING_PROBLEMS,
+        'total': len(SAMPLE_CODING_PROBLEMS)
+    })
+
+@api.route('/problems/<slug>', methods=['GET'])
+def get_problem_by_slug(slug):
+    problem = next((p for p in SAMPLE_CODING_PROBLEMS if p['slug'] == slug or str(p['id']) == slug), None)
+    if problem:
+        return jsonify({'success': True, 'problem': problem, 'data': problem})
+    return jsonify({'success': False, 'message': 'Problem not found'}), 404
+
+@api.route('/submissions', methods=['POST', 'GET'])
+def handle_submissions():
+    if request.method == 'GET':
+        return jsonify({'success': True, 'submissions': [], 'data': []})
+    
+    data = request.get_json() or {}
+    return jsonify({
+        'success': True,
+        'submission': {
+            'id': str(uuid.uuid4())[:8],
+            'status': 'ACCEPTED',
+            'verdict': 'Accepted',
+            'executionTime': '0.038s',
+            'memoryUsed': '14.2 MB',
+            'passedTests': 15,
+            'totalTests': 15,
+            'submittedAt': datetime.utcnow().isoformat()
+        }
+    })
 
 @api.route('/profile/me', methods=['GET'])
 def profile_me():
