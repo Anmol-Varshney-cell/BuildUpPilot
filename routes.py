@@ -121,12 +121,34 @@ def role_required(*roles):
 def _save_user_file(file_obj, subfolder, prefix):
     upload_root = current_app.config.get('UPLOAD_FOLDER', os.path.join('static', 'uploads'))
     target_dir = os.path.join(upload_root, subfolder)
-    os.makedirs(target_dir, exist_ok=True)
-    ext = os.path.splitext(file_obj.filename or '')[1].lower()
-    filename = f'{prefix}_{current_user.id}_{int(time.time())}{ext}'
-    file_path = os.path.join(target_dir, filename)
-    file_obj.save(file_path)
-    return f'{subfolder}/{filename}'
+    try:
+        os.makedirs(target_dir, exist_ok=True)
+        ext = os.path.splitext(file_obj.filename or '')[1].lower()
+        filename = f'{prefix}_{current_user.id}_{int(time.time())}{ext}'
+        file_path = os.path.join(target_dir, filename)
+        file_obj.save(file_path)
+        return f'{subfolder}/{filename}'
+    except Exception:
+        # Fallback for read-only cloud filesystems (Vercel / AWS Lambda)
+        try:
+            file_obj.seek(0)
+            content = file_obj.read()
+            ext_clean = os.path.splitext(file_obj.filename or '')[1].lower().lstrip('.')
+            if ext_clean == 'pdf':
+                tmp_dir = os.path.join('/tmp', 'uploads', subfolder)
+                os.makedirs(tmp_dir, exist_ok=True)
+                filename = f'{prefix}_{current_user.id}_{int(time.time())}.pdf'
+                tmp_path = os.path.join(tmp_dir, filename)
+                with open(tmp_path, 'wb') as f:
+                    f.write(content)
+                return f'/tmp/uploads/{subfolder}/{filename}'
+            else:
+                mime_ext = ext_clean if ext_clean in ['png', 'jpeg', 'jpg', 'webp'] else 'jpeg'
+                b64 = base64.b64encode(content).decode('utf-8')
+                return f'data:image/{mime_ext};base64,{b64}'
+        except Exception as e:
+            print(f'[FILE SAVE FALLBACK ERROR] {e}')
+            return f'{subfolder}/default.jpg'
 
 def _resolve_resume_file(profile):
     if not profile or not profile.resume_path:
@@ -1442,22 +1464,26 @@ def _get_skillup_base_url():
 @login_required
 @role_required('student')
 def coding_portal():
-    skillup_base = _get_skillup_base_url()
-    try:
-        # First attempt to build SSO token
-        sso_token = _build_skillup_sso_token()
-        if sso_token and '.' in sso_token:
-            return redirect(f'{skillup_base}?sso={sso_token}')
-        else:
-            # Fallback: create simple token if SSO fails
-            import uuid
-            fallback_token = str(uuid.uuid4())
-            return redirect(f'{skillup_base}?sso={fallback_token}&fallback=true')
-    except Exception as e:
-        # Enhanced error handling with fallback
-        import uuid
-        fallback_token = str(uuid.uuid4())
-        return redirect(f'{skillup_base}?sso={fallback_token}&fallback=true&error={str(e)[:100]}')
+    skillup_env = os.getenv('SKILLUP_URL')
+    host = request.host.lower() if request else ''
+
+    if skillup_env:
+        try:
+            sso_token = _build_skillup_sso_token()
+            return redirect(f"{skillup_env.rstrip('/')}?sso={sso_token}")
+        except Exception:
+            return redirect(skillup_env.rstrip('/'))
+    
+    if ('localhost:5173' in host or '127.0.0.1:5173' in host) or ('localhost:5174' in host):
+        try:
+            sso_token = _build_skillup_sso_token()
+            return redirect(f"http://localhost:5173?sso={sso_token}")
+        except Exception:
+            return redirect("http://localhost:5173")
+
+    # Serve full interactive Skill Up Portal directly inside Build Up Pilot
+    profile = StudentProfile.query.filter_by(user_id=current_user.id).first()
+    return render_template('student/skillup_portal.html', profile=profile)
 
 @api.route('/skillup/sso-token', methods=['GET'])
 @login_required
