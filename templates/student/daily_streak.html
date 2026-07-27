@@ -104,7 +104,7 @@
                 </div>
                 <p style="font-size: 0.8rem; color: var(--gray); margin-top: 0.5rem;">{{ solved_today }}/10 solved</p>
             </div>
-            <a href="http://localhost:5173" target="_blank" class="btn btn-primary" style="margin-top: 1rem;">Open Skill Up</a>
+            <a href="{{ url_for('student.coding_portal') }}" target="_blank" class="btn btn-primary" style="margin-top: 1rem;">Open Skill Up</a>
         </div>
 
         {% else %}
@@ -112,7 +112,7 @@
             <div style="font-size: 4rem; margin-bottom: 1rem;">&#128187;</div>
             <h3>No Problems Solved Today</h3>
             <p style="color: var(--gray);">Head over to Skill Up and solve 10 coding problems today to earn your Daily Coding Streak certificate!</p>
-            <a href="http://localhost:5173" target="_blank" class="btn btn-primary" style="margin-top: 1rem;">Open Skill Up</a>
+            <a href="{{ url_for('student.coding_portal') }}" target="_blank" class="btn btn-primary" style="margin-top: 1rem;">Open Skill Up</a>
         </div>
         {% endif %}
 

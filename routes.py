@@ -1429,25 +1429,35 @@ def test_result(test_id):
     questions = TestQuestion.query.filter_by(test_id=test.id).all()
     return render_template('student/test_result.html', test=test, questions=questions)
 
+def _get_skillup_base_url():
+    skillup_env = os.getenv('SKILLUP_URL')
+    if skillup_env:
+        return skillup_env.rstrip('/')
+    host = request.host.lower() if request else ''
+    if 'localhost' in host or '127.0.0.1' in host:
+        return 'http://localhost:5173'
+    return request.host_url.rstrip('/')
+
 @student.route('/coding-portal')
 @login_required
 @role_required('student')
 def coding_portal():
+    skillup_base = _get_skillup_base_url()
     try:
         # First attempt to build SSO token
         sso_token = _build_skillup_sso_token()
         if sso_token and '.' in sso_token:
-            return redirect(f'http://localhost:5173?sso={sso_token}')
+            return redirect(f'{skillup_base}?sso={sso_token}')
         else:
             # Fallback: create simple token if SSO fails
             import uuid
             fallback_token = str(uuid.uuid4())
-            return redirect(f'http://localhost:5173?sso={fallback_token}&fallback=true')
+            return redirect(f'{skillup_base}?sso={fallback_token}&fallback=true')
     except Exception as e:
         # Enhanced error handling with fallback
         import uuid
         fallback_token = str(uuid.uuid4())
-        return redirect(f'http://localhost:5173?sso={fallback_token}&fallback=true&error={str(e)[:100]}')
+        return redirect(f'{skillup_base}?sso={fallback_token}&fallback=true&error={str(e)[:100]}')
 
 @api.route('/skillup/sso-token', methods=['GET'])
 @login_required
