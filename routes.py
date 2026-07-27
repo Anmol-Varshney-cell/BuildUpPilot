@@ -1168,8 +1168,8 @@ def login():
                         db.session.commit()
                 elif not user.student_id or not user.student_id.startswith('BUPA'):
                     user.student_id = _generate_admin_id()
-                    db.session.commit()
-            login_user(user)
+            session.permanent = True
+            login_user(user, remember=True)
             next_page = request.args.get('next')
             flash(f'Welcome back, {user.email}!', 'success')
             

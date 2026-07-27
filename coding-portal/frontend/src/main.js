@@ -19,7 +19,10 @@ self.MonacoEnvironment = {
 // Use relative URL so Vite proxy routes to backend (eliminates CORS/cookie issues)
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "/api";
 const BUILDUP_BASE_URL =
-  import.meta.env.VITE_BUILDUP_BASE_URL || `${window.location.protocol}//${window.location.hostname}:5002`;
+  import.meta.env.VITE_BUILDUP_BASE_URL ||
+  (window.location.port === "5173" || window.location.port === "5174"
+    ? `${window.location.protocol}//${window.location.hostname}:5002`
+    : window.location.origin);
 const app = document.getElementById("app");
 
 const state = {

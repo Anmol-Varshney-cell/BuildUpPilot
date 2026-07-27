@@ -9,21 +9,29 @@ from config import Config
 app = Flask(__name__)
 app.config.from_object(Config)
 app.config['TEMPLATES_AUTO_RELOAD'] = True
-app.secret_key = Config.SECRET_KEY
+from datetime import timedelta
 
-# Initialize Redis session store (required for up to 10000 student users)
-# Fallback to simple signed cookie sessions if Redis is unavailable
+app.secret_key = Config.SECRET_KEY
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=7)
+app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
+app.config['SESSION_COOKIE_HTTPONLY'] = True
+app.config['SESSION_COOKIE_SECURE'] = False
+
+# Initialize Redis session store if available, otherwise use secure signed cookie sessions
 try:
     redis_client = redis.from_url(Config.REDIS_URL, socket_connect_timeout=1, socket_timeout=1)
     redis_client.ping()  # Test connection
     app.config['SESSION_REDIS'] = redis_client
+    app.config['SESSION_TYPE'] = 'redis'
     try:
         from flask_session import Session
         Session(app)
         print("✓ Redis session store initialized")
     except ImportError:
+        app.config['SESSION_TYPE'] = None
         print("[WARN] flask_session module issue, using built-in signed cookie sessions")
 except Exception as e:
+    app.config['SESSION_TYPE'] = None
     print(f"[WARN] Redis unavailable ({e}), using built-in signed cookie sessions instead")
 
 # Configure CORS

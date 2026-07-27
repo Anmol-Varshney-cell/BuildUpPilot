@@ -57,7 +57,10 @@ export function OIDCAuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   useEffect(() => {
-    const BUILDUP_BASE_URL = `${window.location.protocol}//${window.location.hostname}:5002`;
+    const BUILDUP_BASE_URL =
+      window.location.port === "5173" || window.location.port === "5174"
+        ? `${window.location.protocol}//${window.location.hostname}:5002`
+        : window.location.origin;
 
     const fetchBuildUpSsoToken = async () => {
       const response = await fetch(`${BUILDUP_BASE_URL}/api/skillup/sso-token`, {
