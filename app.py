@@ -170,7 +170,17 @@ app.register_blueprint(auth)
 app.register_blueprint(student)
 app.register_blueprint(admin)
 app.register_blueprint(recruiter)
-app.register_blueprint(api)
+from flask import send_from_directory
+
+@app.route('/skillup')
+@app.route('/skillup/')
+@app.route('/skillup/<path:path>')
+def serve_skillup(path='index.html'):
+    dist_dir = os.path.join(app.root_path, 'coding-portal', 'frontend', 'dist')
+    target_path = os.path.join(dist_dir, path)
+    if os.path.exists(target_path) and not os.path.isdir(target_path):
+        return send_from_directory(dist_dir, path)
+    return send_from_directory(dist_dir, 'index.html')
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5002))

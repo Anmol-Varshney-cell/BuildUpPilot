@@ -1465,10 +1465,17 @@ def _get_skillup_base_url():
 @role_required('student')
 def coding_portal():
     sso_token = _build_skillup_sso_token()
-    skillup_url = os.getenv('SKILLUP_URL', 'http://localhost:5173')
-    if sso_token and '.' in sso_token:
-        return redirect(f"{skillup_url.rstrip('/')}?sso={sso_token}")
-    return redirect(skillup_url)
+    skillup_env = os.getenv('SKILLUP_URL')
+    if skillup_env:
+        return redirect(f"{skillup_env.rstrip('/')}?sso={sso_token}")
+    
+    host = request.host.lower() if request else ''
+    if ('localhost:5173' in host or '127.0.0.1:5173' in host) or ('localhost:5174' in host):
+        return redirect(f"http://localhost:5173?sso={sso_token}")
+    
+    # Serve full Skill Up React SPA frontend at /skillup/ on cloud deployments
+    base_url = request.host_url.rstrip('/')
+    return redirect(f"{base_url}/skillup/?sso={sso_token}")
 
 @api.route('/skillup/sso-token', methods=['GET'])
 @login_required

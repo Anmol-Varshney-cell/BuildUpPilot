@@ -27,6 +27,7 @@ logs/
 # Build outputs
 dist/
 build/
+!coding-portal/frontend/dist/
 
 .vercel
 .env*

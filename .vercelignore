@@ -4,10 +4,12 @@
 __pycache__/
 *.pyc
 
-# Exclude all heavy node_modules (Vercel cloud installer handles dependencies)
+# Exclude node_modules and heavy sub-apps (allow coding-portal/frontend/dist for static Skill Up frontend)
 node_modules/
 **/node_modules/
-coding-portal/
+coding-portal/backend/
+coding-portal/judge/
+!coding-portal/frontend/dist/
 
 # Exclude database files, logs, and IDE caches (allow buildup.db for cloud deployment)
 !buildup.db
