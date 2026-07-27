@@ -101,9 +101,68 @@ def load_user(user_id):
 # Import models before create_all so SQLAlchemy metadata is populated.
 import models  # noqa: F401
 
+def _seed_default_accounts():
+    """Ensure default test and seed accounts exist with valid hashed passwords."""
+    from models import User, StudentProfile
+    
+    seed_users = [
+        {
+            'email': 'student@buildup.com',
+            'password': 'student123',
+            'role': 'student',
+            'student_id': 'BUPS00',
+            'first_name': 'Student',
+            'last_name': 'User'
+        },
+        {
+            'email': 'admin@buildup.com',
+            'password': 'admin123',
+            'role': 'admin',
+            'student_id': 'BUPA00',
+            'first_name': 'Admin',
+            'last_name': 'User'
+        },
+        {
+            'email': 'recruiter@buildup.com',
+            'password': 'recruiter123',
+            'role': 'recruiter',
+            'student_id': 'BUPR00',
+            'first_name': 'Recruiter',
+            'last_name': 'User'
+        }
+    ]
+
+    for seed in seed_users:
+        user = User.query.filter_by(email=seed['email']).first()
+        if not user:
+            pw_hash = bcrypt.generate_password_hash(seed['password']).decode('utf-8')
+            user = User(
+                email=seed['email'],
+                password_hash=pw_hash,
+                role=seed['role'],
+                student_id=seed['student_id'],
+                active=True,
+                first_name=seed['first_name'],
+                last_name=seed['last_name']
+            )
+            db.session.add(user)
+            db.session.commit()
+
+            if seed['role'] == 'student':
+                profile = StudentProfile.query.filter_by(user_id=user.id).first()
+                if not profile:
+                    profile = StudentProfile(
+                        user_id=user.id,
+                        first_name=seed['first_name'],
+                        last_name=seed['last_name']
+                    )
+                    db.session.add(profile)
+                    db.session.commit()
+
 with app.app_context():
     db.create_all()
     _ensure_user_schema()
+    _seed_default_accounts()
 
 from routes import main, auth, student, admin, recruiter, api
 app.register_blueprint(main)

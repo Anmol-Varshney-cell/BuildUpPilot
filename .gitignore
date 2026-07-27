@@ -9,8 +9,8 @@ __pycache__/
 node_modules/
 **/node_modules/
 
-# Database files
-*.db
+# Database files (allow buildup.db for cloud seed deployment)
+!buildup.db
 *.sqlite
 instance/
 coding-portal/backend/prisma/dev.db

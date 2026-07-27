@@ -9,8 +9,8 @@ node_modules/
 **/node_modules/
 coding-portal/
 
-# Exclude database files, logs, and IDE caches
-*.db
+# Exclude database files, logs, and IDE caches (allow buildup.db for cloud deployment)
+!buildup.db
 *.sqlite
 instance/
 logs/
