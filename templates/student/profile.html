@@ -4,31 +4,7 @@
 <!-- Removed duplicate navbar -->
 
 <div class="dashboard">
-    <aside class="sidebar">
-        <div style="text-align: center; margin-bottom: 2rem;">
-            {% if profile and profile.profile_image_path %}
-            <img src="{{ url_for('static', filename='uploads/' + profile.profile_image_path) }}" alt="Profile Photo" class="profile-avatar">
-            {% else %}
-            <div style="width: 80px; height: 80px; background: var(--primary); border-radius: 50%; margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem; font-weight: 600;">
-                {{ profile.first_name[0]|upper if profile and profile.first_name else 'S' }}
-            </div>
-            {% endif %}
-            <h4>{{ profile.first_name if profile else '' }} {{ profile.last_name if profile else '' }}</h4>
-            <p style="color: var(--gray); font-size: 0.875rem;">{{ current_user.student_id if current_user.student_id else '' }}</p>
-        </div>
-        <ul class="sidebar-menu">
-            <li><a href="{{ url_for('student.dashboard') }}">Dashboard</a></li>
-            <li><a href="{{ url_for('student.profile') }}" class="active">Profile</a></li>
-            <li><a href="{{ url_for('student.tests') }}">Skill Tests</a></li>
-            <li><a href="{{ url_for('student.readiness') }}">Readiness Meter</a></li>
-            <li><a href="{{ url_for('student.applications') }}">Job Applications</a></li>
-            <li><a href="{{ url_for('student.mock_interview') }}">Mock Interview</a></li>
-            <li><a href="{{ url_for('student.roadmap') }}">Learning Roadmap</a></li>
-            <li><a href="{{ url_for('student.certificates') }}">Certificates</a></li>
-            <li><a href="{{ url_for('student.discussions') }}">Discussions</a></li>
-            <li><a href="{{ url_for('student.support') }}">Support</a></li>
-        </ul>
-    </aside>
+    {% include 'student/sidebar.html' %}
     
     <main class="main-content">
         <div class="page-header">

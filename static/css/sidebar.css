@@ -115,56 +115,60 @@
   transform: scale(1.05);
 }
 
-/* User Section */
+/* User Section / Profile Panel */
 .sidebar-user,
 .sidebar-profile-panel {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 0.75rem;
-  padding: 0.65rem;
+  text-align: center;
+  gap: 0.4rem;
+  padding: 1rem 0.65rem;
   margin-bottom: 1.25rem;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
-  white-space: nowrap;
+  background: rgba(99, 102, 241, 0.08);
+  border: 1px solid rgba(99, 102, 241, 0.16);
+  border-radius: 1.25rem;
+  white-space: normal;
   overflow: hidden;
-  transition: padding var(--transition-speed) var(--transition-func);
+  transition: all var(--transition-speed) var(--transition-func);
 }
 
 .avatar-container {
   position: relative;
   flex-shrink: 0;
+  margin: 0 auto;
 }
 
-.sidebar-avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 55%;
+.sidebar-avatar,
+.profile-avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
   object-fit: cover;
-  border: 2px solid var(--primary-accent);
+  border: 3px solid var(--primary-accent, #818cf8);
   display: block;
 }
 
 .sidebar-avatar-fallback {
-  width: 40px;
-  height: 40px;
-  border-radius: 55%;
-  background: var(--sidebar-active-bg);
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--sidebar-active-bg, #6366f1);
   color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 700;
-  font-size: 0.9rem;
-  border: 2px solid var(--primary-accent);
+  font-size: 1.5rem;
+  border: 3px solid var(--primary-accent, #818cf8);
 }
 
 .status-indicator {
   position: absolute;
-  bottom: 0;
-  right: 0;
-  width: 10px;
-  height: 10px;
+  bottom: 2px;
+  right: 2px;
+  width: 12px;
+  height: 12px;
   background-color: #10b981;
   border: 2px solid var(--sidebar-bg);
   border-radius: 50%;
@@ -173,23 +177,35 @@
 .sidebar-user-info {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100%;
   overflow: hidden;
   transition: opacity var(--transition-speed) var(--transition-func);
 }
 
-.sidebar-name {
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: #ffffff;
-  text-overflow: ellipsis;
-  overflow: hidden;
+.sidebar-name,
+.sidebar-profile-panel h4 {
+  font-family: "Space Grotesk", system-ui, sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #ffffff !important;
+  margin-top: 0.3rem;
+  word-break: break-word;
+  white-space: normal;
+  line-height: 1.2;
+  text-align: center;
 }
 
-.sidebar-role {
-  font-size: 0.75rem;
-  color: var(--sidebar-muted);
-  text-overflow: ellipsis;
-  overflow: hidden;
+.sidebar-role,
+.sidebar-profile-panel p {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--primary-accent, #818cf8) !important;
+  margin-top: 0.2rem;
+  word-break: break-word;
+  white-space: normal;
+  text-align: center;
 }
 
 /* Menu Items & Links */

@@ -2,20 +2,7 @@
 
 {% block content %}
 <div class="dashboard">
-    <aside class="sidebar">
-        <ul class="sidebar-menu">
-            <li><a href="{{ url_for('student.dashboard') }}">Dashboard</a></li>
-            <li><a href="{{ url_for('student.profile') }}">Profile</a></li>
-            <li><a href="{{ url_for('student.tests') }}" class="active">Skill Tests</a></li>
-            <li><a href="{{ url_for('student.readiness') }}">Readiness Meter</a></li>
-            <li><a href="{{ url_for('student.applications') }}">Job Applications</a></li>
-            <li><a href="{{ url_for('student.mock_interview') }}">Mock Interview</a></li>
-            <li><a href="{{ url_for('student.roadmap') }}">Learning Roadmap</a></li>
-            <li><a href="{{ url_for('student.certificates') }}">Certificates</a></li>
-            <li><a href="{{ url_for('student.discussions') }}">Discussions</a></li>
-            <li><a href="{{ url_for('student.support') }}">Support</a></li>
-        </ul>
-    </aside>
+    {% include 'student/sidebar.html' %}
     
     <main class="main-content">
         <div class="page-header">

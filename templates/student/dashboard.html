@@ -3,60 +3,7 @@
 {% block content %}
 
 <div class="dashboard">
-    <aside id="sidebar" class="sidebar sidebar-locked">
-        <div class="sidebar-header">
-            <div class="logo-wrapper">
-                <span class="logo-text">BUILD UP <strong>PILOT</strong></span>
-            </div>
-            <button id="sidebar-toggle" class="sidebar-toggle" aria-label="Toggle Sidebar" title="Toggle Sidebar">
-                <span class="toggle-icon">☰</span>
-            </button>
-        </div>
-
-        <div class="sidebar-user">
-            <div class="avatar-container">
-                {% if profile and profile.profile_image_path %}
-                <img src="{{ url_for('static', filename='uploads/' + profile.profile_image_path) }}" alt="Profile Photo"
-                    class="sidebar-avatar">
-                {% else %}
-                <div class="sidebar-avatar-fallback">
-                    {{ profile.first_name[0] if profile and profile.first_name else 'A' }}{{ profile.last_name[0] if
-                    profile and profile.last_name else 'V' }}
-                </div>
-                {% endif %}
-                <span class="status-indicator"></span>
-            </div>
-            <div class="sidebar-user-info">
-                <div class="sidebar-name">{{ profile.first_name if profile and profile.first_name else 'Anmol' }} {{
-                    profile.last_name if profile and profile.last_name else 'Varshney' }}</div>
-                <div class="sidebar-role">{{ profile.profession if profile and profile.profession else 'AI Engineer' }}
-                </div>
-            </div>
-        </div>
-
-        <ul class="sidebar-menu">
-            <li><a href="{{ url_for('student.dashboard') }}" class="active"><span class="menu-icon">📊</span><span
-                        class="menu-label">Dashboard</span></a></li>
-            <li><a href="{{ url_for('student.profile') }}"><span class="menu-icon">👤</span><span
-                        class="menu-label">Profile</span></a></li>
-            <li><a href="{{ url_for('student.tests') }}"><span class="menu-icon">🎯</span><span class="menu-label">Skill
-                        Tests</span></a></li>
-            <li><a href="{{ url_for('student.readiness') }}"><span class="menu-icon">📈</span><span
-                        class="menu-label">Readiness Meter</span></a></li>
-            <li><a href="{{ url_for('student.applications') }}"><span class="menu-icon">💼</span><span
-                        class="menu-label">Job Applications</span></a></li>
-            <li><a href="{{ url_for('student.mock_interview') }}"><span class="menu-icon">🎙️</span><span
-                        class="menu-label">Mock Interview</span></a></li>
-            <li><a href="{{ url_for('student.roadmap') }}"><span class="menu-icon">🗺️</span><span
-                        class="menu-label">Learning Roadmap</span></a></li>
-            <li><a href="{{ url_for('student.certificates') }}"><span class="menu-icon">📜</span><span
-                        class="menu-label">Certificates</span></a></li>
-            <li><a href="{{ url_for('student.discussions') }}"><span class="menu-icon">💬</span><span
-                        class="menu-label">Discussions</span></a></li>
-            <li><a href="{{ url_for('student.support') }}"><span class="menu-icon">🎧</span><span
-                        class="menu-label">Support</span></a></li>
-        </ul>
-    </aside>
+    {% include 'student/sidebar.html' %}
 
     <main class="main-content">
         <div class="page-header">
