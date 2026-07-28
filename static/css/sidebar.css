@@ -54,16 +54,18 @@ html.theme-light,
   flex-direction: column;
   padding: 1.25rem 0.85rem;
   z-index: 1000;
-  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+  transform: translateX(0);
+  transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1), width 0.28s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
   box-shadow: 4px 0 24px rgba(0, 0, 0, 0.12);
   overflow-y: auto;
   overflow-x: hidden;
 }
 
-/* Collapsed Sidebar State */
-.sidebar.sidebar-collapsed {
-  width: var(--sidebar-collapsed-width);
-  padding: 1.25rem 0.5rem;
+/* Closed Sidebar State (Hidden completely, zero 68px cylinder strip!) */
+.sidebar.sidebar-collapsed,
+.sidebar.sidebar-closed,
+body.sidebar-collapsed-active .sidebar {
+  transform: translateX(-100%);
 }
 
 /* Main Content Area Smooth Shift (Pushed by Sidebar) */
@@ -73,14 +75,16 @@ html.theme-light,
   margin-left: var(--sidebar-width);
   padding: 2rem;
   min-height: calc(100vh - 70px);
-  transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: margin-left 0.28s cubic-bezier(0.4, 0, 0.2, 1), padding 0.28s cubic-bezier(0.4, 0, 0.2, 1);
   box-sizing: border-box;
 }
 
+/* When Sidebar is Closed, Main Content returns to normal position (margin 0) */
 .content.content-collapsed,
 .sidebar-collapsed ~ .main-content,
-.sidebar-collapsed ~ .content {
-  margin-left: var(--sidebar-collapsed-width);
+.sidebar-collapsed ~ .content,
+body.sidebar-collapsed-active .main-content {
+  margin-left: 0 !important;
 }
 
 /* When Body has sidebar-open class */

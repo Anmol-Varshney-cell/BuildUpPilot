@@ -21,7 +21,7 @@
     }
 
     body.has-sidebar.sidebar-collapsed-active .app-header {
-        margin-left: var(--sidebar-collapsed-width, 68px);
+        margin-left: 0 !important;
     }
 }
 
