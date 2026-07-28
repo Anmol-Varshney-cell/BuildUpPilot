@@ -3,32 +3,45 @@
 {% block content %}
 
 <div class="dashboard">
-    <aside class="sidebar">
-        <div style="text-align: center; margin-bottom: 2rem;">
-            {% if profile and profile.profile_image_path %}
-            <img src="{{ url_for('static', filename='uploads/' + profile.profile_image_path) }}" alt="Profile Photo" class="profile-avatar">
-            {% else %}
-            <div style="width: 80px; height: 80px; background: var(--primary); border-radius: 50%; margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem; font-weight: 600;">
-                {{ profile.first_name[0] if profile and profile.first_name else 'S' }}{{ profile.last_name[0] if profile and profile.last_name else '' }}
+    <aside id="sidebar" class="sidebar sidebar-locked">
+        <div class="sidebar-header">
+            <div class="logo-wrapper">
+                <span class="logo-icon">🚀</span>
+                <span class="logo-text">BUILD UP <strong>PILOT</strong></span>
             </div>
-            {% endif %}
-            <h4>{{ profile.first_name }} {{ profile.last_name if profile else '' }}</h4>
-            <p style="color: var(--primary); font-size: 0.875rem; font-weight: 600;">
-                {{ profile.profession if profile and profile.profession else 'Student' }}
-            </p>
+            <button id="sidebar-toggle" class="sidebar-toggle" aria-label="Toggle Sidebar" title="Toggle Sidebar">
+                <span class="toggle-icon">☰</span>
+            </button>
+        </div>
+
+        <div class="sidebar-user">
+            <div class="avatar-container">
+                {% if profile and profile.profile_image_path %}
+                <img src="{{ url_for('static', filename='uploads/' + profile.profile_image_path) }}" alt="Profile Photo" class="sidebar-avatar">
+                {% else %}
+                <div class="sidebar-avatar-fallback">
+                    {{ profile.first_name[0] if profile and profile.first_name else 'A' }}{{ profile.last_name[0] if profile and profile.last_name else 'V' }}
+                </div>
+                {% endif %}
+                <span class="status-indicator"></span>
+            </div>
+            <div class="sidebar-user-info">
+                <div class="sidebar-name">{{ profile.first_name if profile and profile.first_name else 'Anmol' }} {{ profile.last_name if profile and profile.last_name else 'Varshney' }}</div>
+                <div class="sidebar-role">{{ profile.profession if profile and profile.profession else 'AI Engineer' }}</div>
+            </div>
         </div>
         
         <ul class="sidebar-menu">
-            <li><a href="{{ url_for('student.dashboard') }}" class="active">Dashboard</a></li>
-            <li><a href="{{ url_for('student.profile') }}">Profile</a></li>
-            <li><a href="{{ url_for('student.tests') }}">Skill Tests</a></li>
-            <li><a href="{{ url_for('student.readiness') }}">Readiness Meter</a></li>
-            <li><a href="{{ url_for('student.applications') }}">Job Applications</a></li>
-            <li><a href="{{ url_for('student.mock_interview') }}">Mock Interview</a></li>
-            <li><a href="{{ url_for('student.roadmap') }}">Learning Roadmap</a></li>
-            <li><a href="{{ url_for('student.certificates') }}">Certificates</a></li>
-            <li><a href="{{ url_for('student.discussions') }}">Discussions</a></li>
-            <li><a href="{{ url_for('student.support') }}">Support</a></li>
+            <li><a href="{{ url_for('student.dashboard') }}" class="active"><span class="menu-icon">📊</span><span class="menu-label">Dashboard</span></a></li>
+            <li><a href="{{ url_for('student.profile') }}"><span class="menu-icon">👤</span><span class="menu-label">Profile</span></a></li>
+            <li><a href="{{ url_for('student.tests') }}"><span class="menu-icon">🎯</span><span class="menu-label">Skill Tests</span></a></li>
+            <li><a href="{{ url_for('student.readiness') }}"><span class="menu-icon">📈</span><span class="menu-label">Readiness Meter</span></a></li>
+            <li><a href="{{ url_for('student.applications') }}"><span class="menu-icon">💼</span><span class="menu-label">Job Applications</span></a></li>
+            <li><a href="{{ url_for('student.mock_interview') }}"><span class="menu-icon">🎙️</span><span class="menu-label">Mock Interview</span></a></li>
+            <li><a href="{{ url_for('student.roadmap') }}"><span class="menu-icon">🗺️</span><span class="menu-label">Learning Roadmap</span></a></li>
+            <li><a href="{{ url_for('student.certificates') }}"><span class="menu-icon">📜</span><span class="menu-label">Certificates</span></a></li>
+            <li><a href="{{ url_for('student.discussions') }}"><span class="menu-icon">💬</span><span class="menu-label">Discussions</span></a></li>
+            <li><a href="{{ url_for('student.support') }}"><span class="menu-icon">🎧</span><span class="menu-label">Support</span></a></li>
         </ul>
     </aside>
     
