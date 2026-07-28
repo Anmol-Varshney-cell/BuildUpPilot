@@ -248,13 +248,14 @@ body {
     border-right: 1px solid var(--border);
 }
 
-.sidebar-profile-panel {
+.sidebar-profile-panel,
+.sidebar-profile {
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
     margin-bottom: 1.5rem !important;
-    padding: 1.25rem 0.85rem;
+    padding: 1.15rem 0.85rem;
     border-radius: 12px !important;
     background: var(--panel-bg, rgba(99, 102, 241, 0.08));
     border: 1px solid var(--panel-border, rgba(99, 102, 241, 0.18));
@@ -262,22 +263,32 @@ body {
     transition: background 0.25s ease, border-color 0.25s ease;
 }
 
-.profile-avatar {
-    width: 85px;
-    height: 85px;
+.profile-avatar,
+.sidebar-profile-image {
+    width: 76px;
+    height: 76px;
     border-radius: 12px !important;
-    object-fit: cover;
+    object-fit: cover !important;
+    object-position: center !important;
     border: 2px solid var(--primary-accent, #818cf8);
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
     margin: 0 auto;
     display: block;
 }
 
+.sidebar-profile-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.sidebar-profile-name,
 .sidebar-profile-panel h4 {
     font-family: "Space Grotesk", system-ui, sans-serif;
     color: var(--sidebar-name-color, var(--text-main)) !important;
-    margin-top: 0.4rem;
-    font-size: 1.05rem;
+    margin-top: 0.35rem;
+    font-size: 1rem;
     font-weight: 700;
     white-space: normal;
     word-break: break-word;
@@ -285,9 +296,10 @@ body {
     transition: color 0.25s ease;
 }
 
+.sidebar-profile-role,
 .sidebar-profile-panel p {
     color: var(--primary-accent, #818cf8) !important;
-    font-size: 0.85rem;
+    font-size: 0.825rem;
     font-weight: 600;
     white-space: normal;
     word-break: break-word;

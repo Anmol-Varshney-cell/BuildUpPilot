@@ -8,34 +8,34 @@
         </button>
     </div>
 
-    <div class="sidebar-user sidebar-profile-panel">
+    <div class="sidebar-user sidebar-profile-panel sidebar-profile">
         <div class="avatar-container">
             {% if profile and profile.profile_image_path %}
                 {% if profile.profile_image_path.startswith('data:') or profile.profile_image_path.startswith('http') %}
-                <img src="{{ profile.profile_image_path }}" alt="Profile Photo" class="sidebar-avatar profile-avatar">
+                <img src="{{ profile.profile_image_path }}" alt="Anmol Varshney" class="sidebar-avatar profile-avatar sidebar-profile-image">
                 {% elif profile.profile_image_path.startswith('static/uploads/') %}
-                <img src="{{ url_for('static', filename=profile.profile_image_path.replace('static/', '')) }}" alt="Profile Photo" class="sidebar-avatar profile-avatar">
+                <img src="{{ url_for('static', filename=profile.profile_image_path.replace('static/', '')) }}" alt="Anmol Varshney" class="sidebar-avatar profile-avatar sidebar-profile-image">
                 {% elif profile.profile_image_path.startswith('uploads/') %}
-                <img src="{{ url_for('static', filename=profile.profile_image_path) }}" alt="Profile Photo" class="sidebar-avatar profile-avatar">
+                <img src="{{ url_for('static', filename=profile.profile_image_path) }}" alt="Anmol Varshney" class="sidebar-avatar profile-avatar sidebar-profile-image">
                 {% else %}
-                <img src="{{ url_for('static', filename='uploads/' + profile.profile_image_path.lstrip('/')) }}" alt="Profile Photo" class="sidebar-avatar profile-avatar">
+                <img src="{{ url_for('static', filename='uploads/' + profile.profile_image_path.lstrip('/')) }}" alt="Anmol Varshney" class="sidebar-avatar profile-avatar sidebar-profile-image">
                 {% endif %}
             {% else %}
-            <div class="sidebar-avatar-fallback">
+            <div class="sidebar-avatar-fallback sidebar-profile-image">
                 {{ profile.first_name[0]|upper if profile and profile.first_name else (current_user.email[0]|upper if current_user and current_user.email else 'S') }}
             </div>
             {% endif %}
             <span class="status-indicator"></span>
         </div>
-        <div class="sidebar-user-info">
-            <div class="sidebar-name">
+        <div class="sidebar-user-info sidebar-profile-info">
+            <div class="sidebar-name sidebar-profile-name">
                 {% if profile and profile.first_name %}
                     {{ profile.first_name }} {{ profile.last_name if profile.last_name else '' }}
                 {% else %}
                     Anmol Varshney
                 {% endif %}
             </div>
-            <div class="sidebar-role">
+            <div class="sidebar-role sidebar-profile-role">
                 {% if profile and profile.profession %}
                     {{ profile.profession }}
                 {% else %}

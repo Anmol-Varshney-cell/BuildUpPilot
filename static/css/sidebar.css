@@ -143,19 +143,19 @@ html.theme-light,
 
 /* User Section / Square Profile Panel */
 .sidebar-user,
-.sidebar-profile-panel {
+.sidebar-profile-panel,
+.sidebar-profile {
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
   gap: 0.4rem;
-  padding: 1.25rem 0.85rem;
+  padding: 1.15rem 0.85rem;
   margin-bottom: 1.5rem;
   background: var(--panel-bg);
   border: 1px solid var(--panel-border);
   border-radius: 12px;
   white-space: normal;
-  overflow: hidden;
   transition: all var(--transition-speed) var(--transition-func), background 0.25s ease, border-color 0.25s ease;
 }
 
@@ -166,19 +166,21 @@ html.theme-light,
 }
 
 .sidebar-avatar,
-.profile-avatar {
-  width: 85px;
-  height: 85px;
+.profile-avatar,
+.sidebar-profile-image {
+  width: 76px;
+  height: 76px;
   border-radius: 12px !important;
-  object-fit: cover;
+  object-fit: cover !important;
+  object-position: center !important;
   border: 2px solid var(--primary-accent);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
   display: block;
 }
 
 .sidebar-avatar-fallback {
-  width: 85px;
-  height: 85px;
+  width: 76px;
+  height: 76px;
   border-radius: 12px !important;
   background: linear-gradient(135deg, #6366f1, #4f46e5);
   color: #ffffff;
@@ -186,7 +188,7 @@ html.theme-light,
   align-items: center;
   justify-content: center;
   font-weight: 700;
-  font-size: 1.75rem;
+  font-size: 1.65rem;
   border: 2px solid var(--primary-accent);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
 }
@@ -202,23 +204,25 @@ html.theme-light,
   border-radius: 50%;
 }
 
-.sidebar-user-info {
+.sidebar-user-info,
+.sidebar-profile-info {
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
   width: 100%;
-  overflow: hidden;
   transition: opacity var(--transition-speed) var(--transition-func);
 }
 
 .sidebar-name,
+.sidebar-profile-name,
 .sidebar-profile-panel h4 {
   font-family: "Space Grotesk", system-ui, sans-serif;
-  font-size: 1.05rem;
+  font-size: 1rem;
   font-weight: 700;
   color: var(--sidebar-name-color) !important;
   margin-top: 0.35rem;
+  margin-bottom: 0.1rem;
   word-break: break-word;
   white-space: normal;
   line-height: 1.25;
@@ -227,11 +231,13 @@ html.theme-light,
 }
 
 .sidebar-role,
+.sidebar-profile-role,
 .sidebar-profile-panel p {
-  font-size: 0.85rem;
+  font-size: 0.825rem;
   font-weight: 600;
   color: var(--primary-accent) !important;
-  margin-top: 0.25rem;
+  margin-top: 0.15rem;
+  margin-bottom: 0;
   word-break: break-word;
   white-space: normal;
   text-align: center;
