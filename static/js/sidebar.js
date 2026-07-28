@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   const sidebar = document.getElementById('sidebar') || document.querySelector('.sidebar');
   const content = document.getElementById('content') || document.querySelector('.main-content');
-  const toggleBtn = document.getElementById('sidebar-toggle') || document.getElementById('sidebarToggle');
+  const toggleButtons = document.querySelectorAll('#sidebar-toggle, .sidebar-toggle, #sidebarToggle, .sidebar-toggle-btn');
 
   if (!sidebar) return;
 
@@ -33,13 +33,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Click event listener on toggle button
-  if (toggleBtn) {
-    toggleBtn.addEventListener('click', (e) => {
+  // Click event listener on all toggle buttons
+  toggleButtons.forEach((btn) => {
+    btn.addEventListener('click', (e) => {
       e.stopPropagation();
       toggleSidebar();
     });
-  }
+  });
 
   // Highlight active link automatically based on current page URL
   const currentPath = window.location.pathname;

@@ -43,54 +43,58 @@ html.theme-light,
 /* Sidebar Wrapper */
 .sidebar {
   position: fixed;
-  top: 70px;
+  top: 0;
   left: 0;
-  height: calc(100vh - 70px);
-  width: var(--sidebar-width);
+  height: 100vh;
+  width: var(--sidebar-width, 250px);
   background-color: var(--sidebar-bg);
   border-right: 1px solid var(--border-color);
   color: var(--sidebar-text);
   display: flex;
   flex-direction: column;
   padding: 1.25rem 0.85rem;
-  z-index: 1000;
+  z-index: 1050;
   transform: translateX(0);
-  transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1), width 0.28s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+  transition: width 0.28s cubic-bezier(0.4, 0, 0.2, 1), transform 0.28s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
   box-shadow: 4px 0 24px rgba(0, 0, 0, 0.12);
   overflow-y: auto;
   overflow-x: hidden;
 }
 
-/* Closed Sidebar State (Hidden completely, zero 68px cylinder strip!) */
-.sidebar.sidebar-collapsed,
-.sidebar.sidebar-closed,
-body.sidebar-collapsed-active .sidebar {
-  transform: translateX(-100%);
+/* Collapsed Sidebar State (Narrow 68px width) */
+.sidebar.sidebar-collapsed {
+  width: var(--sidebar-collapsed-width, 68px);
+  padding: 1.25rem 0.5rem;
+  transform: translateX(0);
 }
 
 /* Main Content Area Smooth Shift (Pushed by Sidebar) */
 .content,
 .main-content {
   flex: 1;
-  margin-left: var(--sidebar-width);
+  margin-left: var(--sidebar-width, 250px);
   padding: 2rem;
-  min-height: calc(100vh - 70px);
+  min-height: 100vh;
   transition: margin-left 0.28s cubic-bezier(0.4, 0, 0.2, 1), padding 0.28s cubic-bezier(0.4, 0, 0.2, 1);
   box-sizing: border-box;
 }
 
-/* When Sidebar is Closed, Main Content returns to normal position (margin 0) */
+/* When Sidebar is Collapsed, Main Content & App Header Shift to 68px */
 .content.content-collapsed,
 .sidebar-collapsed ~ .main-content,
 .sidebar-collapsed ~ .content,
 body.sidebar-collapsed-active .main-content {
-  margin-left: 0 !important;
+  margin-left: var(--sidebar-collapsed-width, 68px) !important;
 }
 
-/* When Body has sidebar-open class */
-body.sidebar-open .main-content,
-.app-layout.sidebar-open .main-content {
-  margin-left: var(--sidebar-width);
+/* App Header Shift */
+body.has-sidebar .app-header {
+  margin-left: var(--sidebar-width, 250px);
+  transition: margin-left 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body.has-sidebar.sidebar-collapsed-active .app-header {
+  margin-left: var(--sidebar-collapsed-width, 68px) !important;
 }
 
 body.sidebar-closed .main-content,
