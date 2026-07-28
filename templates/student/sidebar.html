@@ -1,3 +1,5 @@
+{% set student_prof = profile if (profile is defined and profile) else (current_user.profile if (current_user is defined and current_user and current_user.profile) else None) %}
+
 <aside id="sidebar" class="sidebar sidebar-locked">
     <div class="sidebar-header">
         <div class="logo-wrapper">
@@ -10,34 +12,34 @@
 
     <div class="sidebar-user sidebar-profile-panel sidebar-profile">
         <div class="avatar-container">
-            {% if profile and profile.profile_image_path %}
-                {% if profile.profile_image_path.startswith('data:') or profile.profile_image_path.startswith('http') %}
-                <img src="{{ profile.profile_image_path }}" alt="Anmol Varshney" class="sidebar-avatar profile-avatar sidebar-profile-image">
-                {% elif profile.profile_image_path.startswith('static/uploads/') %}
-                <img src="{{ url_for('static', filename=profile.profile_image_path.replace('static/', '')) }}" alt="Anmol Varshney" class="sidebar-avatar profile-avatar sidebar-profile-image">
-                {% elif profile.profile_image_path.startswith('uploads/') %}
-                <img src="{{ url_for('static', filename=profile.profile_image_path) }}" alt="Anmol Varshney" class="sidebar-avatar profile-avatar sidebar-profile-image">
+            {% if student_prof and student_prof.profile_image_path %}
+                {% if student_prof.profile_image_path.startswith('data:') or student_prof.profile_image_path.startswith('http') %}
+                <img src="{{ student_prof.profile_image_path }}" alt="Anmol Varshney" class="sidebar-avatar profile-avatar sidebar-profile-image">
+                {% elif student_prof.profile_image_path.startswith('static/uploads/') %}
+                <img src="{{ url_for('static', filename=student_prof.profile_image_path.replace('static/', '')) }}" alt="Anmol Varshney" class="sidebar-avatar profile-avatar sidebar-profile-image">
+                {% elif student_prof.profile_image_path.startswith('uploads/') %}
+                <img src="{{ url_for('static', filename=student_prof.profile_image_path) }}" alt="Anmol Varshney" class="sidebar-avatar profile-avatar sidebar-profile-image">
                 {% else %}
-                <img src="{{ url_for('static', filename='uploads/' + profile.profile_image_path.lstrip('/')) }}" alt="Anmol Varshney" class="sidebar-avatar profile-avatar sidebar-profile-image">
+                <img src="{{ url_for('static', filename='uploads/' + student_prof.profile_image_path.lstrip('/')) }}" alt="Anmol Varshney" class="sidebar-avatar profile-avatar sidebar-profile-image">
                 {% endif %}
             {% else %}
             <div class="sidebar-avatar-fallback sidebar-profile-image">
-                {{ profile.first_name[0]|upper if profile and profile.first_name else (current_user.email[0]|upper if current_user and current_user.email else 'S') }}
+                {{ student_prof.first_name[0]|upper if (student_prof and student_prof.first_name) else (current_user.email[0]|upper if (current_user is defined and current_user and current_user.email) else 'S') }}
             </div>
             {% endif %}
             <span class="status-indicator"></span>
         </div>
         <div class="sidebar-user-info sidebar-profile-info">
             <div class="sidebar-name sidebar-profile-name">
-                {% if profile and profile.first_name %}
-                    {{ profile.first_name }} {{ profile.last_name if profile.last_name else '' }}
+                {% if student_prof and student_prof.first_name %}
+                    {{ student_prof.first_name }} {{ student_prof.last_name if student_prof.last_name else '' }}
                 {% else %}
                     Anmol Varshney
                 {% endif %}
             </div>
             <div class="sidebar-role sidebar-profile-role">
-                {% if profile and profile.profession %}
-                    {{ profile.profession }}
+                {% if student_prof and student_prof.profession %}
+                    {{ student_prof.profession }}
                 {% else %}
                     AI Engineer
                 {% endif %}

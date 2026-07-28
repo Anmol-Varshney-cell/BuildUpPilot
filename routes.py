@@ -1436,7 +1436,7 @@ def tests():
     profile = StudentProfile.query.filter_by(user_id=current_user.id).first()
     # Get only last 5 test results, ordered from newest to oldest
     tests = SkillTest.query.filter_by(profile_id=profile.id).order_by(SkillTest.attempted_at.desc()).limit(5).all() if profile else []
-    return render_template('student/tests.html', tests=tests)
+    return render_template('student/tests.html', tests=tests, profile=profile)
 
 @student.route('/tests/all')
 @login_required
