@@ -51,9 +51,9 @@
     transform: scale(0.95);
 }
 
-.three-dots-icon {
+.hamburger-icon {
     line-height: 1;
-    letter-spacing: 1px;
+    font-size: 1.2rem;
 }
 
 .header-right {
