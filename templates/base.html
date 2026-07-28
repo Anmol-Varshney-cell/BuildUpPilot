@@ -40,11 +40,6 @@
 
         <header class="app-header">
             <div class="header-left">
-                {% if current_user.is_authenticated %}
-                <button id="sidebarToggle" class="sidebar-toggle-btn" type="button" aria-label="Toggle Navigation Menu" title="Toggle Navigation Menu">
-                    <span class="hamburger-icon">☰</span>
-                </button>
-                {% endif %}
                 <a href="{{ url_for('main.index') }}" class="logo">
                     <img src="{{ url_for('static', filename='Image/buildup-logo.jpeg') }}" alt="Build Up Pilot" />
                 </a>
