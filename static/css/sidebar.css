@@ -43,9 +43,9 @@ html.theme-light,
 /* Sidebar Wrapper */
 .sidebar {
   position: fixed;
-  top: 0;
+  top: 70px;
   left: 0;
-  height: 100vh;
+  height: calc(100vh - 70px);
   width: var(--sidebar-width);
   background-color: var(--sidebar-bg);
   border-right: 1px solid var(--border-color);
@@ -54,7 +54,7 @@ html.theme-light,
   flex-direction: column;
   padding: 1.25rem 0.85rem;
   z-index: 1000;
-  transition: width var(--transition-speed) var(--transition-func), background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
   box-shadow: 4px 0 24px rgba(0, 0, 0, 0.12);
   overflow-y: auto;
   overflow-x: hidden;
@@ -66,18 +66,31 @@ html.theme-light,
   padding: 1.25rem 0.5rem;
 }
 
-/* Main Content Area Pushed by Sidebar */
+/* Main Content Area Smooth Shift (Pushed by Sidebar) */
 .content,
 .main-content {
   flex: 1;
   margin-left: var(--sidebar-width);
   padding: 2rem;
-  min-height: 100vh;
-  transition: margin-left var(--transition-speed) var(--transition-func);
+  min-height: calc(100vh - 70px);
+  transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-sizing: border-box;
 }
 
 .content.content-collapsed,
-.sidebar-collapsed~.main-content {
+.sidebar-collapsed ~ .main-content,
+.sidebar-collapsed ~ .content {
+  margin-left: var(--sidebar-collapsed-width);
+}
+
+/* When Body has sidebar-open class */
+body.sidebar-open .main-content,
+.app-layout.sidebar-open .main-content {
+  margin-left: var(--sidebar-width);
+}
+
+body.sidebar-closed .main-content,
+.app-layout.sidebar-closed .main-content {
   margin-left: var(--sidebar-collapsed-width);
 }
 
