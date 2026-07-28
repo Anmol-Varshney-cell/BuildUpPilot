@@ -123,11 +123,11 @@
   align-items: center;
   text-align: center;
   gap: 0.4rem;
-  padding: 1rem 0.65rem;
-  margin-bottom: 1.25rem;
+  padding: 1.25rem 0.85rem;
+  margin-bottom: 1.5rem;
   background: rgba(99, 102, 241, 0.08);
-  border: 1px solid rgba(99, 102, 241, 0.16);
-  border-radius: 1.25rem;
+  border: 1px solid rgba(99, 102, 241, 0.18);
+  border-radius: 1rem;
   white-space: normal;
   overflow: hidden;
   transition: all var(--transition-speed) var(--transition-func);
@@ -136,41 +136,43 @@
 .avatar-container {
   position: relative;
   flex-shrink: 0;
-  margin: 0 auto;
+  margin: 0 auto 0.25rem auto;
 }
 
 .sidebar-avatar,
 .profile-avatar {
-  width: 72px;
-  height: 72px;
-  border-radius: 50%;
+  width: 85px;
+  height: 85px;
+  border-radius: 14px;
   object-fit: cover;
-  border: 3px solid var(--primary-accent, #818cf8);
+  border: 2px solid var(--primary-accent, #818cf8);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
   display: block;
 }
 
 .sidebar-avatar-fallback {
-  width: 72px;
-  height: 72px;
-  border-radius: 50%;
-  background: var(--sidebar-active-bg, #6366f1);
+  width: 85px;
+  height: 85px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #6366f1, #4f46e5);
   color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 700;
-  font-size: 1.5rem;
-  border: 3px solid var(--primary-accent, #818cf8);
+  font-size: 1.75rem;
+  border: 2px solid var(--primary-accent, #818cf8);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
 }
 
 .status-indicator {
   position: absolute;
-  bottom: 2px;
-  right: 2px;
-  width: 12px;
-  height: 12px;
+  bottom: -3px;
+  right: -3px;
+  width: 13px;
+  height: 13px;
   background-color: #10b981;
-  border: 2px solid var(--sidebar-bg);
+  border: 2px solid var(--sidebar-bg, #0f172a);
   border-radius: 50%;
 }
 
@@ -190,10 +192,10 @@
   font-size: 1.05rem;
   font-weight: 700;
   color: #ffffff !important;
-  margin-top: 0.3rem;
+  margin-top: 0.35rem;
   word-break: break-word;
   white-space: normal;
-  line-height: 1.2;
+  line-height: 1.25;
   text-align: center;
 }
 
@@ -202,7 +204,7 @@
   font-size: 0.85rem;
   font-weight: 600;
   color: var(--primary-accent, #818cf8) !important;
-  margin-top: 0.2rem;
+  margin-top: 0.25rem;
   word-break: break-word;
   white-space: normal;
   text-align: center;
