@@ -1106,24 +1106,12 @@ textarea.form-control {
     animation: fadeIn 0.5s ease-out;
 }
 
-/* Sidebar Responsive Fast Drawer & Backdrop Overlay */
+/* Sidebar Responsive Drawer Overlay Disabled */
 .sidebar-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.55);
-    backdrop-filter: blur(4px);
-    z-index: 998;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.2s ease;
-}
-
-.sidebar-open .sidebar-overlay {
-    opacity: 1;
-    visibility: visible;
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
 }
 
 

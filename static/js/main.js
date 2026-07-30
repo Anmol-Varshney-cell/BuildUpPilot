@@ -26,31 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     applyTheme(storedTheme);
 
-    // Fast Three-Dots Sidebar Drawer Toggle
-    const sidebarToggle = document.getElementById('sidebarToggle');
-    let overlay = document.querySelector('.sidebar-overlay');
-    if (!overlay) {
-        overlay = document.createElement('div');
-        overlay.className = 'sidebar-overlay';
-        document.body.appendChild(overlay);
-    }
-
-    function toggleSidebar(e) {
-        if (e) e.stopPropagation();
-        document.body.classList.toggle('sidebar-open');
-    }
-
-    function closeSidebar() {
-        document.body.classList.remove('sidebar-open');
-    }
-
-    if (sidebarToggle) {
-        sidebarToggle.addEventListener('click', toggleSidebar);
-    }
-
-    if (overlay) {
-        overlay.addEventListener('click', closeSidebar);
-    }
+    // Sidebar Toggle handled cleanly by sidebar.js without background blur/overlay
 
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') closeSidebar();
