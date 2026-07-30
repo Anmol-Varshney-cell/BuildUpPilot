@@ -58,6 +58,15 @@ html.theme-light,
   overflow-y: auto;
   overflow-x: hidden;
   box-sizing: border-box;
+  transform: translateX(0);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.25s ease, border-color 0.25s ease;
+}
+
+/* Fully Closed Sidebar State */
+body.sidebar-closed .sidebar,
+.sidebar.sidebar-closed {
+  transform: translateX(-100%) !important;
+  box-shadow: none !important;
 }
 
 /* Main Content Area Pushed by Sidebar */
@@ -69,7 +78,13 @@ html.theme-light,
   padding: 2rem;
   min-height: 100vh;
   box-sizing: border-box;
-  transition: margin-left 0.25s ease, width 0.25s ease;
+  transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body.sidebar-closed .main-content,
+body.sidebar-closed .app-header {
+  margin-left: 0 !important;
+  width: 100% !important;
 }
 
 /* Sidebar Header */

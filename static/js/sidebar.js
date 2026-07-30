@@ -8,29 +8,16 @@ document.addEventListener('DOMContentLoaded', () => {
   // Mark body as having sidebar for header shift
   document.body.classList.add('has-sidebar');
 
-  // Restore collapsed state preference from localStorage
-  const savedState = localStorage.getItem('buildup_sidebar_collapsed');
-  if (savedState === 'true' && window.innerWidth > 768) {
-    sidebar.classList.add('sidebar-collapsed');
-    document.body.classList.add('sidebar-collapsed-active');
-    if (content) content.classList.add('content-collapsed');
+  // Restore sidebar closed preference from localStorage
+  const savedState = localStorage.getItem('buildup_sidebar_closed');
+  if (savedState === 'true') {
+    document.body.classList.add('sidebar-closed');
   }
 
   // Toggle Sidebar Function
   function toggleSidebar() {
-    const isMobile = window.innerWidth <= 768;
-
-    if (isMobile) {
-      // Mobile slide-over drawer toggle
-      sidebar.classList.toggle('sidebar-open-mobile');
-      document.body.classList.toggle('sidebar-open');
-    } else {
-      // Desktop collapsible width toggle
-      const isCollapsed = sidebar.classList.toggle('sidebar-collapsed');
-      document.body.classList.toggle('sidebar-collapsed-active', isCollapsed);
-      if (content) content.classList.toggle('content-collapsed', isCollapsed);
-      localStorage.setItem('buildup_sidebar_collapsed', isCollapsed);
-    }
+    const isClosed = document.body.classList.toggle('sidebar-closed');
+    localStorage.setItem('buildup_sidebar_closed', isClosed ? 'true' : 'false');
   }
 
   // Click event listener on all toggle buttons
