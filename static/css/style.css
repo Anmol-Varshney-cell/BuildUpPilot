@@ -1126,30 +1126,7 @@ textarea.form-control {
     visibility: visible;
 }
 
-@media (max-width: 900px) {
-    .dashboard {
-        grid-template-columns: 1fr !important;
-    }
 
-    .sidebar {
-        position: fixed !important;
-        top: 0 !important;
-        left: -300px !important;
-        width: 270px !important;
-        height: 100vh !important;
-        background: var(--card-bg, #0f172a) !important;
-        border-right: 1px solid rgba(255, 255, 255, 0.1) !important;
-        z-index: 999 !important;
-        box-shadow: 6px 0 28px rgba(0, 0, 0, 0.5) !important;
-        padding: 1.5rem !important;
-        overflow-y: auto !important;
-        transition: transform 0.22s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    }
-
-    .sidebar-open .sidebar {
-        transform: translateX(300px) !important;
-    }
-}
 
 @media (max-width: 768px) {
     .dashboard {
@@ -2091,19 +2068,7 @@ textarea[name="requirements"] {
     border-color: rgba(99, 102, 241, 0.26);
 }
 
-@media (max-width: 980px) {
-    .dashboard {
-        grid-template-columns: 1fr;
-    }
 
-    .sidebar {
-        padding: 1.1rem;
-    }
-
-    .sidebar-menu {
-        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    }
-}
 
 @media (max-width: 768px) {
 
