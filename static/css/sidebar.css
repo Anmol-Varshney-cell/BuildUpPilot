@@ -46,7 +46,7 @@ html.theme-light,
   top: 0;
   left: 0;
   height: 100vh;
-  width: var(--sidebar-width, 250px);
+  width: var(--sidebar-width, 260px);
   background-color: var(--sidebar-bg);
   border-right: 1px solid var(--border-color);
   color: var(--sidebar-text);
@@ -54,47 +54,22 @@ html.theme-light,
   flex-direction: column;
   padding: 1.25rem 0.85rem;
   z-index: 1050;
-  transform: translateX(0);
-  transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1), width 0.28s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
   box-shadow: 4px 0 24px rgba(0, 0, 0, 0.12);
   overflow-y: auto;
   overflow-x: hidden;
-}
-
-/* Closed Sidebar State: SLIDES 100% OFF-SCREEN (Zero strip/cylinder!) */
-.sidebar.sidebar-collapsed,
-.sidebar.sidebar-closed,
-body.sidebar-collapsed-active .sidebar {
-  transform: translateX(-100%) !important;
-  box-shadow: none !important;
-}
-
-/* Main Content Area Smooth Shift (Pushed by Sidebar) */
-.content,
-.main-content {
-  flex: 1;
-  margin-left: var(--sidebar-width, 250px);
-  padding: 2rem;
-  min-height: 100vh;
-  transition: margin-left 0.28s cubic-bezier(0.4, 0, 0.2, 1), padding 0.28s cubic-bezier(0.4, 0, 0.2, 1);
   box-sizing: border-box;
 }
 
-/* When Sidebar is Closed, Reset Main Content & App Header to 0 Margin */
-.content.content-collapsed,
-.sidebar-collapsed ~ .main-content,
-.sidebar-collapsed ~ .content,
-body.sidebar-collapsed-active .main-content,
-body.sidebar-collapsed-active .app-header,
-body.sidebar-closed .main-content,
-.app-layout.sidebar-closed .main-content {
-  margin-left: 0 !important;
-}
-
-/* App Header Shift When Sidebar is Open */
-body.has-sidebar:not(.sidebar-collapsed-active) .app-header {
-  margin-left: var(--sidebar-width, 250px);
-  transition: margin-left 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+/* Main Content Area Pushed by Sidebar */
+.content,
+.main-content {
+  flex: 1;
+  margin-left: var(--sidebar-width, 260px);
+  width: calc(100% - var(--sidebar-width, 260px));
+  padding: 2rem;
+  min-height: 100vh;
+  box-sizing: border-box;
+  transition: margin-left 0.25s ease, width 0.25s ease;
 }
 
 /* Sidebar Header */
@@ -133,29 +108,7 @@ body.has-sidebar:not(.sidebar-collapsed-active) .app-header {
   font-weight: 700;
 }
 
-/* Toggle Button */
-.sidebar-toggle {
-  background: rgba(125, 125, 125, 0.08);
-  border: 1px solid var(--border-color);
-  color: var(--sidebar-text);
-  width: 34px;
-  height: 34px;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  font-size: 1.1rem;
-  flex-shrink: 0;
-  transition: all 0.2s ease;
-}
 
-.sidebar-toggle:hover {
-  background: var(--sidebar-active-bg);
-  color: #ffffff;
-  border-color: transparent;
-  transform: scale(1.05);
-}
 
 /* User Section / Square Profile Panel */
 .sidebar-user,
@@ -349,22 +302,48 @@ body.has-sidebar:not(.sidebar-collapsed-active) .app-header {
   transform: none;
 }
 
-/* Mobile & Tablet Responsiveness */
+/* Responsive Breakpoints for Tablet & Mobile */
+@media (max-width: 1024px) {
+  :root {
+    --sidebar-width: 220px;
+  }
+  .sidebar {
+    width: 220px;
+  }
+  .content,
+  .main-content {
+    margin-left: 220px;
+    width: calc(100% - 220px);
+    padding: 1.5rem;
+  }
+  body.has-sidebar .app-header {
+    margin-left: 220px;
+    width: calc(100% - 220px);
+  }
+}
+
 @media (max-width: 768px) {
   .sidebar {
-    width: var(--sidebar-width);
-    transform: translateX(-100%);
-  }
-
-  .sidebar.sidebar-open-mobile {
-    transform: translateX(0);
-    box-shadow: 8px 0 32px rgba(0, 0, 0, 0.5);
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100% !important;
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: none;
   }
 
   .content,
-  .main-content,
-  .content.content-collapsed {
+  .main-content {
     margin-left: 0 !important;
-    padding: 1.25rem !important;
+    width: 100% !important;
+    padding: 1rem !important;
+  }
+
+  body.has-sidebar .app-header {
+    margin-left: 0 !important;
+    width: 100% !important;
+    padding: 0.75rem 1rem !important;
   }
 }

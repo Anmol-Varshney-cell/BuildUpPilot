@@ -237,15 +237,9 @@ body {
 }
 
 .dashboard {
-    display: grid;
-    grid-template-columns: 260px 1fr;
-    min-height: calc(100vh - 80px);
-}
-
-.sidebar {
-    background: white;
-    padding: 2rem;
-    border-right: 1px solid var(--border);
+    display: block;
+    width: 100%;
+    min-height: 100vh;
 }
 
 .sidebar-profile-panel,
@@ -2138,5 +2132,43 @@ textarea[name="requirements"] {
 
     .page-header h1 {
         font-size: 1.8rem;
+    }
+}
+
+/* Table & Grid Responsiveness Improvements */
+.table-responsive,
+.table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.25rem;
+    margin-bottom: 1.5rem;
+    width: 100%;
+}
+
+@media (max-width: 1024px) {
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 1rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .stats-grid {
+        grid-template-columns: 1fr !important;
+        gap: 1rem;
+    }
+    
+    .card, .stat-card {
+        padding: 1rem !important;
+    }
+    
+    .main-content {
+        padding: 1rem !important;
     }
 }
