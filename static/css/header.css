@@ -111,15 +111,46 @@
 
 @media (max-width: 768px) {
     .app-header {
-        padding: 1rem;
+        padding: 0.75rem 1rem;
+        max-width: 100vw;
+        box-sizing: border-box;
     }
     
-    .header-right {
+    .header-left {
         gap: 0.5rem;
+    }
+
+    .header-right {
+        gap: 0.4rem;
     }
     
     .student-id-chip {
-        padding: 0.4rem 0.8rem;
+        padding: 0.35rem 0.65rem;
+        font-size: 0.75rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .app-header {
+        padding: 0.65rem 0.5rem;
+    }
+
+    .header-left .logo img {
+        height: 30px;
+    }
+
+    .sidebar-toggle-btn {
+        width: 34px;
+        height: 34px;
+        font-size: 1rem;
+    }
+
+    .student-id-chip {
+        display: none;
+    }
+
+    .btn-sm {
+        padding: 0.4rem 0.65rem;
         font-size: 0.8rem;
     }
 }

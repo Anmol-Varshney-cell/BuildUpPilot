@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   const sidebar = document.getElementById('sidebar') || document.querySelector('.sidebar');
   const content = document.getElementById('content') || document.querySelector('.main-content');
-  const toggleButtons = document.querySelectorAll('#sidebar-toggle, .sidebar-toggle, #sidebarToggle, .sidebar-toggle-btn');
+  const toggleButtons = document.querySelectorAll('#sidebarToggle, .sidebar-toggle-btn, #sidebar-toggle, .sidebar-toggle, #sidebar-close-btn, .sidebar-close-btn');
 
   if (!sidebar) return;
 
@@ -20,12 +20,24 @@ document.addEventListener('DOMContentLoaded', () => {
     localStorage.setItem('buildup_sidebar_closed', isClosed ? 'true' : 'false');
   }
 
-  // Click event listener on all toggle buttons
+  // Click event listener on all toggle & close buttons
   toggleButtons.forEach((btn) => {
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
       toggleSidebar();
     });
+  });
+
+  // Click outside to close on mobile/tablet screens <= 768px
+  document.addEventListener('click', (e) => {
+    if (window.innerWidth <= 768 && !document.body.classList.contains('sidebar-closed')) {
+      const isInsideSidebar = sidebar.contains(e.target);
+      const isToggleBtn = Array.from(toggleButtons).some(btn => btn.contains(e.target));
+      if (!isInsideSidebar && !isToggleBtn) {
+        document.body.classList.add('sidebar-closed');
+        localStorage.setItem('buildup_sidebar_closed', 'true');
+      }
+    }
   });
 
   // Highlight active link automatically based on current page URL
