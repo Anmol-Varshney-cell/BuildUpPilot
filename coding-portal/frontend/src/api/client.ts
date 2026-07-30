@@ -1,11 +1,17 @@
 import axios from "axios";
 
+const getBaseUrl = () => {
+  if (import.meta.env.VITE_API_BASE_URL) return import.meta.env.VITE_API_BASE_URL;
+  if (typeof window !== 'undefined' && (window.location.port === '5173' || window.location.port === '5174')) {
+    return 'http://localhost:4000/api';
+  }
+  return '/api';
+};
+
 export const api = axios.create({
-  // Use relative URL so Vite proxy handles routing to backend
-  // This eliminates CORS and session cookie issues
-  baseURL: import.meta.env.VITE_API_BASE_URL || "/api",
+  baseURL: getBaseUrl(),
   withCredentials: true,
-  timeout: 10000,
+  timeout: 15000,
   headers: {
     'Content-Type': 'application/json',
     'Accept': 'application/json'

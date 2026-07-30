@@ -819,19 +819,92 @@ a:hover { text-decoration: underline; }
 ::-webkit-scrollbar-thumb:hover { background: rgba(99, 102, 241, 0.5); }
 
 /* ── Responsive ── */
-@media (max-width: 1000px) {
-  .workspace { grid-template-columns: 1fr; }
-  .filters { grid-template-columns: 1fr 1fr; }
-  .topbar { flex-wrap: wrap; justify-content: center; border-radius: 0; }
-  .topnav { width: 100%; justify-content: center; flex-wrap: wrap; }
-  .topbar-right { width: 100%; justify-content: center; }
-  .profile-grid { grid-template-columns: 1fr; }
-  .submission-card { flex-direction: column; align-items: flex-start; }
-  .submission-meta { justify-content: flex-start; }
+@media (max-width: 1024px) {
+  .topbar {
+    padding: 0.75rem 1rem;
+    gap: 0.75rem;
+  }
+  .app-container {
+    padding: 1rem;
+  }
+  .workspace {
+    grid-template-columns: 1fr;
+    height: auto;
+  }
+  .editor-section {
+    min-height: 450px;
+  }
+  .filters {
+    grid-template-columns: 1fr 1fr;
+  }
+  .profile-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
-@media (max-width: 600px) {
-  .filters { grid-template-columns: 1fr; }
-  .problem-grid { grid-template-columns: 1fr; }
-  .journey-grid { grid-template-columns: 1fr; }
+@media (max-width: 768px) {
+  .topbar {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 0.75rem 1rem;
+    gap: 0.6rem;
+  }
+  .brand-block {
+    justify-content: space-between;
+    width: 100%;
+  }
+  .topnav {
+    width: 100%;
+    justify-content: flex-start;
+    overflow-x: auto;
+    padding-bottom: 0.25rem;
+    -webkit-overflow-scrolling: touch;
+  }
+  .topbar-right {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .problem-detail-grid,
+  .workspace-layout {
+    grid-template-columns: 1fr;
+  }
+  .table-responsive,
+  .table-wrapper {
+    overflow-x: auto;
+    width: 100%;
+    -webkit-overflow-scrolling: touch;
+  }
+  .auth-card {
+    width: 100%;
+    padding: 1.5rem;
+  }
+  .submission-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .submission-meta {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .filters {
+    grid-template-columns: 1fr;
+  }
+  .problem-grid {
+    grid-template-columns: 1fr;
+  }
+  .journey-grid {
+    grid-template-columns: 1fr;
+  }
+  .topbar {
+    padding: 0.5rem 0.75rem;
+  }
+  .app-container {
+    padding: 0.75rem 0.5rem;
+  }
+  .btn, .btn-sm {
+    padding: 0.4rem 0.65rem;
+    font-size: 0.8rem;
+  }
 }

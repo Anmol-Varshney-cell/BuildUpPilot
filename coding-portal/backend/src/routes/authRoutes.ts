@@ -97,16 +97,47 @@ router.post("/register", validateBody(registerSchema), async (req, res, next) =>
   }
 });
 
+import { findBuildUpUserByEmail } from "../utils/buildupDb.js";
+import bcrypt from "bcryptjs";
+
 router.post("/login", validateBody(loginSchema), async (req, res, next) => {
   try {
     const { email, password } = req.body;
-    const user = await prisma.user.findUnique({ where: { email } });
+    let user = await prisma.user.findUnique({ where: { email } });
+
+    if (!user) {
+      // Check Build Up Pilot database fallback
+      const buildupRecord = findBuildUpUserByEmail(email);
+      if (buildupRecord) {
+        const passwordMatches = await bcrypt.compare(password, buildupRecord.password_hash).catch(() => false);
+        if (passwordMatches) {
+          const fullName = [buildupRecord.first_name, buildupRecord.last_name].filter(Boolean).join(" ") || buildupRecord.email.split("@")[0];
+          user = await prisma.user.create({
+            data: {
+              email: buildupRecord.email,
+              name: fullName,
+              firstName: buildupRecord.first_name || null,
+              lastName: buildupRecord.last_name || null,
+              passwordHash: buildupRecord.password_hash,
+              role: buildupRecord.role === "admin" ? Role.ADMIN : Role.USER,
+              studentId: buildupRecord.student_id || null,
+              buildupUid: buildupRecord.id,
+              phone: buildupRecord.mobile || null,
+              profession: buildupRecord.profession || null,
+              linkedin: buildupRecord.linkedin || null,
+              github: buildupRecord.github || null
+            }
+          });
+        }
+      }
+    }
+
     if (!user) {
       res.status(401).json({ message: "Invalid email or password" });
       return;
     }
 
-    const ok = await comparePassword(password, user.passwordHash);
+    const ok = await comparePassword(password, user.passwordHash).catch(() => false);
     if (!ok) {
       res.status(401).json({ message: "Invalid email or password" });
       return;
