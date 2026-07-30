@@ -88,7 +88,7 @@ document.body.dataset.disableRevealAnimation = 'true';
                             {% endif %}
                         </div>
 
-                        <div class="job-description" style="font-family: 'Times New Roman', serif; margin-bottom: 1rem; line-height: 1.6;">
+                        <div class="job-description" style="margin-bottom: 1rem; line-height: 1.6;">
                             {% if item.job.description %}
                                 {{ item.job.description[:180] }}{% if item.job.description|length > 180 %}...{% endif %}
                                 <a href="{{ url_for('student.job_detail', job_id=item.job.id) }}">Read full job description</a>

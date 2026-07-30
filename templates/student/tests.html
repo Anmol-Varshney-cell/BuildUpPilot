@@ -11,26 +11,26 @@
         </div>
         
         <div class="stats-grid">
-            <div class="stat-card" style="cursor: pointer;" onclick="window.location.href='{{ url_for('student.take_test', test_type='dsa') }}'">
+            <a href="{{ url_for('student.take_test', test_type='dsa') }}" class="stat-card" role="button" aria-label="Take Data Structures and Algorithms Test" style="text-decoration: none; color: inherit;">
                 <div style="font-size: 2rem; margin-bottom: 0.5rem;">📊</div>
                 <div class="stat-label" style="font-weight: 600;">DSA</div>
                 <div style="font-size: 0.75rem; color: var(--gray); margin-top: 0.5rem;">Arrays, Trees, Graphs</div>
-            </div>
-            <div class="stat-card" style="cursor: pointer;" onclick="window.location.href='{{ url_for('student.take_test', test_type='aptitude') }}'">
+            </a>
+            <a href="{{ url_for('student.take_test', test_type='aptitude') }}" class="stat-card" role="button" aria-label="Take Aptitude Test" style="text-decoration: none; color: inherit;">
                 <div style="font-size: 2rem; margin-bottom: 0.5rem;">🧠</div>
                 <div class="stat-label" style="font-weight: 600;">Aptitude</div>
                 <div style="font-size: 0.75rem; color: var(--gray); margin-top: 0.5rem;">Quantitative, Logical</div>
-            </div>
-            <div class="stat-card" style="cursor: pointer;" onclick="window.location.href='{{ url_for('student.take_test', test_type='coding') }}'">
+            </a>
+            <a href="{{ url_for('student.take_test', test_type='coding') }}" class="stat-card" role="button" aria-label="Take Coding Test" style="text-decoration: none; color: inherit;">
                 <div style="font-size: 2rem; margin-bottom: 0.5rem;">💻</div>
                 <div class="stat-label" style="font-weight: 600;">Coding</div>
                 <div style="font-size: 0.75rem; color: var(--gray); margin-top: 0.5rem;">Python, JS, Java, C++</div>
-            </div>
-            <div class="stat-card" style="cursor: pointer;" onclick="window.location.href='{{ url_for('student.take_test', test_type='core') }}'">
+            </a>
+            <a href="{{ url_for('student.take_test', test_type='core') }}" class="stat-card" role="button" aria-label="Take Core Subjects Test" style="text-decoration: none; color: inherit;">
                 <div style="font-size: 2rem; margin-bottom: 0.5rem;">⚙️</div>
                 <div class="stat-label" style="font-weight: 600;">Core Subjects</div>
                 <div style="font-size: 0.75rem; color: var(--gray); margin-top: 0.5rem;">OS, DB, Networking</div>
-            </div>
+            </a>
         </div>
 
         <div class="card" style="margin-top: 1.5rem;">

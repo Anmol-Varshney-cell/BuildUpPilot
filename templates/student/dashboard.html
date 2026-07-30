@@ -54,7 +54,7 @@
                 <div class="card-header">
                     <span class="card-title">Quick Actions</span>
                 </div>
-                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 0.75rem;">
                     <a href="{{ url_for('student.tests') }}" class="btn btn-outline">Take Skill Test</a>
                     <a href="{{ url_for('student.mock_interview') }}" class="btn btn-outline">Start Mock Interview</a>
                     <a href="{{ url_for('student.applications') }}" class="btn btn-outline">Job Applications</a>

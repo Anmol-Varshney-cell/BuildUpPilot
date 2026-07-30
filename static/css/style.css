@@ -1648,12 +1648,12 @@ html.theme-light body {
 }
 
 .dashboard {
-    grid-template-columns: 290px 1fr;
-    gap: 1.5rem;
-    width: min(1200px, calc(100% - 2rem));
-    margin: 1.5rem auto 0;
-    min-height: auto;
-    display: grid !important;
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box;
 }
 
 .sidebar,
@@ -2098,13 +2098,20 @@ textarea[name="requirements"] {
 
 .stats-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    grid-template-columns: repeat(4, 1fr);
     gap: 1.25rem;
     margin-bottom: 1.5rem;
     width: 100%;
 }
 
-@media (max-width: 1024px) {
+.btn-outline,
+.btn {
+    white-space: normal;
+    word-break: break-word;
+    box-sizing: border-box;
+}
+
+@media (max-width: 1100px) {
     .stats-grid {
         grid-template-columns: repeat(2, 1fr) !important;
         gap: 1rem;
